@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AIO.Data.Models\AIO.Data.Models.csproj" />
+    <ProjectReference Include="..\AIO.Web.ViewModels\AIO.Web.ViewModels.csproj" />
+    <ProjectReference Include="..\AIOCommon\AIOCommon.csproj" />
+    <ProjectReference Include="..\AIOData\AIO.Data.csproj" />
+  </ItemGroup>
+
+</Project>
