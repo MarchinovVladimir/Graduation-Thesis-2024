@@ -72,5 +72,11 @@
             public const int NameMinLength = 2;
             public const int NameMaxLength = 50;
         }   
+
+        public static class Agent
+        {
+			public const int PhoneNumberMinLength = 5;
+			public const int PhoneNumberMaxLength = 20;
+		}
     }
 }

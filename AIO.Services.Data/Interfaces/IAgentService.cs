@@ -1,7 +1,13 @@
-﻿namespace AIO.Services.Data.Interfaces
+﻿using AIO.Web.ViewModels.Agent;
+
+namespace AIO.Services.Data.Interfaces
 {
     public interface IAgentService
     {
-        Task<bool> IsAgentExistByUserId(string userId);
+        Task<bool> IsAgentExistByUserIdAsync(string userId);
+
+        Task<bool> IsAgentExistByPhoneNumberAsync(string phoneNumber);
+
+        Task CreateAsync(string userId, BecomeAgentFormModel model);
     }
 }
