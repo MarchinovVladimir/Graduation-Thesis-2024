@@ -7,32 +7,32 @@ using static AIOCommon.NotificationMessagesConstants;
 
 namespace AIO.Controllers
 {
-    [Authorize]
+	[Authorize]
 	public class AgentController : Controller
 	{
 		private readonly IAgentService agentService;
 
 		public AgentController(IAgentService agentService)
 		{
-            this.agentService = agentService;
-        }
+			this.agentService = agentService;
+		}
 
 		[HttpGet]
 		public async Task<IActionResult> Become()
 		{
-            string userId = this.User.GetId();
-            bool isAgentExist = await this.agentService.IsAgentExistByUserIdAsync(userId);
-            if (isAgentExist)
-            {
+			string userId = this.User.GetId();
+			bool isAgentExist = await this.agentService.IsAgentExistByUserIdAsync(userId);
+			if (isAgentExist)
+			{
 				TempData[ErrorMessage] = "You are already an Agent";
 
 				return RedirectToAction("Index", "Home");
-            }
-            return View();
+			}
+			return View();
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Become (BecomeAgentFormModel model)
+		public async Task<IActionResult> Become(BecomeAgentFormModel model)
 		{
 			string userId = this.User.GetId();
 			bool isAgentExist = await this.agentService.IsAgentExistByUserIdAsync(userId);
@@ -43,7 +43,7 @@ namespace AIO.Controllers
 				return RedirectToAction("Index", "Home");
 			}
 
-			bool isPhoneNumberTaken = await this.agentService.IsAgentExistByPhoneNumberAsync(model.PhoneNumber);	
+			bool isPhoneNumberTaken = await this.agentService.IsAgentExistByPhoneNumberAsync(model.PhoneNumber);
 
 			if (isPhoneNumberTaken)
 			{
@@ -55,9 +55,19 @@ namespace AIO.Controllers
 				return View(model);
 			}
 
-			
-			return RedirectToAction("Index", "Home");// TODO: Redirect to agent dashboard
+			try
+			{
+				await this.agentService.CreateAsync(userId, model);
+			}
+			catch (Exception)
+			{
 
+				TempData[ErrorMessage] = 
+					"Unexpexted error occured while registrating you as agent! Please try again later or contact administrator";
+				return RedirectToAction("Index", "Home");
+			}
+
+			return RedirectToAction("All", "Home");
 		}
 	}
 }
