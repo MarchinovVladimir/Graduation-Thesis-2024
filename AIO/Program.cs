@@ -2,6 +2,7 @@ using AIO.Data;
 using AIO.Data.Models;
 using AIO.Services.Data.Interfaces;
 using AIO.Web.Infrastructure.Extentions;
+using AIO.Web.Infrastructure.ModelBinders;
 using Microsoft.EntityFrameworkCore;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -24,7 +25,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 
 builder.Services.AddApplicationServices(typeof(IProductService));
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(option => option.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider()));
 
 WebApplication app = builder.Build();
 
