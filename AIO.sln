@@ -21,7 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{B9
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AIO.Services.Data", "AIO.Services.Data\AIO.Services.Data.csproj", "{59F51C6B-F3B4-4FAC-A09E-B6019B9DB00A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIO.Web.Infrastructure", "AIO.Web.Infrastructure\AIO.Web.Infrastructure.csproj", "{F3C2C7E4-A3FC-44CA-AD2C-2AADD583C97B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AIO.Web.Infrastructure", "AIO.Web.Infrastructure\AIO.Web.Infrastructure.csproj", "{F3C2C7E4-A3FC-44CA-AD2C-2AADD583C97B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
