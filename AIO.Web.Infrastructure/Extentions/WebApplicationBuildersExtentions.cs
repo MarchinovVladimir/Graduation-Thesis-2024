@@ -3,9 +3,7 @@ using AIO.Services.Data;
 using AIO.Services.Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -50,5 +48,4 @@ namespace Microsoft.Extensions.DependencyInjection
             return services;
         }
     }
-
 }
