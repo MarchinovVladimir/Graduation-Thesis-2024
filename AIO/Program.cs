@@ -1,15 +1,11 @@
 using AIO.Data;
 using AIO.Data.Models;
 using AIO.Services.Data.Interfaces;
-using AIO.Web.Infrastructure.Extentions;
 using AIO.Web.Infrastructure.ModelBinders;
-using Microsoft.EntityFrameworkCore;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<AIODbContext>(options =>
-    options.UseSqlServer(connectionString));
+builder.Services.AddApplicationDbContext(builder.Configuration);
 
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
