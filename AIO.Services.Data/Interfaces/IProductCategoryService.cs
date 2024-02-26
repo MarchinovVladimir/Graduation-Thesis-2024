@@ -1,9 +1,9 @@
-﻿using AIO.Data.Models;
+﻿using AIO.Web.ViewModels.ProductCategory;
 
 namespace AIO.Services.Data.Interfaces
 {
 	public interface IProductCategoryService
 	{
-		Task<IEnumerable<Category>> GetAllAsync();
+		Task<ICollection<ProductCategoryViewModel>> GetAllProductCategoriesAsync();
 	}
 }
