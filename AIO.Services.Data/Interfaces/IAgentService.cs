@@ -9,5 +9,7 @@ namespace AIO.Services.Data.Interfaces
         Task<bool> IsAgentExistByPhoneNumberAsync(string phoneNumber);
 
         Task CreateAsync(string userId, BecomeAgentFormModel model);
+
+        Task<string> GetAgentIdByUserId(string userId);
     }
 }

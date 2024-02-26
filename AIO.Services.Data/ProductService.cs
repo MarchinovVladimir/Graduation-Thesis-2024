@@ -1,6 +1,8 @@
 ﻿using AIO.Data;
+using AIO.Data.Models;
 using AIO.Services.Data.Interfaces;
 using AIO.Web.ViewModels.Home;
+using AIO.Web.ViewModels.Product;
 using Microsoft.EntityFrameworkCore;
 
 namespace AIO.Services.Data
@@ -29,6 +31,22 @@ namespace AIO.Services.Data
 				}).ToArrayAsync();
 
 			return firstThreeExpireProducts;
+		}
+
+		public async Task CreateProductAsync(AddProductFormModel formModel, string agentId)
+		{
+			Product product = new Product
+			{
+				Title = formModel.Title,
+				Description = formModel.Description,
+				ImageUrl = formModel.ImageUrl,
+				OpeningBid = formModel.OpeningBid,
+				CategoryId = formModel.CategoryId,
+				AgentId = Guid.Parse(agentId),
+			};
+
+			await this.dbContext.Products.AddAsync(product);
+			await this.dbContext.SaveChangesAsync();
 		}
 	}
 }

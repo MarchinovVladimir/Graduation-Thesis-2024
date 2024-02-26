@@ -7,6 +7,11 @@ namespace AIO.Web.Infrastructure.ModelBinders
 	{
 		public Task BindModelAsync(ModelBindingContext bindingContext)
 		{
+			if (bindingContext == null)
+			{
+				throw new ArgumentNullException(nameof(bindingContext));
+			}
+
 			ValueProviderResult valueResult = bindingContext
 												.ValueProvider
 												.GetValue(bindingContext.ModelName);

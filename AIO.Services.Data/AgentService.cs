@@ -6,23 +6,23 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AIO.Services.Data
 {
-    public class AgentService : IAgentService
-    {
-        private readonly AIODbContext dbContext;
+	public class AgentService : IAgentService
+	{
+		private readonly AIODbContext dbContext;
 
-        public AgentService(AIODbContext dbContext)
-        {
-            this.dbContext = dbContext;
-        }
+		public AgentService(AIODbContext dbContext)
+		{
+			this.dbContext = dbContext;
+		}
 
-        public async Task<bool> IsAgentExistByUserIdAsync(string userId)
-        {
-            bool result = await this.dbContext
-                .Agents
-                .AnyAsync(a => a.UserId.ToString() == userId);
+		public async Task<bool> IsAgentExistByUserIdAsync(string userId)
+		{
+			bool result = await this.dbContext
+				.Agents
+				.AnyAsync(a => a.UserId.ToString() == userId);
 
-            return result;
-        }
+			return result;
+		}
 
 		public async Task<bool> IsAgentExistByPhoneNumberAsync(string phoneNumber)
 		{
@@ -35,14 +35,26 @@ namespace AIO.Services.Data
 
 		public async Task CreateAsync(string userId, BecomeAgentFormModel model)
 		{
-            Agent agent = new Agent
-            {
-                PhoneNumber = model.PhoneNumber,
-                UserId = Guid.Parse(userId)
-            };
+			Agent agent = new Agent
+			{
+				PhoneNumber = model.PhoneNumber,
+				UserId = Guid.Parse(userId)
+			};
 
-            await this.dbContext.Agents.AddAsync(agent);
-            await this.dbContext.SaveChangesAsync();
+			await this.dbContext.Agents.AddAsync(agent);
+			await this.dbContext.SaveChangesAsync();
+		}
+
+		public async Task<string> GetAgentIdByUserId(string userId)
+		{
+			Agent? agent = await this.dbContext.Agents.FirstOrDefaultAsync(a => a.UserId.ToString() == userId);
+
+			if (agent == null)
+			{
+				return null;
+			}
+
+			return agent.Id.ToString();
 		}
 	}
 }

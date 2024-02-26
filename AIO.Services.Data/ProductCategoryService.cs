@@ -27,5 +27,12 @@ namespace AIO.Services.Data
 
 				return productCategories;
 		}
+
+		public async Task<bool> ExistsByIdAsync(int id)
+		{
+			bool result = await this.context.Categories.AnyAsync(c => c.Id == id);
+
+			return result;
+		}
 	}
 }
