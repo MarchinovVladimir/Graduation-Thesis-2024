@@ -23,6 +23,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AIO.Services.Data", "AIO.Se
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AIO.Web.Infrastructure", "AIO.Web.Infrastructure\AIO.Web.Infrastructure.csproj", "{F3C2C7E4-A3FC-44CA-AD2C-2AADD583C97B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIO.Services.Data.Models", "AIO.Services.Data.Models\AIO.Services.Data.Models.csproj", "{536CFE21-E4B9-433C-A475-DCD7BA53DCC1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{F3C2C7E4-A3FC-44CA-AD2C-2AADD583C97B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3C2C7E4-A3FC-44CA-AD2C-2AADD583C97B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3C2C7E4-A3FC-44CA-AD2C-2AADD583C97B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{536CFE21-E4B9-433C-A475-DCD7BA53DCC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{536CFE21-E4B9-433C-A475-DCD7BA53DCC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{536CFE21-E4B9-433C-A475-DCD7BA53DCC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{536CFE21-E4B9-433C-A475-DCD7BA53DCC1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -68,6 +74,7 @@ Global
 		{0E1A6FCA-7A84-405A-AB8D-A13FFB26FE0C} = {CC328323-090E-4BB6-A7B6-06450DEBA49B}
 		{59F51C6B-F3B4-4FAC-A09E-B6019B9DB00A} = {B91E6C65-3CEF-4222-AC67-626398BC36E7}
 		{F3C2C7E4-A3FC-44CA-AD2C-2AADD583C97B} = {CC328323-090E-4BB6-A7B6-06450DEBA49B}
+		{536CFE21-E4B9-433C-A475-DCD7BA53DCC1} = {B91E6C65-3CEF-4222-AC67-626398BC36E7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CE9ED25E-F332-418D-8D16-F292CD94E4F7}

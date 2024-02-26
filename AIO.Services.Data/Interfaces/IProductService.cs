@@ -1,4 +1,5 @@
-﻿using AIO.Web.ViewModels.Home;
+﻿using AIO.Services.Data.Models.Product;
+using AIO.Web.ViewModels.Home;
 using AIO.Web.ViewModels.Product;
 
 namespace AIO.Services.Data.Interfaces
@@ -8,5 +9,7 @@ namespace AIO.Services.Data.Interfaces
 		Task<IEnumerable<ProductIndexViewModel>> GetFirstThreeExpiringProducts();
 
 		Task CreateProductAsync(AddProductFormModel formModel, string agentId);
+
+		Task<AllProductsFilteredAndPagedServiceModel> GetAllProductsFilteredAndPagedAsync(AllProductsQueryModel queryModel);
 	}
 }

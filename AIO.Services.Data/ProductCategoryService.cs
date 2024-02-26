@@ -34,5 +34,15 @@ namespace AIO.Services.Data
 
 			return result;
 		}
+
+		public async Task<IEnumerable<string>> AllProductCategoryNamesAsync()
+		{
+			IEnumerable<string> AllProductCategoryNames = await this.context.Categories
+				.AsNoTracking()
+				.Select(c => c.Name)
+				.ToArrayAsync();
+
+			return AllProductCategoryNames;
+		}
 	}
 }

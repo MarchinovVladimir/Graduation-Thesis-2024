@@ -1,6 +1,8 @@
 ﻿using AIO.Data;
 using AIO.Data.Models;
 using AIO.Services.Data.Interfaces;
+using AIO.Services.Data.Models.Product;
+using AIO.Views.Product.Enums;
 using AIO.Web.ViewModels.Home;
 using AIO.Web.ViewModels.Product;
 using Microsoft.EntityFrameworkCore;
@@ -11,12 +13,12 @@ namespace AIO.Services.Data
 	{
 		private readonly AIODbContext dbContext;
 
-        public ProductService(AIODbContext dbContext)
-        {
-            this.dbContext = dbContext;
-        }
+		public ProductService(AIODbContext dbContext)
+		{
+			this.dbContext = dbContext;
+		}
 
-        public async Task<IEnumerable<ProductIndexViewModel>> GetFirstThreeExpiringProducts()
+		public async Task<IEnumerable<ProductIndexViewModel>> GetFirstThreeExpiringProducts()
 		{
 			IEnumerable<ProductIndexViewModel> firstThreeExpireProducts = await this.dbContext.Products
 				.AsNoTracking()
@@ -47,6 +49,55 @@ namespace AIO.Services.Data
 
 			await this.dbContext.Products.AddAsync(product);
 			await this.dbContext.SaveChangesAsync();
+		}
+
+		public async Task<AllProductsFilteredAndPagedServiceModel> GetAllProductsFilteredAndPagedAsync(AllProductsQueryModel queryModel)
+		{
+			IQueryable<Product> productsQuery = this.dbContext
+				.Products
+				.AsQueryable();
+
+			if (!string.IsNullOrWhiteSpace(queryModel.Category))
+			{
+				productsQuery = productsQuery
+										.Where(p => p.Category.Name == queryModel.Category);
+			}
+
+			if (!string.IsNullOrWhiteSpace(queryModel.SearchString))
+			{
+				string wildCard = $"%{queryModel.SearchString.ToLower()}%";	
+				productsQuery = productsQuery
+										.Where(p => EF.Functions.Like(p.Title, wildCard) ||
+													EF.Functions.Like(p.Description, wildCard));
+			}
+
+			productsQuery = queryModel.ProductSorting switch
+			{
+				ProductSorting.Newest => productsQuery.OrderBy(p => p.StartTime),
+				ProductSorting.Oldest => productsQuery.OrderByDescending(p => p.StartTime),
+				ProductSorting.PriceLowToHigh => productsQuery.OrderBy(p => p.OpeningBid),
+				ProductSorting.PriceHighToLow => productsQuery.OrderByDescending(p => p.OpeningBid),
+				_ => productsQuery.OrderByDescending(p => p.StartTime),
+			};
+
+			IEnumerable<ProductAllViewModel> allProducts = await productsQuery
+				.Skip((queryModel.CurrentPage - 1) * queryModel.ProductsPerPage)
+				.Take(queryModel.ProductsPerPage)
+				.Select(p => new ProductAllViewModel
+				{
+					Id = p.Id.ToString(),
+					Title = p.Title,
+					ImageUrl = p.ImageUrl,
+					Price = p.OpeningBid,	
+				}).ToArrayAsync();	
+
+			int totalProductsCount = await productsQuery.CountAsync();
+
+			return new AllProductsFilteredAndPagedServiceModel 
+			{ 
+				TotalProductsCount = totalProductsCount,
+				Products = allProducts
+			};
 		}
 	}
 }

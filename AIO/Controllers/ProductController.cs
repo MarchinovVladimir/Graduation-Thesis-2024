@@ -1,4 +1,5 @@
 ﻿using AIO.Services.Data.Interfaces;
+using AIO.Services.Data.Models.Product;
 using AIO.Web.Infrastructure.Extentions;
 using AIO.Web.ViewModels.Product;
 using Microsoft.AspNetCore.Authorization;
@@ -21,10 +22,17 @@ namespace AIO.Controllers
 			this.productService = productService;
 		}
 
+		[HttpGet]
 		[AllowAnonymous]
-		public async Task<IActionResult> All()
+		public async Task<IActionResult> All([FromQuery]AllProductsQueryModel queryModel)
 		{
-			return Ok();
+			AllProductsFilteredAndPagedServiceModel serviceModel = await productService.GetAllProductsFilteredAndPagedAsync(queryModel);
+
+			queryModel.Products = serviceModel.Products;
+			queryModel.TotalProducts = serviceModel.TotalProductsCount;
+			queryModel.Categories = await this.productCategoryService.AllProductCategoryNamesAsync();
+
+			return this.View(queryModel);
 		}
 
 		[HttpGet]

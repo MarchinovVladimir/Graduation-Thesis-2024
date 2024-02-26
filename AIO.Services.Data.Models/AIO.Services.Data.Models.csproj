@@ -7,11 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AIO.Data.Models\AIO.Data.Models.csproj" />
-    <ProjectReference Include="..\AIO.Services.Data.Models\AIO.Services.Data.Models.csproj" />
     <ProjectReference Include="..\AIO.Web.ViewModels\AIO.Web.ViewModels.csproj" />
-    <ProjectReference Include="..\AIOCommon\AIOCommon.csproj" />
-    <ProjectReference Include="..\AIOData\AIO.Data.csproj" />
   </ItemGroup>
 
 </Project>

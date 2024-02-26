@@ -7,5 +7,7 @@ namespace AIO.Services.Data.Interfaces
 		Task<ICollection<ProductCategoryViewModel>> GetAllProductCategoriesAsync();
 
 		Task<bool> ExistsByIdAsync(int id);
+
+		Task<IEnumerable<string>> AllProductCategoryNamesAsync();
 	}
 }

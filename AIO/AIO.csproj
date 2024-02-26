@@ -17,6 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AIO.Data.Models\AIO.Data.Models.csproj" />
+    <ProjectReference Include="..\AIO.Services.Data.Models\AIO.Services.Data.Models.csproj" />
     <ProjectReference Include="..\AIO.Services.Data\AIO.Services.Data.csproj" />
     <ProjectReference Include="..\AIO.Web.Infrastructure\AIO.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\AIO.Web.ViewModels\AIO.Web.ViewModels.csproj" />
