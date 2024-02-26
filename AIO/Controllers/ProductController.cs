@@ -35,7 +35,7 @@ namespace AIO.Controllers
 			{
 				TempData[ErrorMessage] = "You must become an agent to add products.";
 
-				return RedirectToAction("BecomeAgent", "Agent");
+				return RedirectToAction("Become", "Agent");
 			}
 
 			AddProductFormModel model = new AddProductFormModel()
