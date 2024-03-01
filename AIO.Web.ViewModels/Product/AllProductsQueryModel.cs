@@ -18,6 +18,7 @@ namespace AIO.Web.ViewModels.Product
 
 		public int TotalProducts { get; set; }
 
+		[Display(Name = "Products per page")]
 		public int ProductsPerPage { get; set; } = ProductsPerPageDefaultValue;
 
 		public IEnumerable<string> Categories { get; set; } = new HashSet<string>();
