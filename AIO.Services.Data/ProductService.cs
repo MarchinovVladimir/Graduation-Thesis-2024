@@ -100,5 +100,41 @@ namespace AIO.Services.Data
 				Products = allProducts
 			};
 		}
+
+		public async Task<IEnumerable<ProductAllViewModel>> GetAllProductsByAgentIdAsync(string agentId)
+		{
+			IEnumerable<ProductAllViewModel> allAgentProducts = await this.dbContext
+				.Products
+				.AsNoTracking()
+				.Where(p => p.IsActive && 
+							p.AgentId.ToString() == agentId)
+				.Select(p => new ProductAllViewModel
+				{
+					Id = p.Id.ToString(),
+					Title = p.Title,
+					ImageUrl = p.ImageUrl,
+					Price = p.OpeningBid,
+				}).ToArrayAsync();
+
+			return allAgentProducts;
+		}
+
+		public async Task<IEnumerable<ProductAllViewModel>> GetAllProductsByUserIdAsync(string userId)
+		{
+			IEnumerable<ProductAllViewModel> allUserProducts =await  this.dbContext
+				.Products
+				.AsNoTracking()
+				.Where(p => p.IsActive && 
+							p.BuyerId.ToString() == userId)
+				.Select(p => new ProductAllViewModel
+				{
+					Id = p.Id.ToString(),
+					Title = p.Title,
+					ImageUrl = p.ImageUrl,
+					Price = p.OpeningBid,
+				}).ToArrayAsync();
+
+			return allUserProducts;
+		}
 	}
 }

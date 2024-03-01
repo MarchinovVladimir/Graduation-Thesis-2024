@@ -1,4 +1,5 @@
-﻿using AIO.Services.Data.Interfaces;
+﻿using AIO.Services.Data;
+using AIO.Services.Data.Interfaces;
 using AIO.Services.Data.Models.Product;
 using AIO.Web.Infrastructure.Extentions;
 using AIO.Web.ViewModels.Product;
@@ -92,6 +93,31 @@ namespace AIO.Controllers
 			}
 
 			return RedirectToAction(nameof(All));
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> Mine()
+		{
+			IEnumerable<ProductAllViewModel> products;
+
+			string userId = this.User.GetId();
+
+			bool isUserAgent = await agentService
+				.IsAgentExistByUserIdAsync(userId);
+
+			if (isUserAgent)
+			{
+				string agentId = 
+					await this.agentService.GetAgentIdByUserId(userId);
+
+				products = await productService.GetAllProductsByAgentIdAsync(agentId);
+			}
+			else
+			{
+				products = await productService.GetAllProductsByUserIdAsync(userId);
+			}
+
+			return View(products);	
 		}
 	}
 }
