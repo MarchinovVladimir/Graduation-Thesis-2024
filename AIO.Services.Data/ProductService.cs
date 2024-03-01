@@ -73,8 +73,8 @@ namespace AIO.Services.Data
 
 			productsQuery = queryModel.ProductSorting switch
 			{
-				ProductSorting.Newest => productsQuery.OrderBy(p => p.StartTime),
-				ProductSorting.Oldest => productsQuery.OrderByDescending(p => p.StartTime),
+				ProductSorting.Newest => productsQuery.OrderByDescending(p => p.StartTime),
+				ProductSorting.Oldest => productsQuery.OrderBy(p => p.StartTime),
 				ProductSorting.PriceLowToHigh => productsQuery.OrderBy(p => p.OpeningBid),
 				ProductSorting.PriceHighToLow => productsQuery.OrderByDescending(p => p.OpeningBid),
 				_ => productsQuery.OrderByDescending(p => p.StartTime),
