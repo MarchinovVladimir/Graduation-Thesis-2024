@@ -43,6 +43,9 @@ namespace AIO.Data.Models
         [Required]
         public DateTime EndTime { get; set; }
 
+        [Required]
+        public bool IsActive { get; set; }  
+
         [Comment("The product's category identifier.")]
         [Required]
         public int CategoryId { get; set; }
@@ -52,7 +55,7 @@ namespace AIO.Data.Models
         [ForeignKey(nameof(CategoryId))]
         public Category Category { get; set; } = null!;
 
-        [Comment("The product's auction status.")]
+     
         [Required]
         public bool IsAuctionClosed { get; set; }
 

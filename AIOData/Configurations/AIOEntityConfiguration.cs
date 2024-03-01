@@ -12,6 +12,10 @@ namespace AIO.Data.Configurations
                 .Property(p => p.StartTime)
                 .HasDefaultValueSql("GETDATE()");
 
+            builder 
+                .Property(p => p.IsActive)
+                .HasDefaultValue(true);
+
             builder
                 .HasOne(p => p.Category)
                 .WithMany(c => c.Products)
@@ -60,7 +64,6 @@ namespace AIO.Data.Configurations
                 BuyerId = Guid.Parse("AB6D096A-0CCC-49AE-2DB2-08DC32D4F58A"),
                 StartTime = DateTime.UtcNow,
                 EndTime = DateTime.UtcNow.AddDays(7),
-                IsAuctionClosed = false
             };
             products.Add(product);
 
@@ -76,7 +79,6 @@ namespace AIO.Data.Configurations
                 BuyerId = Guid.Parse("AB6D096A-0CCC-49AE-2DB2-08DC32D4F58A"),               
                 StartTime = DateTime.UtcNow,
                 EndTime = DateTime.UtcNow.AddDays(7),
-                IsAuctionClosed = false
             };
             products.Add(product);
 
@@ -92,7 +94,6 @@ namespace AIO.Data.Configurations
                 BuyerId = null,               
                 StartTime = DateTime.UtcNow,
                 EndTime = DateTime.UtcNow.AddDays(7),
-                IsAuctionClosed = false
             };
             products.Add(product);
 
@@ -108,7 +109,6 @@ namespace AIO.Data.Configurations
                 BuyerId = Guid.Parse("AB6D096A-0CCC-49AE-2DB2-08DC32D4F58A"),             
                 StartTime = DateTime.UtcNow,
                 EndTime = DateTime.UtcNow.AddDays(7),
-                IsAuctionClosed = false
             };
 
             return products.ToArray();

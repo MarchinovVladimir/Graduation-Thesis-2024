@@ -22,7 +22,7 @@ namespace AIO.Services.Data
 		{
 			IEnumerable<ProductIndexViewModel> firstThreeExpireProducts = await this.dbContext.Products
 				.AsNoTracking()
-				.Where(p => p.IsAuctionClosed == false)
+				.Where(p => p.IsActive)
 				.OrderBy(p => p.EndTime)
 				.Take(3)
 				.Select(p => new ProductIndexViewModel
@@ -81,6 +81,7 @@ namespace AIO.Services.Data
 			};
 
 			IEnumerable<ProductAllViewModel> allProducts = await productsQuery
+				.Where(p => p.IsActive)
 				.Skip((queryModel.CurrentPage - 1) * queryModel.ProductsPerPage)
 				.Take(queryModel.ProductsPerPage)
 				.Select(p => new ProductAllViewModel
