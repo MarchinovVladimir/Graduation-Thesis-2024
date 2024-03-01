@@ -10,7 +10,7 @@ namespace AIO.Data.Configurations
         {
             builder
                 .Property(p => p.StartTime)
-                .HasDefaultValue(DateTime.UtcNow);
+                .HasDefaultValueSql("GETDATE()");
 
             builder
                 .HasOne(p => p.Category)
