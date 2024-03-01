@@ -119,5 +119,22 @@ namespace AIO.Controllers
 
 			return View(products);	
 		}
+
+		[AllowAnonymous]
+		[HttpGet]
+		public async Task<IActionResult> Details(string id)
+		{
+			ProductDetailsViewModel? model = await this.productService
+				.GetProductDetailsByIdAsync(id);
+
+			if (model == null)
+			{
+				this.TempData[ErrorMessage] = "Product does not exist!";
+				return RedirectToAction("All", "Product");
+			}
+
+			return View(model);
+		}
+
 	}
 }

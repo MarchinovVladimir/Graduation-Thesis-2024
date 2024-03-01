@@ -136,5 +136,40 @@ namespace AIO.Services.Data
 
 			return allUserProducts;
 		}
+
+		
+		public async Task<ProductDetailsViewModel?> GetProductDetailsByIdAsync(string productId)
+		{
+			Product? product = await dbContext
+				.Products
+				.Include(p => p.Category)
+				.Include(p => p.Agent)
+				.ThenInclude(a => a.User)
+				.AsNoTracking()
+				.Where(p => p.IsActive)
+				.FirstOrDefaultAsync(p => p.Id.ToString() == productId);
+
+			if (product == null)
+			{
+				return null;
+			}
+
+			return new ProductDetailsViewModel()
+			{ 
+				Id= product.Id.ToString(),
+				Title = product.Title,
+				Description = product.Description,
+				ImageUrl = product.ImageUrl,
+				Category = product.Category.Name,
+				Price  = product.CurrentBid,
+				Agent = new Web.ViewModels.Agent.AgentInfoOnProductViewModel()
+				{
+					Email = product.Agent.User.Email,
+					PhoneNumber = product.Agent.PhoneNumber
+				}
+				
+			};
+				
+		}
 	}
 }

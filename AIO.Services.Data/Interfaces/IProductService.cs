@@ -15,5 +15,8 @@ namespace AIO.Services.Data.Interfaces
 		Task<IEnumerable<ProductAllViewModel>> GetAllProductsByAgentIdAsync(string agentId);
 
 		Task<IEnumerable<ProductAllViewModel>> GetAllProductsByUserIdAsync(string userId);
+
+		Task<ProductDetailsViewModel?> GetProductDetailsByIdAsync(string productId);
+
 	}
 }
