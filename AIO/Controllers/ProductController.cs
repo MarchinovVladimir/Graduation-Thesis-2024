@@ -91,6 +91,9 @@ namespace AIO.Controllers
 			{
 				string agentId = await agentService.GetAgentIdByUserId(this.User.GetId());
 				productId = await productService.CreateProductAndRerurnIdAsync(model, agentId);
+
+				TempData[SuccessMessage] = "Product was successfully added.";
+				return RedirectToAction("Details", "Product", new { id = productId });
 			}
 			catch (Exception)
 			{
@@ -99,8 +102,6 @@ namespace AIO.Controllers
 				model.Categories = await productCategoryService.GetAllProductCategoriesAsync();
 				return View(model);
 			}
-
-			return RedirectToAction("Details", "Product", new { id = productId});
 		}
 
 		[HttpGet]
@@ -238,7 +239,85 @@ namespace AIO.Controllers
 				return View(model);
 			}
 
+			TempData[SuccessMessage] = "Product was successfully edited.";
 			return RedirectToAction("Details", "Product", new { id = id });
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> Delete(string id)
+		{
+			bool doesProductExist = await productService.ExistsByIdAsync(id);
+
+			if (!doesProductExist)
+			{
+				this.TempData[ErrorMessage] = "Product does not exist!";
+				return RedirectToAction("All", "Product");
+			}
+
+			bool isUserAgent = await agentService.IsAgentExistByUserIdAsync(this.User.GetId());
+			if (!isUserAgent)
+			{
+				this.TempData[ErrorMessage] = "You must become an agent to be able to edit!";
+				return RedirectToAction("Become", "Agent");
+			}
+
+			string agentId = await agentService.GetAgentIdByUserId(this.User.GetId());
+			bool isAgentOwner = await productService.IsAgentOwnerOfProductWithIdAsync(id, agentId);
+
+			if (!isAgentOwner)
+			{
+				TempData[ErrorMessage] = "You must be the product owner to edit the product";
+				return RedirectToAction("Mine", "Product");
+			}
+
+			try
+			{
+				ProductPreDeleteDetailsViewModel viewModel = await productService.GetProductForDeleteByIdAsync(id);
+				return View(viewModel);
+			}
+			catch (Exception)
+			{
+				return GeneralError();
+			}
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Delete(string id, ProductPreDeleteDetailsViewModel model)
+		{
+			bool doesProductExist = await productService.ExistsByIdAsync(id);
+
+			if (!doesProductExist)
+			{
+				this.TempData[ErrorMessage] = "Product does not exist!";
+				return RedirectToAction("All", "Product");
+			}
+
+			bool isUserAgent = await agentService.IsAgentExistByUserIdAsync(this.User.GetId());
+			if (!isUserAgent)
+			{
+				this.TempData[ErrorMessage] = "You must become an agent to be able to edit!";
+				return RedirectToAction("Become", "Agent");
+			}
+
+			string agentId = await agentService.GetAgentIdByUserId(this.User.GetId());
+			bool isAgentOwner = await productService.IsAgentOwnerOfProductWithIdAsync(id, agentId);
+
+			if (!isAgentOwner)
+			{
+				TempData[ErrorMessage] = "You must be the product owner to edit the product";
+				return RedirectToAction("Mine", "Product");
+			}
+
+			try
+			{
+				await productService.DeleteProductByIdAsync(id);
+				TempData[WarningMessage] = "The product was successfully deleted!";
+				return RedirectToAction("Mine", "Product");
+			}
+			catch (Exception)
+			{
+				return GeneralError();
+			}
 		}
 
 		private IActionResult GeneralError()

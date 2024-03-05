@@ -26,5 +26,9 @@ namespace AIO.Services.Data.Interfaces
 
 		Task EditProductByIdAndFormModel(string productId, ProductFormModel formModel);
 
+		Task<ProductPreDeleteDetailsViewModel> GetProductForDeleteByIdAsync(string productId);
+
+		Task DeleteProductByIdAsync(string productId);
+
 	}
 }

@@ -216,5 +216,32 @@ namespace AIO.Services.Data
 
 			await dbContext.SaveChangesAsync();
 		}
+
+		public async Task<ProductPreDeleteDetailsViewModel> GetProductForDeleteByIdAsync(string productId)
+		{
+			Product product = await dbContext
+				.Products
+				.Where(p => p.IsActive)
+				.FirstAsync(p => p.Id.ToString() == productId);
+
+			return new ProductPreDeleteDetailsViewModel()
+			{
+				Title = product.Title,
+				Description = product.Description,
+				ImageUrl = product.ImageUrl
+			};
+		}
+
+		public async Task DeleteProductByIdAsync(string productId)
+		{
+			Product productToDelete = await dbContext
+				.Products
+				.Where(p => p.IsActive)
+				.FirstAsync(p => p.Id.ToString() == productId);
+
+			productToDelete.IsActive = false;
+
+			await dbContext.SaveChangesAsync();
+		}
 	}
 }
