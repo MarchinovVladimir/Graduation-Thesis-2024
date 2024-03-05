@@ -8,7 +8,7 @@ namespace AIO.Services.Data.Interfaces
 	{
 		Task<IEnumerable<ProductIndexViewModel>> GetFirstThreeExpiringProducts();
 
-		Task CreateProductAsync(AddProductFormModel formModel, string agentId);
+		Task CreateProductAsync(ProductFormModel formModel, string agentId);
 
 		Task<AllProductsFilteredAndPagedServiceModel> GetAllProductsFilteredAndPagedAsync(AllProductsQueryModel queryModel);
 
@@ -16,7 +16,15 @@ namespace AIO.Services.Data.Interfaces
 
 		Task<IEnumerable<ProductAllViewModel>> GetAllProductsByUserIdAsync(string userId);
 
-		Task<ProductDetailsViewModel?> GetProductDetailsByIdAsync(string productId);
+		Task<ProductDetailsViewModel> GetProductDetailsByIdAsync(string productId);
+
+		Task<bool> ExistsByIdAsync(string productId);
+
+		Task<ProductFormModel> GetProductFormByIdAsync(string productId);
+
+		Task<bool> IsAgentOwnerOfProductWithIdAsync(string productId, string agentId);
+
+		Task EditProductByIdAndFormModel(string productId, ProductFormModel formModel);
 
 	}
 }

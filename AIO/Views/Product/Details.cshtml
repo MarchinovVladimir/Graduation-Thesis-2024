@@ -14,7 +14,7 @@
 			<p style="font-size:25px;"><u>@Model.Title</u></p>
 			<p>
 				Price:
-				<b>@String.Format("{0:f2}", Model.Price) BGN</b>
+				<b>@($"{Model.Price:f2}") BGN</b>
 			</p>
 			<p>@Model.Description</p>
 			<p>Category: <b>@Model.Category</b></p>

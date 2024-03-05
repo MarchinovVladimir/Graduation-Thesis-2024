@@ -4,7 +4,7 @@ using static AIOCommon.EntityValidationConstants.Product;
 
 namespace AIO.Web.ViewModels.Product
 {
-	public class AddProductFormModel
+	public class ProductFormModel
 	{ 
 		[Required]
 		[StringLength(TitleMaxLength, MinimumLength = TitleMinLength)]

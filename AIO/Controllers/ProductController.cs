@@ -1,11 +1,10 @@
-﻿using AIO.Services.Data;
-using AIO.Services.Data.Interfaces;
+﻿using AIO.Services.Data.Interfaces;
 using AIO.Services.Data.Models.Product;
 using AIO.Web.Infrastructure.Extentions;
 using AIO.Web.ViewModels.Product;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using static AIOCommon.NotificationMessagesConstants; 
+using static AIOCommon.NotificationMessagesConstants;
 
 namespace AIO.Controllers
 {
@@ -25,7 +24,7 @@ namespace AIO.Controllers
 
 		[HttpGet]
 		[AllowAnonymous]
-		public async Task<IActionResult> All([FromQuery]AllProductsQueryModel queryModel)
+		public async Task<IActionResult> All([FromQuery] AllProductsQueryModel queryModel)
 		{
 			AllProductsFilteredAndPagedServiceModel serviceModel = await productService.GetAllProductsFilteredAndPagedAsync(queryModel);
 
@@ -49,15 +48,23 @@ namespace AIO.Controllers
 				return RedirectToAction("Become", "Agent");
 			}
 
-			AddProductFormModel model = new AddProductFormModel()
+			try
 			{
-				Categories = await productCategoryService.GetAllProductCategoriesAsync()
-			};
-			return View(model);
+				ProductFormModel model = new ProductFormModel()
+				{
+					Categories = await productCategoryService.GetAllProductCategoriesAsync()
+				};
+				return View(model);
+			}
+			catch (Exception)
+			{
+				return GeneralError();
+			}
+			
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Add(AddProductFormModel model)
+		public async Task<IActionResult> Add(ProductFormModel model)
 		{
 			bool isAgent = await agentService.IsAgentExistByUserIdAsync(this.User.GetId());
 
@@ -84,7 +91,7 @@ namespace AIO.Controllers
 				string agentId = await agentService.GetAgentIdByUserId(this.User.GetId());
 				await productService.CreateProductAsync(model, agentId);
 			}
-			catch (Exception _)
+			catch (Exception)
 			{
 				ModelState.AddModelError(string.Empty, "An error occurred while adding the product.");
 
@@ -107,7 +114,7 @@ namespace AIO.Controllers
 
 			if (isUserAgent)
 			{
-				string agentId = 
+				string agentId =
 					await this.agentService.GetAgentIdByUserId(userId);
 
 				products = await productService.GetAllProductsByAgentIdAsync(agentId);
@@ -117,24 +124,126 @@ namespace AIO.Controllers
 				products = await productService.GetAllProductsByUserIdAsync(userId);
 			}
 
-			return View(products);	
+			return View(products);
 		}
 
 		[AllowAnonymous]
 		[HttpGet]
 		public async Task<IActionResult> Details(string id)
 		{
-			ProductDetailsViewModel? model = await this.productService
-				.GetProductDetailsByIdAsync(id);
+			bool doesProductExist = await productService.ExistsByIdAsync(id);
 
-			if (model == null)
+			if (!doesProductExist)
 			{
 				this.TempData[ErrorMessage] = "Product does not exist!";
 				return RedirectToAction("All", "Product");
 			}
 
-			return View(model);
+			try
+			{
+				ProductDetailsViewModel model = await this.productService
+				.GetProductDetailsByIdAsync(id);
+
+				return View(model);
+			}
+			catch (Exception)
+			{
+				return GeneralError();
+			}
+			
 		}
 
+		[HttpGet]
+		public async Task<IActionResult> Edit(string id)
+		{
+			bool doesProductExist = await productService.ExistsByIdAsync(id);
+
+			if (!doesProductExist)
+			{
+				this.TempData[ErrorMessage] = "Product does not exist!";
+				return RedirectToAction("All", "Product");
+			}
+
+			bool isUserAgent = await agentService.IsAgentExistByUserIdAsync(this.User.GetId());
+			if (!isUserAgent)
+			{
+				this.TempData[ErrorMessage] = "You must become an agent to be able to edit!";
+				return RedirectToAction("Become", "Agent");
+			}
+
+			string agentId = await agentService.GetAgentIdByUserId(this.User.GetId());
+			bool isAgentOwner = await productService.IsAgentOwnerOfProductWithIdAsync(id, agentId);
+
+			if (!isAgentOwner)
+			{
+				TempData[ErrorMessage] = "You must be the product owner to edit the product";
+				return RedirectToAction("Mine", "Product");
+			}
+
+			try
+			{
+				ProductFormModel formModel = await productService.GetProductFormByIdAsync(id);
+				formModel.Categories = await productCategoryService.GetAllProductCategoriesAsync();
+				return View(formModel);
+			}
+			catch (Exception)
+			{
+				return GeneralError();
+			}			
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Edit(string id, ProductFormModel model)
+		{
+			if (!ModelState.IsValid)
+			{
+				model.Categories = await productCategoryService.GetAllProductCategoriesAsync();
+				return View(model);
+			}
+
+			bool doesProductExist = await productService.ExistsByIdAsync(id);
+
+			if (!doesProductExist)
+			{
+				this.TempData[ErrorMessage] = "Product does not exist!";
+				return RedirectToAction("All", "Product");
+			}
+
+			bool isUserAgent = await agentService.IsAgentExistByUserIdAsync(this.User.GetId());
+			if (!isUserAgent)
+			{
+				this.TempData[ErrorMessage] = "You must become an agent to be able to edit!";
+				return RedirectToAction("Become", "Agent");
+			}
+
+			string agentId = await agentService.GetAgentIdByUserId(this.User.GetId());
+			bool isAgentOwner = await productService.IsAgentOwnerOfProductWithIdAsync(id, agentId);
+
+			if (!isAgentOwner)
+			{
+				TempData[ErrorMessage] = "You must be the product owner to edit the product";
+				return RedirectToAction("Mine", "Product");
+			}
+
+			try
+			{
+				await productService.EditProductByIdAndFormModel(id, model);
+			}
+			catch (Exception)
+			{
+				ModelState.AddModelError(string.Empty, "Unexpected error occured while tring to edit the product. Please try again later or contact administrator!");
+				model.Categories = await productCategoryService.GetAllProductCategoriesAsync();
+
+				return View(model);
+			}
+
+			return RedirectToAction("Details", "Product", new { id = id });
+		}
+
+		private IActionResult GeneralError()
+		{
+			TempData[ErrorMessage] = "Unexpected error occured. Please try again later or contact administrator!";
+			return RedirectToAction("Index", "Home");
+		}
 	}
 }

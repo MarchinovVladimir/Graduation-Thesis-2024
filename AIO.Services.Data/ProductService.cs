@@ -35,7 +35,7 @@ namespace AIO.Services.Data
 			return firstThreeExpireProducts;
 		}
 
-		public async Task CreateProductAsync(AddProductFormModel formModel, string agentId)
+		public async Task CreateProductAsync(ProductFormModel formModel, string agentId)
 		{
 			Product product = new Product
 			{
@@ -138,21 +138,16 @@ namespace AIO.Services.Data
 		}
 
 		
-		public async Task<ProductDetailsViewModel?> GetProductDetailsByIdAsync(string productId)
+		public async Task<ProductDetailsViewModel> GetProductDetailsByIdAsync(string productId)
 		{
-			Product? product = await dbContext
+			Product product = await dbContext
 				.Products
 				.Include(p => p.Category)
 				.Include(p => p.Agent)
 				.ThenInclude(a => a.User)
 				.AsNoTracking()
 				.Where(p => p.IsActive)
-				.FirstOrDefaultAsync(p => p.Id.ToString() == productId);
-
-			if (product == null)
-			{
-				return null;
-			}
+				.FirstAsync(p => p.Id.ToString() == productId);	
 
 			return new ProductDetailsViewModel()
 			{ 
@@ -170,6 +165,54 @@ namespace AIO.Services.Data
 				
 			};
 				
+		}
+
+		public async Task<bool> ExistsByIdAsync(string productId)
+		{
+			return await dbContext.Products.AnyAsync(p => p.Id.ToString() == productId);
+		}
+
+		public async Task<ProductFormModel> GetProductFormByIdAsync(string productId)
+		{
+			Product product = await dbContext
+				.Products
+				.Include(p => p.Category)
+				.Where(p => p.IsActive)
+				.FirstAsync(p => p.Id.ToString() == productId);
+
+			return new ProductFormModel()
+			{
+				Title = product.Title,
+				Description= product.Description,
+				ImageUrl = product.ImageUrl,
+				OpeningBid = product.OpeningBid,
+				CategoryId = product.CategoryId,
+			};
+		}
+
+		public async Task<bool> IsAgentOwnerOfProductWithIdAsync(string productId, string agentId)
+		{
+			Product product = await dbContext.Products
+				.Where(p => p.IsActive)
+				.FirstAsync(p => p.Id.ToString() == productId);
+
+			return product.AgentId.ToString() == agentId;
+		}
+
+		public async Task EditProductByIdAndFormModel(string productId, ProductFormModel formModel)
+		{
+			Product product = await dbContext
+				.Products
+				.Where(p => p.IsActive)
+				.FirstAsync(p => p.Id.ToString() == productId);
+
+			product.Title = formModel.Title;
+			product.Description = formModel.Description;
+			product.ImageUrl = formModel.ImageUrl;
+			product.CategoryId = formModel.CategoryId;
+			product.OpeningBid = formModel.OpeningBid;	
+
+			await dbContext.SaveChangesAsync();
 		}
 	}
 }
