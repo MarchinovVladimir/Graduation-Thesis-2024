@@ -86,10 +86,11 @@ namespace AIO.Controllers
 				return View(model);
 			}
 
+			string productId;
 			try
 			{
 				string agentId = await agentService.GetAgentIdByUserId(this.User.GetId());
-				await productService.CreateProductAsync(model, agentId);
+				productId = await productService.CreateProductAndRerurnIdAsync(model, agentId);
 			}
 			catch (Exception)
 			{
@@ -99,7 +100,7 @@ namespace AIO.Controllers
 				return View(model);
 			}
 
-			return RedirectToAction(nameof(All));
+			return RedirectToAction("Details", "Product", new { id = productId});
 		}
 
 		[HttpGet]

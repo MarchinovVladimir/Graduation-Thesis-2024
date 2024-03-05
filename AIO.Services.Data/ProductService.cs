@@ -35,7 +35,7 @@ namespace AIO.Services.Data
 			return firstThreeExpireProducts;
 		}
 
-		public async Task CreateProductAsync(ProductFormModel formModel, string agentId)
+		public async Task<string> CreateProductAndRerurnIdAsync(ProductFormModel formModel, string agentId)
 		{
 			Product product = new Product
 			{
@@ -49,6 +49,8 @@ namespace AIO.Services.Data
 
 			await this.dbContext.Products.AddAsync(product);
 			await this.dbContext.SaveChangesAsync();
+
+			return product.Id.ToString();
 		}
 
 		public async Task<AllProductsFilteredAndPagedServiceModel> GetAllProductsFilteredAndPagedAsync(AllProductsQueryModel queryModel)

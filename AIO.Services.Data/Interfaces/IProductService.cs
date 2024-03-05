@@ -8,7 +8,7 @@ namespace AIO.Services.Data.Interfaces
 	{
 		Task<IEnumerable<ProductIndexViewModel>> GetFirstThreeExpiringProducts();
 
-		Task CreateProductAsync(ProductFormModel formModel, string agentId);
+		Task<string> CreateProductAndRerurnIdAsync(ProductFormModel formModel, string agentId);
 
 		Task<AllProductsFilteredAndPagedServiceModel> GetAllProductsFilteredAndPagedAsync(AllProductsQueryModel queryModel);
 
