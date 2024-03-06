@@ -29,6 +29,5 @@ namespace AIO.Services.Data.Interfaces
 		Task<ProductPreDeleteDetailsViewModel> GetProductForDeleteByIdAsync(string productId);
 
 		Task DeleteProductByIdAsync(string productId);
-
 	}
 }
