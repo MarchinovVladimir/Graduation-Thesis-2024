@@ -1,14 +1,24 @@
-﻿<ul class="navbar-nav flex-grow-1">
+﻿@using AIO.Services.Data.Interfaces
+@using AIO.Web.Infrastructure.Extentions
+@inject IAgentService AgentService
+@{
+	bool isUserAgent = await AgentService.IsAgentExistByUserIdAsync(User.GetId());
+}
+
+<ul class="navbar-nav flex-grow-1">
 	<li class="nav-item">
 		<a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="All">All</a>
 	</li>
 	@if (User?.Identity?.IsAuthenticated ?? false)
 	{
-		<li class="nav-item">
-			<a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Mine">My Products</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Add">Add Product</a>
-		</li>
+		@if (isUserAgent)
+		{
+			<li class="nav-item">
+				<a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Mine">My Products</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Add">Add Product</a>
+			</li>
+		}
 	}
 </ul>
