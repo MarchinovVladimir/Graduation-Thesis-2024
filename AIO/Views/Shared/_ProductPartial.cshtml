@@ -1,4 +1,12 @@
-﻿@model ProductAllViewModel
+﻿@using AIO.Services.Data.Interfaces
+@using AIO.Web.Infrastructure.Extentions
+@inject IAgentService AgentService
+@{
+	bool isUserAgent = await AgentService.IsAgentExistByUserIdAsync(User.GetId());
+	bool isAgentOwnerOfTheProduct = await AgentService.HasProductWithIdAsync(User.GetId(), Model.Id);
+}
+
+@model ProductAllViewModel
 
 <div class="col-md-4">
 	<div class="card mb-3">
@@ -16,10 +24,13 @@
 			   class="btn btn-success">Details</a>
 			@if (this.User?.Identity?.IsAuthenticated ?? false)
 			{
-				<a asp-controller="Product" asp-action="Edit" asp-route-id="@Model.Id"
-				   class="btn btn-warning">Edit</a>
-				<a asp-controller="Product" asp-action="Delete" asp-route-id="@Model.Id"
-				   class="btn btn-danger">Delete</a>
+				@if(isUserAgent && isAgentOwnerOfTheProduct)
+				{
+					<a asp-controller="Product" asp-action="Edit" asp-route-id="@Model.Id"
+					   class="btn btn-warning">Edit</a>
+					<a asp-controller="Product" asp-action="Delete" asp-route-id="@Model.Id"
+					   class="btn btn-danger">Delete</a>
+				}				
 				<p></p>
 				@* @if (!Model.IsRented)
 				{

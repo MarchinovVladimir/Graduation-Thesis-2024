@@ -1,4 +1,12 @@
-﻿@model ProductDetailsViewModel
+﻿@using AIO.Services.Data.Interfaces
+@using AIO.Web.Infrastructure.Extentions
+@inject IAgentService AgentService
+@{
+	bool isUserAgent = await AgentService.IsAgentExistByUserIdAsync(User.GetId());
+	bool isAgentOwnerOfTheProduct = await AgentService.HasProductWithIdAsync(User.GetId(), Model.Id);
+}
+
+@model ProductDetailsViewModel
 @{
 	ViewBag.Title = "Product Details";
 }
@@ -22,27 +30,30 @@
 			<div class="form-inline">
 				@if (this.User?.Identity?.IsAuthenticated ?? false)
 				{
-					<a class="btn btn-warning" asp-controller="Product" aspaction="Edit"
-					   asp-route-id="@Model.Id">Edit</a>
-					<a class="ml-2 btn btn-danger" asp-controller="Product" aspaction="Delete"
-					   asp-route-id="@Model.Id">Delete</a>
-					@* @if (!Model.IsRented)
+					@if (isUserAgent && isAgentOwnerOfTheProduct)
 					{
-						<form class="ml-2" asp-controller="House"
-							  asp-action="Rent" asp-route-id="@Model.Id"
-							  method="post">
-							<input class="btn btn-primary" type="submit"
-								   value="Rent" />
-						</form>
+						<a class="btn btn-warning" asp-controller="Product" asp-action="Edit"
+						   asp-route-id="@Model.Id">Edit</a>
+						<a class="ml-2 btn btn-danger" asp-controller="Product" asp-action="Delete"
+						   asp-route-id="@Model.Id">Delete</a>
 					}
-					else
-					{
-						<form class="ml-2" asp-controller="House" asp-action="Leave"
-							  asp-route-id="@Model.Id" method="post">
-							<input class="btn btn-primary" type="submit"
-								   value="Leave" />
-						</form>
-					} *@
+					@* @if (!Model.IsRented)
+				{
+				<form class="ml-2" asp-controller="House"
+				asp-action="Rent" asp-route-id="@Model.Id"
+				method="post">
+				<input class="btn btn-primary" type="submit"
+				value="Rent" />
+				</form>
+				}
+				else
+				{
+				<form class="ml-2" asp-controller="House" asp-action="Leave"
+				asp-route-id="@Model.Id" method="post">
+				<input class="btn btn-primary" type="submit"
+				value="Leave" />
+				</form>
+				} *@
 				}
 			</div>
 			<p></p>

@@ -56,5 +56,21 @@ namespace AIO.Services.Data
 
 			return agent.Id.ToString();
 		}
+
+		public async Task<bool> HasProductWithIdAsync(string userId, string productId)
+		{
+			Agent? agent = await this.dbContext
+				.Agents
+				.Include(a => a.ProductsForSell)
+				.FirstOrDefaultAsync(a => a.UserId.ToString() == userId);
+
+			if (agent == null)
+			{
+				return false;
+			}
+
+			productId = productId.ToLower();
+			return agent.ProductsForSell.Any(p => p.Id.ToString() == productId);
+		}
 	}
 }
