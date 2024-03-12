@@ -2,19 +2,22 @@
 @using AIO.Services.Data.Interfaces
 @using AIO.Web.Infrastructure.Extentions
 @using Microsoft.AspNetCore.Identity
+
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@inject IUserService UserService
 
 @inject IAgentService AgentService
 @{
 	bool isUserAgent = await AgentService.IsAgentExistByUserIdAsync(User.GetId());
+	string userFullName = await UserService.GetFullNameByEmailAsync(User.Identity?.Name!);
 }
 
 <ul class="navbar-nav">
 	@if (SignInManager.IsSignedIn(User))
 	{
 		<li class="nav-item">
-			<a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello, @User.Identity?.Name!</a>
+			<a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello, @userFullName</a>
 		</li>
 		@if (!isUserAgent)
 		{

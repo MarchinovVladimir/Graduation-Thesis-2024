@@ -14,12 +14,14 @@ namespace AIO.Controllers
 		private readonly IProductCategoryService productCategoryService;
 		private readonly IAgentService agentService;
 		private readonly IProductService productService;
+		private readonly IUserService userService;
 
-		public ProductController(IProductCategoryService productCategoryService, IAgentService agentService, IProductService productService)
+		public ProductController(IProductCategoryService productCategoryService, IAgentService agentService, IProductService productService, IUserService userService)
 		{
 			this.productCategoryService = productCategoryService;
 			this.agentService = agentService;
 			this.productService = productService;
+			this.userService = userService;
 		}
 
 		[HttpGet]
@@ -145,6 +147,8 @@ namespace AIO.Controllers
 			{
 				ProductDetailsViewModel model = await this.productService
 				.GetProductDetailsByIdAsync(id);
+
+				model.Agent.FullName = await userService.GetFullNameByEmailAsync(User.Identity?.Name!);
 
 				return View(model);
 			}
