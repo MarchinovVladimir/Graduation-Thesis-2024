@@ -5,6 +5,7 @@ using AIO.Web.Infrastructure.ModelBinders;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using static AIOCommon.GeneralAppConstants;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
@@ -62,6 +63,8 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.SeedAdministrator(DevelopmentAdminEmail);
 
 app.MapDefaultControllerRoute();
 app.MapRazorPages();
