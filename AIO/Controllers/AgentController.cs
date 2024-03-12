@@ -67,7 +67,7 @@ namespace AIO.Controllers
 				return RedirectToAction("Index", "Home");
 			}
 
-			return RedirectToAction("All", "Home");
+			return RedirectToAction("Index", "Home");
 		}
 	}
 }

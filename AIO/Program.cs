@@ -2,6 +2,7 @@ using AIO.Data;
 using AIO.Data.Models;
 using AIO.Services.Data.Interfaces;
 using AIO.Web.Infrastructure.ModelBinders;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,6 +24,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 	options.Password.RequireUppercase = builder.Configuration.GetValue<bool>("Identity:Password:RequireUppercase");
 	options.Password.RequiredLength = builder.Configuration.GetValue<int>("Identity:Password:RequiredLength");
 })
+.AddRoles<IdentityRole<Guid>>()
 .AddEntityFrameworkStores<AIODbContext>();
 
 builder.Services.AddApplicationServices(typeof(IProductService));
