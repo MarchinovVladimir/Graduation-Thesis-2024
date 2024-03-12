@@ -10,7 +10,6 @@ namespace AIO.Data.Models
 		{
 			Id = Guid.NewGuid();
 			ProductsBought = new HashSet<Product>();
-
 		}
 
 		[Required]
@@ -20,7 +19,6 @@ namespace AIO.Data.Models
 		[Required]
 		[MaxLength(LastNameMaxLength)]
 		public string LastName { get; set; } = null!;
-
 		
 		public virtual ICollection<Product> ProductsBought { get; set; }
 	}

@@ -27,6 +27,11 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 
 builder.Services.AddApplicationServices(typeof(IProductService));
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/User/Login";
+});
+
 builder.Services.AddControllersWithViews(option =>
 {
 	option.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
