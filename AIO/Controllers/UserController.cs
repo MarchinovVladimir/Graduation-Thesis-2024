@@ -12,12 +12,10 @@ namespace AIO.Controllers
         private readonly UserManager<ApplicationUser> userManager;
 
         public UserController(SignInManager<ApplicationUser> signInManager,
-                              UserManager<ApplicationUser> userManager,
-                              IUserStore<ApplicationUser> userStore)
+                              UserManager<ApplicationUser> userManager)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
-            this.userStore = userStore;
         }
 
         [HttpGet]
