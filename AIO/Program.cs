@@ -3,8 +3,13 @@ using AIO.Data.Models;
 using AIO.Services.Data.Interfaces;
 using AIO.Web.Infrastructure.ModelBinders;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
+builder.Services.AddDbContext<AIODbContext>(options =>
+    options.UseSqlServer(connectionString));
 
 builder.Services.AddApplicationDbContext(builder.Configuration);
 
