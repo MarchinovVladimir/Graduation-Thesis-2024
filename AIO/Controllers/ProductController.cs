@@ -155,7 +155,7 @@ namespace AIO.Controllers
 				ProductDetailsViewModel model = await this.productService
 				.GetProductDetailsByIdAsync(id);
 
-				model.Agent.FullName = await userService.GetFullNameByEmailAsync(User.Identity?.Name!);
+				model.Agent.FullName = await productService.GetSellerFullNameByProductIdAsync(id);
 
 				return View(model);
 			}

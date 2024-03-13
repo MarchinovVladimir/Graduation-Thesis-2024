@@ -243,5 +243,17 @@ namespace AIO.Services.Data
 
 			await dbContext.SaveChangesAsync();
 		}
+
+		public async Task<string> GetSellerFullNameByProductIdAsync(string productId)
+		{
+			Product product = await dbContext
+				.Products
+				.Include(p => p.Agent)
+				.ThenInclude(a => a.User)
+				.Where(p => p.IsActive)
+				.FirstAsync(p => p.Id.ToString() == productId);
+
+			return $"{product.Agent.User.FirstName} {product.Agent.User.LastName}";
+		}
 	}
 }
