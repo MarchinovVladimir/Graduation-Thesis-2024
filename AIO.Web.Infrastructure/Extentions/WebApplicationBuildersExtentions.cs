@@ -52,6 +52,13 @@ namespace Microsoft.Extensions.DependencyInjection
 			return services;
 		}
 
+		/// <summary>
+		/// This method seed admin role if it does not exist.
+		/// Passed email should be valid email of an existing user in the application.
+		/// </summary>
+		/// <param name="app"></param>
+		/// <param name="email"></param>
+		/// <returns></returns>
 		public static IApplicationBuilder SeedAdministrator(this IApplicationBuilder app, string email)
 		{
 			using IServiceScope scopedServices = app.ApplicationServices.CreateScope();

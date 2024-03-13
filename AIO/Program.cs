@@ -11,7 +11,7 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
 builder.Services.AddDbContext<AIODbContext>(options =>
-    options.UseSqlServer(connectionString));
+	options.UseSqlServer(connectionString));
 
 builder.Services.AddApplicationDbContext(builder.Configuration);
 
@@ -32,7 +32,7 @@ builder.Services.AddApplicationServices(typeof(IProductService));
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.LoginPath = "/User/Login";
+	options.LoginPath = "/User/Login";
 });
 
 builder.Services.AddControllersWithViews(option =>
@@ -64,7 +64,10 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.SeedAdministrator(DevelopmentAdminEmail);
+if (app.Environment.IsDevelopment())
+{
+	app.SeedAdministrator(DevelopmentAdminEmail);
+}
 
 app.MapDefaultControllerRoute();
 app.MapRazorPages();

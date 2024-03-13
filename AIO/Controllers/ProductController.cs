@@ -115,20 +115,27 @@ namespace AIO.Controllers
 
 			bool isUserAgent = await agentService
 				.IsAgentExistByUserIdAsync(userId);
-
-			if (isUserAgent)
+			try
 			{
-				string agentId =
-					await this.agentService.GetAgentIdByUserId(userId);
+				if (isUserAgent)
+				{
+					string agentId =
+						await this.agentService.GetAgentIdByUserId(userId);
 
-				products = await productService.GetAllProductsByAgentIdAsync(agentId);
+					products = await productService.GetAllProductsByAgentIdAsync(agentId);
+				}
+				else
+				{
+					products = await productService.GetAllProductsByUserIdAsync(userId);
+				}
+
+				return View(products);
 			}
-			else
+			catch (Exception)
 			{
-				products = await productService.GetAllProductsByUserIdAsync(userId);
+				return GeneralError();
 			}
-
-			return View(products);
+			
 		}
 
 		[AllowAnonymous]
@@ -171,7 +178,7 @@ namespace AIO.Controllers
 			}
 
 			bool isUserAgent = await agentService.IsAgentExistByUserIdAsync(this.User.GetId());
-			if (!isUserAgent)
+			if (!isUserAgent && !User.IsAdmin())
 			{
 				this.TempData[ErrorMessage] = "You must become an agent to be able to edit!";
 				return RedirectToAction("Become", "Agent");
@@ -180,7 +187,7 @@ namespace AIO.Controllers
 			string agentId = await agentService.GetAgentIdByUserId(this.User.GetId());
 			bool isAgentOwner = await productService.IsAgentOwnerOfProductWithIdAsync(id, agentId);
 
-			if (!isAgentOwner)
+			if (!isAgentOwner && !User.IsAdmin())
 			{
 				TempData[ErrorMessage] = "You must be the product owner to edit the product";
 				return RedirectToAction("Mine", "Product");
@@ -216,7 +223,7 @@ namespace AIO.Controllers
 			}
 
 			bool isUserAgent = await agentService.IsAgentExistByUserIdAsync(this.User.GetId());
-			if (!isUserAgent)
+			if (!isUserAgent && !User.IsAdmin())
 			{
 				this.TempData[ErrorMessage] = "You must become an agent to be able to edit!";
 				return RedirectToAction("Become", "Agent");
@@ -225,7 +232,7 @@ namespace AIO.Controllers
 			string agentId = await agentService.GetAgentIdByUserId(this.User.GetId());
 			bool isAgentOwner = await productService.IsAgentOwnerOfProductWithIdAsync(id, agentId);
 
-			if (!isAgentOwner)
+			if (!isAgentOwner && !User.IsAdmin())
 			{
 				TempData[ErrorMessage] = "You must be the product owner to edit the product";
 				return RedirectToAction("Mine", "Product");
@@ -259,7 +266,7 @@ namespace AIO.Controllers
 			}
 
 			bool isUserAgent = await agentService.IsAgentExistByUserIdAsync(this.User.GetId());
-			if (!isUserAgent)
+			if (!isUserAgent && !User.IsAdmin())
 			{
 				this.TempData[ErrorMessage] = "You must become an agent to be able to edit!";
 				return RedirectToAction("Become", "Agent");
@@ -268,7 +275,7 @@ namespace AIO.Controllers
 			string agentId = await agentService.GetAgentIdByUserId(this.User.GetId());
 			bool isAgentOwner = await productService.IsAgentOwnerOfProductWithIdAsync(id, agentId);
 
-			if (!isAgentOwner)
+			if (!isAgentOwner && !User.IsAdmin())
 			{
 				TempData[ErrorMessage] = "You must be the product owner to edit the product";
 				return RedirectToAction("Mine", "Product");
@@ -297,7 +304,7 @@ namespace AIO.Controllers
 			}
 
 			bool isUserAgent = await agentService.IsAgentExistByUserIdAsync(this.User.GetId());
-			if (!isUserAgent)
+			if (!isUserAgent && !User.IsAdmin())
 			{
 				this.TempData[ErrorMessage] = "You must become an agent to be able to edit!";
 				return RedirectToAction("Become", "Agent");
@@ -306,7 +313,7 @@ namespace AIO.Controllers
 			string agentId = await agentService.GetAgentIdByUserId(this.User.GetId());
 			bool isAgentOwner = await productService.IsAgentOwnerOfProductWithIdAsync(id, agentId);
 
-			if (!isAgentOwner)
+			if (!isAgentOwner && !User.IsAdmin())
 			{
 				TempData[ErrorMessage] = "You must be the product owner to edit the product";
 				return RedirectToAction("Mine", "Product");

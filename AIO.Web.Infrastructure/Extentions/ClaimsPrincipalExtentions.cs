@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using static AIOCommon.GeneralAppConstants;
 
 namespace AIO.Web.Infrastructure.Extentions
 {
@@ -8,5 +9,10 @@ namespace AIO.Web.Infrastructure.Extentions
         {
             return user.FindFirstValue(ClaimTypes.NameIdentifier);
         }
+
+        public static bool IsAdmin(this ClaimsPrincipal user)
+        {
+			return user.IsInRole(AdminRoleName);
+		}
     }
 }
