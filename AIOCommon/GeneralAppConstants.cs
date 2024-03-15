@@ -8,6 +8,7 @@
 		public const int CurrentPageDefaultValue = 1;
 		public const int ProductsPerPageDefaultValue = 3;
 
+        public const string AdminAreaName = "Admin";
         public const string AdminRoleName = "Administrator";
         public const string DevelopmentAdminEmail = "admin@admin.bg";
 	}

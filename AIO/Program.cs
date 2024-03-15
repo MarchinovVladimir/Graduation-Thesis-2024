@@ -35,6 +35,7 @@ builder.Services.AddRecaptchaService(); // RecaptchaService is a custom service
 builder.Services.ConfigureApplicationCookie(options =>
 {
 	options.LoginPath = "/User/Login";
+	options.AccessDeniedPath = "/Home/Error/401";
 });
 
 builder.Services.AddControllersWithViews(option =>
@@ -70,6 +71,14 @@ if (app.Environment.IsDevelopment())
 {
 	app.SeedAdministrator(DevelopmentAdminEmail);
 }
+
+app.UseEndpoints(endpoints =>
+{
+	endpoints.MapControllerRoute(
+	  name: "areas",
+	  pattern: "/{area:exists}/{controller=Home}/{action=Index}/{id?}"
+	);
+});
 
 app.MapDefaultControllerRoute();
 app.MapRazorPages();

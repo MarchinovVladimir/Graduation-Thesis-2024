@@ -2,6 +2,7 @@
 using AIO.Web.ViewModels.Home;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using static AIOCommon.GeneralAppConstants;
 
 namespace AIO.Controllers
 {
@@ -16,6 +17,11 @@ namespace AIO.Controllers
 
         public async Task<IActionResult> Index()
         {
+            if(User.IsInRole(AdminRoleName))
+            {
+				return RedirectToAction("Index", "Home", new { area = AdminAreaName });
+			}
+
             IEnumerable<ProductIndexViewModel> viewModel = await productService.GetFirstThreeExpiringProducts();
 
             return View(viewModel);
