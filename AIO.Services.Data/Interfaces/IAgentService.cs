@@ -10,7 +10,7 @@ namespace AIO.Services.Data.Interfaces
 
         Task CreateAsync(string userId, BecomeAgentFormModel model);
 
-        Task<string> GetAgentIdByUserId(string userId);
+        Task<string> GetAgentIdByUserIdAsync(string userId);
 
         Task<bool> HasProductWithIdAsync(string userId, string productId);
     }

@@ -2,11 +2,10 @@
 using AIO.Services.Data.Models.Product;
 using AIO.Web.Infrastructure.Extentions;
 using AIO.Web.ViewModels.Product;
-using Griesoft.AspNetCore.ReCaptcha;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Win32;
 using static AIOCommon.NotificationMessagesConstants;
+using static AIOCommon.GeneralAppConstants;
 
 namespace AIO.Controllers
 {
@@ -92,7 +91,7 @@ namespace AIO.Controllers
 			string productId;
 			try
 			{
-				string agentId = await agentService.GetAgentIdByUserId(this.User.GetId());
+				string agentId = await agentService.GetAgentIdByUserIdAsync(this.User.GetId());
 				productId = await productService.CreateProductAndRerurnIdAsync(model, agentId);
 
 				TempData[SuccessMessage] = "Product was successfully added.";
@@ -110,6 +109,11 @@ namespace AIO.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Mine()
 		{
+			if (User.IsInRole(AdminRoleName))
+			{
+				return RedirectToAction("Mine", "Product", new { area = AdminAreaName });
+			}
+
 			IEnumerable<ProductAllViewModel> products;
 
 			string userId = this.User.GetId();
@@ -121,7 +125,7 @@ namespace AIO.Controllers
 				if (isUserAgent)
 				{
 					string agentId =
-						await this.agentService.GetAgentIdByUserId(userId);
+						await this.agentService.GetAgentIdByUserIdAsync(userId);
 
 					products = await productService.GetAllProductsByAgentIdAsync(agentId);
 				}
@@ -185,7 +189,7 @@ namespace AIO.Controllers
 				return RedirectToAction("Become", "Agent");
 			}
 
-			string agentId = await agentService.GetAgentIdByUserId(this.User.GetId());
+			string agentId = await agentService.GetAgentIdByUserIdAsync(this.User.GetId());
 			bool isAgentOwner = await productService.IsAgentOwnerOfProductWithIdAsync(id, agentId);
 
 			if (!isAgentOwner && !User.IsAdmin())
@@ -230,7 +234,7 @@ namespace AIO.Controllers
 				return RedirectToAction("Become", "Agent");
 			}
 
-			string agentId = await agentService.GetAgentIdByUserId(this.User.GetId());
+			string agentId = await agentService.GetAgentIdByUserIdAsync(this.User.GetId());
 			bool isAgentOwner = await productService.IsAgentOwnerOfProductWithIdAsync(id, agentId);
 
 			if (!isAgentOwner && !User.IsAdmin())
@@ -273,7 +277,7 @@ namespace AIO.Controllers
 				return RedirectToAction("Become", "Agent");
 			}
 
-			string agentId = await agentService.GetAgentIdByUserId(this.User.GetId());
+			string agentId = await agentService.GetAgentIdByUserIdAsync(this.User.GetId());
 			bool isAgentOwner = await productService.IsAgentOwnerOfProductWithIdAsync(id, agentId);
 
 			if (!isAgentOwner && !User.IsAdmin())
@@ -311,7 +315,7 @@ namespace AIO.Controllers
 				return RedirectToAction("Become", "Agent");
 			}
 
-			string agentId = await agentService.GetAgentIdByUserId(this.User.GetId());
+			string agentId = await agentService.GetAgentIdByUserIdAsync(this.User.GetId());
 			bool isAgentOwner = await productService.IsAgentOwnerOfProductWithIdAsync(id, agentId);
 
 			if (!isAgentOwner && !User.IsAdmin())
