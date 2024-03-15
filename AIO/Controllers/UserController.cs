@@ -1,5 +1,6 @@
 ﻿using AIO.Data.Models;
 using AIO.Web.ViewModels.User;
+using Griesoft.AspNetCore.ReCaptcha;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +26,7 @@ namespace AIO.Controllers
         }
 
         [HttpPost]
+        [ValidateRecaptcha(Action = nameof(Register), ValidationFailedAction = ValidationFailedAction.ContinueRequest)]
         public async Task<IActionResult> Register(RegisterFormModel model)
         {
             if (ModelState.IsValid)
@@ -71,6 +73,7 @@ namespace AIO.Controllers
         }
 
         [HttpPost]
+        [ValidateRecaptcha(Action = nameof(Login), ValidationFailedAction = ValidationFailedAction.ContinueRequest)]
         public async Task<IActionResult> Login(LoginFormModel model)
         {
             if (ModelState.IsValid)

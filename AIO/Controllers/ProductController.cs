@@ -2,8 +2,10 @@
 using AIO.Services.Data.Models.Product;
 using AIO.Web.Infrastructure.Extentions;
 using AIO.Web.ViewModels.Product;
+using Griesoft.AspNetCore.ReCaptcha;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Win32;
 using static AIOCommon.NotificationMessagesConstants;
 
 namespace AIO.Controllers
@@ -60,13 +62,12 @@ namespace AIO.Controllers
 			}
 			catch (Exception)
 			{
-				return GeneralError();
-			}
-			
-		}
+                return GeneralError();
+            }
+        }
 
 		[HttpPost]
-		public async Task<IActionResult> Add(ProductFormModel model)
+        public async Task<IActionResult> Add(ProductFormModel model)
 		{
 			bool isAgent = await agentService.IsAgentExistByUserIdAsync(this.User.GetId());
 

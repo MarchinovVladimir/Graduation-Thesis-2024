@@ -30,6 +30,8 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 
 builder.Services.AddApplicationServices(typeof(IProductService));
 
+builder.Services.AddRecaptchaService(); // RecaptchaService is a custom service
+
 builder.Services.ConfigureApplicationCookie(options =>
 {
 	options.LoginPath = "/User/Login";
