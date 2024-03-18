@@ -67,6 +67,8 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.EnableOnlineUsersCheck();
+
 if (app.Environment.IsDevelopment())
 {
 	app.SeedAdministrator(DevelopmentAdminEmail);

@@ -2,6 +2,7 @@
 using AIO.Data.Models;
 using AIO.Services.Data;
 using AIO.Services.Data.Interfaces;
+using AIO.Web.Infrastructure.MiddleWares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -86,6 +87,11 @@ namespace Microsoft.Extensions.DependencyInjection
 			.GetResult();
 
 			return app;
+		}
+
+		public static IApplicationBuilder EnableOnlineUsersCheck(this IApplicationBuilder app)
+		{
+			return app.UseMiddleware<OnlineUsersMiddleware>();
 		}
 	}
 }
