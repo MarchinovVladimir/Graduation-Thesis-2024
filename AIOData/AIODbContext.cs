@@ -11,6 +11,7 @@ namespace AIO.Data
         public AIODbContext(DbContextOptions<AIODbContext> options)
             : base(options)
         {
+           
         }
 
         public DbSet<Product> Products { get; set; } = null!;
