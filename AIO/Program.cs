@@ -32,6 +32,8 @@ builder.Services.AddApplicationServices(typeof(IProductService));
 
 builder.Services.AddRecaptchaService(); // RecaptchaService is a custom service
 
+builder.Services.AddMemoryCache();
+
 builder.Services.ConfigureApplicationCookie(options =>
 {
 	options.LoginPath = "/User/Login";

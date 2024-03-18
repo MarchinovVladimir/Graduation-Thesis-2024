@@ -4,6 +4,8 @@ using Griesoft.AspNetCore.ReCaptcha;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
+using static AIOCommon.GeneralAppConstants;
 
 namespace AIO.Controllers
 {
@@ -11,12 +13,16 @@ namespace AIO.Controllers
     {
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IMemoryCache memoryCache;
 
         public UserController(SignInManager<ApplicationUser> signInManager,
-                              UserManager<ApplicationUser> userManager)
+                              UserManager<ApplicationUser> userManager,
+                              IMemoryCache memoryCache)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
+
+            this.memoryCache = memoryCache;
         }
 
         [HttpGet]
@@ -53,6 +59,9 @@ namespace AIO.Controllers
                 }
 
                 await signInManager.SignInAsync(user, isPersistent: false);
+
+                memoryCache.Remove(UsersCacheKey);  
+
                 return RedirectToAction("Index", "Home");
 
             }
