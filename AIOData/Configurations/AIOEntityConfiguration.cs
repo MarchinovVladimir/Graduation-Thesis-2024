@@ -30,7 +30,7 @@ namespace AIO.Data.Configurations
 
             builder
                 .HasOne(p => p.Buyer)
-                .WithMany(b => b.ProductsBought)
+                .WithMany(b => b.ProductsWatched)
                 .HasForeignKey(p => p.BuyerId)
                 .OnDelete(DeleteBehavior.Restrict);
 

@@ -21,7 +21,7 @@ namespace AIO.Web.ViewModels.Product
 
 		[Required]
 		// But validation here
-		public decimal OpeningBid { get; set; }
+		public decimal Price { get; set; }
 
 		[Required]
 		[Display(Name = "Category")]

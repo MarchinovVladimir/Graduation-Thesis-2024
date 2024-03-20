@@ -5,7 +5,7 @@ using static AIOCommon.EntityValidationConstants.Product;
 
 namespace AIO.Data.Models
 {
-    [Comment("The product that is being auctioned.")]
+    [Comment("The product that is for sell.")]
     public class Product
     {
         [Comment("The product's unique identifier.")]
@@ -27,10 +27,9 @@ namespace AIO.Data.Models
         [MaxLength(ImageUrlMaxLength)]
         public string ImageUrl { get; set; } = null!;
 
-        [Comment("The product's opening bid.")]
+        [Comment("The product's price.")]
         [Required]
         public decimal Price { get; set; }
-
 
         [Comment("The product's start time.")]
         [Required]
@@ -40,6 +39,7 @@ namespace AIO.Data.Models
         [Required]
         public DateTime EndTime { get; set; }
 
+        [Comment("The product's status.")]
         [Required]
         public bool IsActive { get; set; }  
 
@@ -53,14 +53,14 @@ namespace AIO.Data.Models
         public Category Category { get; set; } = null!;
 
 
-        [Comment("The product's agent identifier.")]
+        [Comment("The product's seller identifier.")]
         [Required]
         public Guid AgentId { get; set; }
 
-        [Comment("The product's agent.")]
+        [Comment("The product's seller.")]
         [Required]
         [ForeignKey(nameof(AgentId))]
-        public Agent Agent { get; set; } = null!;
+        public virtual Agent Agent { get; set; } = null!;
 
         [Comment("The product's buyer identifier.")]
         public Guid? BuyerId { get; set; }

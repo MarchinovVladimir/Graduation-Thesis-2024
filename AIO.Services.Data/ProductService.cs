@@ -42,7 +42,7 @@ namespace AIO.Services.Data
 				Title = formModel.Title,
 				Description = formModel.Description,
 				ImageUrl = formModel.ImageUrl,
-				Price = formModel.OpeningBid,
+				Price = formModel.Price,
 				CategoryId = formModel.CategoryId,
 				AgentId = Guid.Parse(agentId),
 			};
@@ -187,7 +187,7 @@ namespace AIO.Services.Data
 				Title = product.Title,
 				Description= product.Description,
 				ImageUrl = product.ImageUrl,
-				OpeningBid = product.Price,
+				Price = product.Price,
 				CategoryId = product.CategoryId,
 			};
 		}
@@ -212,7 +212,7 @@ namespace AIO.Services.Data
 			product.Description = formModel.Description;
 			product.ImageUrl = formModel.ImageUrl;
 			product.CategoryId = formModel.CategoryId;
-			product.Price = formModel.OpeningBid;	
+			product.Price = formModel.Price;	
 
 			await dbContext.SaveChangesAsync();
 		}
