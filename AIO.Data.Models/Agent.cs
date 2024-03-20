@@ -4,27 +4,44 @@ using System.ComponentModel.DataAnnotations.Schema;
 using static AIOCommon.EntityValidationConstants.Agent;
 namespace AIO.Data.Models
 {
+    /// <summary>
+    /// Agent entity. Represents the user who sells products.
+    /// </summary>
     [Comment("Agent entity. Represents the user who sells products.")]
     public class Agent
     {
-        
+        /// <summary>
+        /// Agent's entity property Id unique identifier.
+        /// </summary>
         [Comment("Agent identifier")]
         [Key]
         public Guid Id { get; set; } = Guid.NewGuid();
 
-        [Comment("Agent phone number")]
+		/// <summary>
+		/// Agent's entity property PhoneNumber.
+		/// </summary>
+		[Comment("Agent phone number")]
         [Required]
         [MaxLength(PhoneNumberMaxLength)]
         public string PhoneNumber { get; set; } = null!;
 
-        [Comment("Bidder identifier")]
+        /// <summary>
+        /// Agent's entity property UserId.
+        /// </summary>
+        [Comment("User identifier")]
         public Guid UserId { get; set; }
 
-        [Comment("Bidder user")]
+        /// <summary>
+        /// Navigational property of ApplicationUser
+        /// </summary>
+        [Comment("Navigational property of ApplicationUser")]
         [Required]
         [ForeignKey(nameof(UserId))]
         public virtual ApplicationUser User { get; set; } = null!;
 
+        /// <summary>
+        /// Products collection with same seller
+        /// </summary>
         [Comment("Products collection with same seller")]
         public virtual ICollection<Product> ProductsForSell { get; set; } = new HashSet<Product>();
     }
