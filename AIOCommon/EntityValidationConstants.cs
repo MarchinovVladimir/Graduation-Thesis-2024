@@ -21,7 +21,7 @@
             public const string PriceMinValue = "0.01";
         }
 
-        public static class Seller
+        public static class Agent
         {
             public const int PhoneNumberMinLength = 5;
             public const int PhoneNumberMaxLength = 20;
@@ -73,11 +73,7 @@
             public const int NameMaxLength = 50;
         }   
 
-        public static class Agent
-        {
-			public const int PhoneNumberMinLength = 5;
-			public const int PhoneNumberMaxLength = 20;
-		}
+
 
         public static class  User
         {

@@ -42,7 +42,7 @@ namespace AIO.Services.Data
 				Title = formModel.Title,
 				Description = formModel.Description,
 				ImageUrl = formModel.ImageUrl,
-				OpeningBid = formModel.OpeningBid,
+				Price = formModel.OpeningBid,
 				CategoryId = formModel.CategoryId,
 				AgentId = Guid.Parse(agentId),
 			};
@@ -77,8 +77,8 @@ namespace AIO.Services.Data
 			{
 				ProductSorting.Newest => productsQuery.OrderByDescending(p => p.StartTime),
 				ProductSorting.Oldest => productsQuery.OrderBy(p => p.StartTime),
-				ProductSorting.PriceLowToHigh => productsQuery.OrderBy(p => p.OpeningBid),
-				ProductSorting.PriceHighToLow => productsQuery.OrderByDescending(p => p.OpeningBid),
+				ProductSorting.PriceLowToHigh => productsQuery.OrderBy(p => p.Price),
+				ProductSorting.PriceHighToLow => productsQuery.OrderByDescending(p => p.Price),
 				_ => productsQuery.OrderByDescending(p => p.StartTime),
 			};
 
@@ -91,7 +91,7 @@ namespace AIO.Services.Data
 					Id = p.Id.ToString(),
 					Title = p.Title,
 					ImageUrl = p.ImageUrl,
-					Price = p.OpeningBid,	
+					Price = p.Price,	
 				}).ToArrayAsync();	
 
 			int totalProductsCount = await productsQuery.CountAsync();
@@ -115,7 +115,7 @@ namespace AIO.Services.Data
 					Id = p.Id.ToString(),
 					Title = p.Title,
 					ImageUrl = p.ImageUrl,
-					Price = p.OpeningBid,
+					Price = p.Price,
 				}).ToArrayAsync();
 
 			return allAgentProducts;
@@ -133,7 +133,7 @@ namespace AIO.Services.Data
 					Id = p.Id.ToString(),
 					Title = p.Title,
 					ImageUrl = p.ImageUrl,
-					Price = p.OpeningBid,
+					Price = p.Price,
 				}).ToArrayAsync();
 
 			return allUserProducts;
@@ -158,7 +158,7 @@ namespace AIO.Services.Data
 				Description = product.Description,
 				ImageUrl = product.ImageUrl,
 				Category = product.Category.Name,
-				Price  = product.CurrentBid,
+				Price  = product.Price,
 				Agent = new Web.ViewModels.Agent.AgentInfoOnProductViewModel()
 				{
 					Email = product.Agent.User.Email,
@@ -187,7 +187,7 @@ namespace AIO.Services.Data
 				Title = product.Title,
 				Description= product.Description,
 				ImageUrl = product.ImageUrl,
-				OpeningBid = product.OpeningBid,
+				OpeningBid = product.Price,
 				CategoryId = product.CategoryId,
 			};
 		}
@@ -212,7 +212,7 @@ namespace AIO.Services.Data
 			product.Description = formModel.Description;
 			product.ImageUrl = formModel.ImageUrl;
 			product.CategoryId = formModel.CategoryId;
-			product.OpeningBid = formModel.OpeningBid;	
+			product.Price = formModel.OpeningBid;	
 
 			await dbContext.SaveChangesAsync();
 		}

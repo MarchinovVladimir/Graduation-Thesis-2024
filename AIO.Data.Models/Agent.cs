@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using static AIOCommon.EntityValidationConstants.Seller;
+using static AIOCommon.EntityValidationConstants.Agent;
 namespace AIO.Data.Models
 {
     [Comment("Agent entity. Represents the user who sells products.")]

@@ -29,11 +29,8 @@ namespace AIO.Data.Models
 
         [Comment("The product's opening bid.")]
         [Required]
-        public decimal OpeningBid { get; set; }
+        public decimal Price { get; set; }
 
-        [Comment("The product's current bid.")]
-        [Required]
-        public decimal CurrentBid { get; set; }
 
         [Comment("The product's start time.")]
         [Required]
@@ -55,9 +52,6 @@ namespace AIO.Data.Models
         [ForeignKey(nameof(CategoryId))]
         public Category Category { get; set; } = null!;
 
-     
-        [Required]
-        public bool IsAuctionClosed { get; set; }
 
         [Comment("The product's agent identifier.")]
         [Required]
