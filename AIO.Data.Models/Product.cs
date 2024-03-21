@@ -52,16 +52,16 @@ namespace AIO.Data.Models
         /// <summary>
         /// Product's entity property start time.
         /// </summary>
-        [Comment("The product's start time.")]
+        [Comment("The date when the product listing is created")]
         [Required]
-        public DateTime StartTime { get; set; }
+        public DateTime CreatedOn { get; set; }
 
         /// <summary>
         /// Product's entity property end time.
         /// </summary>
-        [Comment("The product's end time.")]
+        [Comment("The date when the product listing expires")]
         [Required]
-        public DateTime EndTime { get; set; }
+        public DateTime ExpirationDate { get; set; }
 
 		/// <summary>
 		/// Product's entity property IsActive (is deleted).   

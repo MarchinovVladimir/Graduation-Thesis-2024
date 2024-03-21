@@ -9,6 +9,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AIO.Services.Data
 {
+	/// <summary>
+	/// Service for products.
+	/// </summary>
 	public class ProductService : IProductService
 	{
 		private readonly AIODbContext dbContext;
@@ -18,12 +21,16 @@ namespace AIO.Services.Data
 			this.dbContext = dbContext;
 		}
 
+		/// <summary>
+		/// Service for getting the first three expiring products.
+		/// </summary>
+		/// <returns></returns>
 		public async Task<IEnumerable<ProductIndexViewModel>> GetFirstThreeExpiringProducts()
 		{
 			IEnumerable<ProductIndexViewModel> firstThreeExpireProducts = await this.dbContext.Products
 				.AsNoTracking()
 				.Where(p => p.IsActive)
-				.OrderBy(p => p.EndTime)
+				.OrderByDescending(p => p.ExpirationDate)
 				.Take(3)
 				.Select(p => new ProductIndexViewModel
 				{
@@ -35,6 +42,12 @@ namespace AIO.Services.Data
 			return firstThreeExpireProducts;
 		}
 
+		/// <summary>
+		/// Service for creating a product and returning its id.
+		/// </summary>
+		/// <param name="formModel"></param>
+		/// <param name="agentId"></param>
+		/// <returns></returns>
 		public async Task<string> CreateProductAndRerurnIdAsync(ProductFormModel formModel, string agentId)
 		{
 			Product product = new Product
@@ -53,6 +66,11 @@ namespace AIO.Services.Data
 			return product.Id.ToString();
 		}
 
+		/// <summary>
+		/// Service for getting all products filtered and paged.
+		/// </summary>
+		/// <param name="queryModel"></param>
+		/// <returns></returns>
 		public async Task<AllProductsFilteredAndPagedServiceModel> GetAllProductsFilteredAndPagedAsync(AllProductsQueryModel queryModel)
 		{
 			IQueryable<Product> productsQuery = this.dbContext
@@ -75,11 +93,11 @@ namespace AIO.Services.Data
 
 			productsQuery = queryModel.ProductSorting switch
 			{
-				ProductSorting.Newest => productsQuery.OrderByDescending(p => p.StartTime),
-				ProductSorting.Oldest => productsQuery.OrderBy(p => p.StartTime),
+				ProductSorting.Newest => productsQuery.OrderByDescending(p => p.CreatedOn),
+				ProductSorting.Oldest => productsQuery.OrderBy(p => p.CreatedOn),
 				ProductSorting.PriceLowToHigh => productsQuery.OrderBy(p => p.Price),
 				ProductSorting.PriceHighToLow => productsQuery.OrderByDescending(p => p.Price),
-				_ => productsQuery.OrderByDescending(p => p.StartTime),
+				_ => productsQuery.OrderByDescending(p => p.CreatedOn),
 			};
 
 			IEnumerable<ProductAllViewModel> allProducts = await productsQuery
@@ -103,6 +121,11 @@ namespace AIO.Services.Data
 			};
 		}
 
+		/// <summary>
+		/// Service for getting all products by agent id.
+		/// </summary>
+		/// <param name="agentId"></param>
+		/// <returns></returns>
 		public async Task<IEnumerable<ProductAllViewModel>> GetAllProductsByAgentIdAsync(string agentId)
 		{
 			IEnumerable<ProductAllViewModel> allAgentProducts = await this.dbContext
@@ -121,6 +144,11 @@ namespace AIO.Services.Data
 			return allAgentProducts;
 		}
 
+		/// <summary>
+		/// Service for getting all products by user id.
+		/// </summary>
+		/// <param name="userId"></param>
+		/// <returns></returns>
 		public async Task<IEnumerable<ProductAllViewModel>> GetAllProductsByUserIdAsync(string userId)
 		{
 			IEnumerable<ProductAllViewModel> allUserProducts =await  this.dbContext
@@ -139,7 +167,11 @@ namespace AIO.Services.Data
 			return allUserProducts;
 		}
 
-		
+		/// <summary>
+		/// Service for getting product details by product id.
+		/// </summary>
+		/// <param name="productId"></param>
+		/// <returns></returns>
 		public async Task<ProductDetailsViewModel> GetProductDetailsByIdAsync(string productId)
 		{
 			Product product = await dbContext
@@ -169,11 +201,21 @@ namespace AIO.Services.Data
 				
 		}
 
+		/// <summary>
+		/// Service for checking if product exists by product id.
+		/// </summary>
+		/// <param name="productId"></param>
+		/// <returns></returns>
 		public async Task<bool> ExistsByIdAsync(string productId)
 		{
 			return await dbContext.Products.AnyAsync(p => p.Id.ToString() == productId);
 		}
 
+		/// <summary>
+		/// Service for getting product form by product id.
+		/// </summary>
+		/// <param name="productId"></param>
+		/// <returns></returns>
 		public async Task<ProductFormModel> GetProductFormByIdAsync(string productId)
 		{
 			Product product = await dbContext
@@ -192,6 +234,12 @@ namespace AIO.Services.Data
 			};
 		}
 
+		/// <summary>
+		/// Service for checking if seller is owner of product with product id.
+		/// </summary>
+		/// <param name="productId"></param>
+		/// <param name="agentId"></param>
+		/// <returns></returns>
 		public async Task<bool> IsAgentOwnerOfProductWithIdAsync(string productId, string agentId)
 		{
 			Product product = await dbContext.Products
@@ -201,6 +249,12 @@ namespace AIO.Services.Data
 			return product.AgentId.ToString() == agentId;
 		}
 
+		/// <summary>
+		/// Service for editing product by product id and product form model.
+		/// </summary>
+		/// <param name="productId"></param>
+		/// <param name="formModel"></param>
+		/// <returns></returns>
 		public async Task EditProductByIdAndFormModel(string productId, ProductFormModel formModel)
 		{
 			Product product = await dbContext
@@ -217,6 +271,11 @@ namespace AIO.Services.Data
 			await dbContext.SaveChangesAsync();
 		}
 
+		/// <summary>
+		/// Service for getting product for delete by product id.
+		/// </summary>
+		/// <param name="productId"></param>
+		/// <returns></returns>
 		public async Task<ProductPreDeleteDetailsViewModel> GetProductForDeleteByIdAsync(string productId)
 		{
 			Product product = await dbContext
@@ -232,6 +291,11 @@ namespace AIO.Services.Data
 			};
 		}
 
+		/// <summary>
+		/// Service for soft deleting product by product id.
+		/// </summary>
+		/// <param name="productId"></param>
+		/// <returns></returns>
 		public async Task DeleteProductByIdAsync(string productId)
 		{
 			Product productToDelete = await dbContext
@@ -244,6 +308,11 @@ namespace AIO.Services.Data
 			await dbContext.SaveChangesAsync();
 		}
 
+		/// <summary>
+		/// Service for getting seller full name by product id.
+		/// </summary>
+		/// <param name="productId"></param>
+		/// <returns></returns>
 		public async Task<string> GetSellerFullNameByProductIdAsync(string productId)
 		{
 			Product product = await dbContext

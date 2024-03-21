@@ -6,7 +6,7 @@ using static AIOCommon.EntityValidationConstants.User;
 namespace AIO.Data.Models
 {
 	/// <summary>
-	/// The application user entity.
+	/// This is custom udser class that inherits from IdentityUser and adds additional properties.
 	/// </summary>
 	[Comment("The application user entity.")]
 	public class ApplicationUser : IdentityUser<Guid>

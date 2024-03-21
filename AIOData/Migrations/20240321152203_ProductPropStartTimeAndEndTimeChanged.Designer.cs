@@ -4,6 +4,7 @@ using AIO.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AIO.Data.Migrations
 {
     [DbContext(typeof(AIODbContext))]
-    partial class AIODbContextModelSnapshot : ModelSnapshot
+    [Migration("20240321152203_ProductPropStartTimeAndEndTimeChanged")]
+    partial class ProductPropStartTimeAndEndTimeChanged
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -203,9 +205,7 @@ namespace AIO.Data.Migrations
                         .HasComment("The product's description.");
 
                     b.Property<DateTime>("ExpirationDate")
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2")
-                        .HasComputedColumnSql("DATEADD(DAY, 7, CreatedOn)")
                         .HasComment("The date when the product listing expires");
 
                     b.Property<string>("ImageUrl")
@@ -246,13 +246,13 @@ namespace AIO.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("f58e5e18-1cf1-4a43-96bf-3ea484472a48"),
+                            Id = new Guid("6b17e4a6-74c0-4d20-8c06-6548ed1ab9cd"),
                             AgentId = new Guid("db47b449-630e-4857-bc80-34a6c3e8e822"),
                             BuyerId = new Guid("ab6d096a-0ccc-49ae-2db2-08dc32d4f58a"),
                             CategoryId = 1,
-                            CreatedOn = new DateTime(2024, 3, 21, 15, 33, 54, 535, DateTimeKind.Utc).AddTicks(4930),
+                            CreatedOn = new DateTime(2024, 3, 21, 15, 22, 2, 732, DateTimeKind.Utc).AddTicks(931),
                             Description = "A car for sale",
-                            ExpirationDate = new DateTime(2024, 3, 28, 15, 33, 54, 535, DateTimeKind.Utc).AddTicks(4931),
+                            ExpirationDate = new DateTime(2024, 3, 28, 15, 22, 2, 732, DateTimeKind.Utc).AddTicks(933),
                             ImageUrl = "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGNhcnN8ZW58MHx8MHx8fDA%3D",
                             IsActive = false,
                             Price = 10000m,
@@ -260,13 +260,13 @@ namespace AIO.Data.Migrations
                         },
                         new
                         {
-                            Id = new Guid("6f900726-f74e-4be9-bfe2-1a6792f9b834"),
+                            Id = new Guid("8baae914-89d2-4faf-9895-3bcd1d43163a"),
                             AgentId = new Guid("db47b449-630e-4857-bc80-34a6c3e8e822"),
                             BuyerId = new Guid("ab6d096a-0ccc-49ae-2db2-08dc32d4f58a"),
                             CategoryId = 2,
-                            CreatedOn = new DateTime(2024, 3, 21, 15, 33, 54, 535, DateTimeKind.Utc).AddTicks(4942),
+                            CreatedOn = new DateTime(2024, 3, 21, 15, 22, 2, 732, DateTimeKind.Utc).AddTicks(944),
                             Description = "A bike for sale",
-                            ExpirationDate = new DateTime(2024, 3, 28, 15, 33, 54, 535, DateTimeKind.Utc).AddTicks(4942),
+                            ExpirationDate = new DateTime(2024, 3, 28, 15, 22, 2, 732, DateTimeKind.Utc).AddTicks(944),
                             ImageUrl = "https://images.pexels.com/photos/100582/pexels-photo-100582.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
                             IsActive = false,
                             Price = 100m,
@@ -274,12 +274,12 @@ namespace AIO.Data.Migrations
                         },
                         new
                         {
-                            Id = new Guid("355976d8-bf02-4de5-a8d6-e31b3eb416c6"),
+                            Id = new Guid("160b50d9-cec7-4d63-95d0-101b62cfe763"),
                             AgentId = new Guid("db47b449-630e-4857-bc80-34a6c3e8e822"),
                             CategoryId = 3,
-                            CreatedOn = new DateTime(2024, 3, 21, 15, 33, 54, 535, DateTimeKind.Utc).AddTicks(4945),
+                            CreatedOn = new DateTime(2024, 3, 21, 15, 22, 2, 732, DateTimeKind.Utc).AddTicks(948),
                             Description = "A house for sale",
-                            ExpirationDate = new DateTime(2024, 3, 28, 15, 33, 54, 535, DateTimeKind.Utc).AddTicks(4946),
+                            ExpirationDate = new DateTime(2024, 3, 28, 15, 22, 2, 732, DateTimeKind.Utc).AddTicks(948),
                             ImageUrl = "https://www.bhg.com/thmb/H9VV9JNnKl-H1faFXnPlQfNprYw=/1799x0/filters:no_upscale():strip_icc()/white-modern-house-curved-patio-archway-c0a4a3b3-aa51b24d14d0464ea15d36e05aa85ac9.jpg",
                             IsActive = false,
                             Price = 100000m,
