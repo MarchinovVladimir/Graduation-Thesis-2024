@@ -12,7 +12,7 @@ using static AIOCommon.GeneralAppConstants;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
-	public static class WebApplicationBuildersExtentions
+	public static class WebApplicationBuilderExtentions
 	{
 		/// <summary>
 		/// This method registers all services with their interfaces and implementations of given assambly
@@ -44,6 +44,7 @@ namespace Microsoft.Extensions.DependencyInjection
 			}
 			services.AddScoped<IProductService, ProductService>();
 		}
+
 		public static IServiceCollection AddApplicationDbContext(this IServiceCollection services, IConfiguration config)
 		{
 			string connectionString = config.GetConnectionString("DefaultConnection");

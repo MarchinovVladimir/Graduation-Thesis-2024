@@ -9,7 +9,7 @@
 
 @inject IAgentService AgentService
 @{
-	bool isUserAgent = await AgentService.IsAgentExistByUserIdAsync(User.GetId());
+	bool isUserAgent = await AgentService.IsSellerExistByUserIdAsync(User.GetId());
 	string userFullName = await UserService.GetFullNameByEmailAsync(User.Identity?.Name!);
 }
 
@@ -22,7 +22,7 @@
 		@if (!isUserAgent)
 		{
 			<li class="nav-item">
-				<a class="nav-link text-dark" asp-area="" asp-controller="Agent" asp-action="Become">Become Agent</a>
+				<a class="nav-link text-dark" asp-area="" asp-controller="Agent" asp-action="Become">Become Seller</a>
 			</li>
 		}
 		<li class="nav-item">

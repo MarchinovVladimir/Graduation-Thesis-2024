@@ -2,7 +2,7 @@
 @using AIO.Web.Infrastructure.Extentions
 @inject IAgentService AgentService
 @{
-	bool isUserAgent = await AgentService.IsAgentExistByUserIdAsync(User.GetId());
+	bool isUserAgent = await AgentService.IsSellerExistByUserIdAsync(User.GetId());
 }
 
 <ul class="navbar-nav flex-grow-1">

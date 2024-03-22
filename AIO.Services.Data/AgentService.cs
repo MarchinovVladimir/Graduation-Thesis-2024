@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AIO.Services.Data
 {
+	/// <summary>
+	/// Agent service for working with agents.
+	/// </summary>
 	public class AgentService : IAgentService
 	{
 		private readonly AIODbContext dbContext;
@@ -15,7 +18,12 @@ namespace AIO.Services.Data
 			this.dbContext = dbContext;
 		}
 
-		public async Task<bool> IsAgentExistByUserIdAsync(string userId)
+		/// <summary>
+		/// Service method for checking if agent exist by user id.
+		/// </summary>
+		/// <param name="userId"></param>
+		/// <returns></returns>
+		public async Task<bool> IsSellerExistByUserIdAsync(string userId)
 		{
 			bool result = await this.dbContext
 				.Agents
@@ -24,7 +32,12 @@ namespace AIO.Services.Data
 			return result;
 		}
 
-		public async Task<bool> IsAgentExistByPhoneNumberAsync(string phoneNumber)
+		/// <summary>
+		/// Service method for checking if seller exist by phone number.
+		/// </summary>
+		/// <param name="phoneNumber"></param>
+		/// <returns></returns>
+		public async Task<bool> IsSellerExistByPhoneNumberAsync(string phoneNumber)
 		{
 			bool result = await this.dbContext
 				.Agents
@@ -33,7 +46,7 @@ namespace AIO.Services.Data
 			return result;
 		}
 
-		public async Task CreateAsync(string userId, BecomeAgentFormModel model)
+		public async Task CreateAsync(string userId, BecomeSellerFormModel model)
 		{
 			Agent agent = new Agent
 			{

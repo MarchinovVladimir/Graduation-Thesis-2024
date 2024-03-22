@@ -34,7 +34,7 @@ namespace AIO.Services.Tests
 		{
 			string existingAgentUserId = AgentUser!.Id.ToString();
 
-			bool result = await this.agentService.IsAgentExistByUserIdAsync(existingAgentUserId);
+			bool result = await this.agentService.IsSellerExistByUserIdAsync(existingAgentUserId);
 
 			Assert.IsTrue(result);
 
@@ -45,7 +45,7 @@ namespace AIO.Services.Tests
 		{
 			string existingAgentUserId = Agent!.Id.ToString();
 
-			bool result = await this.agentService.IsAgentExistByUserIdAsync(existingAgentUserId);
+			bool result = await this.agentService.IsSellerExistByUserIdAsync(existingAgentUserId);
 
 			Assert.IsFalse(result);
 		}
@@ -55,7 +55,7 @@ namespace AIO.Services.Tests
 		{
 			string existingAgentPhoneNumber = Agent!.PhoneNumber;
 
-			bool result = await this.agentService.IsAgentExistByPhoneNumberAsync(existingAgentPhoneNumber);
+			bool result = await this.agentService.IsSellerExistByPhoneNumberAsync(existingAgentPhoneNumber);
 
 			Assert.IsTrue(result);
 		}
@@ -65,7 +65,7 @@ namespace AIO.Services.Tests
 		{
 			string existingAgentPhoneNumber = "1234567890";
 
-			bool result = await this.agentService.IsAgentExistByPhoneNumberAsync(existingAgentPhoneNumber);
+			bool result = await this.agentService.IsSellerExistByPhoneNumberAsync(existingAgentPhoneNumber);
 
 			Assert.IsFalse(result);
 		}

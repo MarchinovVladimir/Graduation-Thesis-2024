@@ -2,7 +2,7 @@
 @using AIO.Web.Infrastructure.Extentions
 @inject IAgentService AgentService
 @{
-	bool isUserAgent = await AgentService.IsAgentExistByUserIdAsync(User.GetId());
+	bool isUserAgent = await AgentService.IsSellerExistByUserIdAsync(User.GetId());
 	bool isAgentOwnerOfTheProduct = await AgentService.HasProductWithIdAsync(User.GetId(), Model.Id);
 }
 

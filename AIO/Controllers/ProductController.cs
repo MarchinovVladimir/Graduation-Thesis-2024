@@ -42,7 +42,7 @@ namespace AIO.Controllers
 		public async Task<IActionResult> Add()
 		{
 
-			bool isAgent = await agentService.IsAgentExistByUserIdAsync(this.User.GetId());
+			bool isAgent = await agentService.IsSellerExistByUserIdAsync(this.User.GetId());
 
 			if (!isAgent)
 			{
@@ -68,7 +68,7 @@ namespace AIO.Controllers
 		[HttpPost]
         public async Task<IActionResult> Add(ProductFormModel model)
 		{
-			bool isAgent = await agentService.IsAgentExistByUserIdAsync(this.User.GetId());
+			bool isAgent = await agentService.IsSellerExistByUserIdAsync(this.User.GetId());
 
 			if (!isAgent)
 			{
@@ -119,7 +119,7 @@ namespace AIO.Controllers
 			string userId = this.User.GetId();
 
 			bool isUserAgent = await agentService
-				.IsAgentExistByUserIdAsync(userId);
+				.IsSellerExistByUserIdAsync(userId);
 			try
 			{
 				if (isUserAgent)
@@ -182,7 +182,7 @@ namespace AIO.Controllers
 				return RedirectToAction("All", "Product");
 			}
 
-			bool isUserAgent = await agentService.IsAgentExistByUserIdAsync(this.User.GetId());
+			bool isUserAgent = await agentService.IsSellerExistByUserIdAsync(this.User.GetId());
 			if (!isUserAgent && !User.IsAdmin())
 			{
 				this.TempData[ErrorMessage] = "You must become an agent to be able to edit!";
@@ -227,7 +227,7 @@ namespace AIO.Controllers
 				return RedirectToAction("All", "Product");
 			}
 
-			bool isUserAgent = await agentService.IsAgentExistByUserIdAsync(this.User.GetId());
+			bool isUserAgent = await agentService.IsSellerExistByUserIdAsync(this.User.GetId());
 			if (!isUserAgent && !User.IsAdmin())
 			{
 				this.TempData[ErrorMessage] = "You must become an agent to be able to edit!";
@@ -270,7 +270,7 @@ namespace AIO.Controllers
 				return RedirectToAction("All", "Product");
 			}
 
-			bool isUserAgent = await agentService.IsAgentExistByUserIdAsync(this.User.GetId());
+			bool isUserAgent = await agentService.IsSellerExistByUserIdAsync(this.User.GetId());
 			if (!isUserAgent && !User.IsAdmin())
 			{
 				this.TempData[ErrorMessage] = "You must become an agent to be able to edit!";
@@ -308,7 +308,7 @@ namespace AIO.Controllers
 				return RedirectToAction("All", "Product");
 			}
 
-			bool isUserAgent = await agentService.IsAgentExistByUserIdAsync(this.User.GetId());
+			bool isUserAgent = await agentService.IsSellerExistByUserIdAsync(this.User.GetId());
 			if (!isUserAgent && !User.IsAdmin())
 			{
 				this.TempData[ErrorMessage] = "You must become an agent to be able to edit!";

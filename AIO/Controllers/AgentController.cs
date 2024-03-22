@@ -7,6 +7,9 @@ using static AIOCommon.NotificationMessagesConstants;
 
 namespace AIO.Controllers
 {
+	/// <summary>
+	/// Agent controller for working with agents.
+	/// </summary>
 	[Authorize]
 	public class AgentController : Controller
 	{
@@ -17,14 +20,18 @@ namespace AIO.Controllers
 			this.agentService = agentService;
 		}
 
+		/// <summary>
+		/// Get method for becoming a seller.Checks if user is already a seller.
+		/// </summary>
+		/// <returns></returns>
 		[HttpGet]
 		public async Task<IActionResult> Become()
 		{
 			string userId = this.User.GetId();
-			bool isAgentExist = await this.agentService.IsAgentExistByUserIdAsync(userId);
+			bool isAgentExist = await this.agentService.IsSellerExistByUserIdAsync(userId);
 			if (isAgentExist)
 			{
-				TempData[ErrorMessage] = "You are already an Agent";
+				TempData[ErrorMessage] = "You are already a seller";
 
 				return RedirectToAction("Index", "Home");
 			}
@@ -32,18 +39,18 @@ namespace AIO.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Become(BecomeAgentFormModel model)
+		public async Task<IActionResult> Become(BecomeSellerFormModel model)
 		{
 			string userId = this.User.GetId();
-			bool isAgentExist = await this.agentService.IsAgentExistByUserIdAsync(userId);
+			bool isAgentExist = await this.agentService.IsSellerExistByUserIdAsync(userId);
 			if (isAgentExist)
 			{
-				TempData[ErrorMessage] = "You are already an Agent";
+				TempData[ErrorMessage] = "You are already a seller!";
 
 				return RedirectToAction("Index", "Home");
 			}
 
-			bool isPhoneNumberTaken = await this.agentService.IsAgentExistByPhoneNumberAsync(model.PhoneNumber);
+			bool isPhoneNumberTaken = await this.agentService.IsSellerExistByPhoneNumberAsync(model.PhoneNumber);
 
 			if (isPhoneNumberTaken)
 			{
@@ -63,7 +70,7 @@ namespace AIO.Controllers
 			{
 
 				TempData[ErrorMessage] = 
-					"Unexpexted error occured while registrating you as agent! Please try again later or contact administrator";
+					"Unexpexted error occured while registrating you a seller! Please try again later or contact administrator";
 				return RedirectToAction("Index", "Home");
 			}
 

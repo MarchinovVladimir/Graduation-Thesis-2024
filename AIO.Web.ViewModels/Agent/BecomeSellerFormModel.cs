@@ -3,8 +3,14 @@ using static AIOCommon.EntityValidationConstants.Agent;
 
 namespace AIO.Web.ViewModels.Agent
 {
-	public class BecomeAgentFormModel
+	/// <summary>
+	/// View model for becoming a seller.
+	/// </summary>
+	public class BecomeSellerFormModel
 	{
+		/// <summary>
+		/// Phone number property of the BecomeSellerFormModel.
+		/// </summary>
 		[Required]
 		[Phone]
 		[MaxLength(PhoneNumberMaxLength)]

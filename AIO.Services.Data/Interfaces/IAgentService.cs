@@ -4,11 +4,11 @@ namespace AIO.Services.Data.Interfaces
 {
     public interface IAgentService
     {
-        Task<bool> IsAgentExistByUserIdAsync(string userId);
+        Task<bool> IsSellerExistByUserIdAsync(string userId);
 
-        Task<bool> IsAgentExistByPhoneNumberAsync(string phoneNumber);
+        Task<bool> IsSellerExistByPhoneNumberAsync(string phoneNumber);
 
-        Task CreateAsync(string userId, BecomeAgentFormModel model);
+        Task CreateAsync(string userId, BecomeSellerFormModel model);
 
         Task<string> GetAgentIdByUserIdAsync(string userId);
 
