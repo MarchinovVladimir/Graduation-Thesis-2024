@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace AIO.Services.Data
 {
 	/// <summary>
-	/// Agent service for working with agents.
+	/// Seller service for working with sellers.
 	/// </summary>
 	public class AgentService : IAgentService
 	{
@@ -26,7 +26,7 @@ namespace AIO.Services.Data
 		public async Task<bool> IsSellerExistByUserIdAsync(string userId)
 		{
 			bool result = await this.dbContext
-				.Agents
+				.Sellers
 				.AnyAsync(a => a.UserId.ToString() == userId);
 
 			return result;
@@ -40,27 +40,33 @@ namespace AIO.Services.Data
 		public async Task<bool> IsSellerExistByPhoneNumberAsync(string phoneNumber)
 		{
 			bool result = await this.dbContext
-				.Agents
+				.Sellers
 				.AnyAsync(a => a.PhoneNumber == phoneNumber);
 
 			return result;
 		}
 
+		/// <summary>
+		/// Service method for creating a new seller.
+		/// </summary>
+		/// <param name="userId"></param>
+		/// <param name="model"></param>
+		/// <returns></returns>
 		public async Task CreateAsync(string userId, BecomeSellerFormModel model)
 		{
-			Agent agent = new Agent
+			Agent seller = new Agent
 			{
 				PhoneNumber = model.PhoneNumber,
 				UserId = Guid.Parse(userId)
 			};
 
-			await this.dbContext.Agents.AddAsync(agent);
+			await this.dbContext.Sellers.AddAsync(seller);
 			await this.dbContext.SaveChangesAsync();
 		}
 
 		public async Task<string> GetAgentIdByUserIdAsync(string userId)
 		{
-			Agent? agent = await this.dbContext.Agents.FirstOrDefaultAsync(a => a.UserId.ToString() == userId);
+			Agent? agent = await this.dbContext.Sellers.FirstOrDefaultAsync(a => a.UserId.ToString() == userId);
 
 			if (agent == null)
 			{
@@ -73,7 +79,7 @@ namespace AIO.Services.Data
 		public async Task<bool> HasProductWithIdAsync(string userId, string productId)
 		{
 			Agent? agent = await this.dbContext
-				.Agents
+				.Sellers
 				.Include(a => a.ProductsForSell)
 				.FirstOrDefaultAsync(a => a.UserId.ToString() == userId);
 

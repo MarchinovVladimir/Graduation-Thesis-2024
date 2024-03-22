@@ -31,9 +31,9 @@ namespace AIO.Data
         public DbSet<Category> Categories { get; set; } = null!;
 
         /// <summary>
-        /// DbSet<Agent> Agents table in the database.
+        /// DbSet<Agent> Sellers table in the database.
         /// </summary>
-        public DbSet<Agent> Agents { get; set;} = null!;
+        public DbSet<Agent> Sellers { get; set;} = null!;
 
         override protected void OnModelCreating(ModelBuilder modelBuilder)
         {

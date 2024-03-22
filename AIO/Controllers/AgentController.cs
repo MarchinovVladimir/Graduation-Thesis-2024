@@ -8,7 +8,7 @@ using static AIOCommon.NotificationMessagesConstants;
 namespace AIO.Controllers
 {
 	/// <summary>
-	/// Agent controller for working with agents.
+	/// Seller controller for working with sellers.
 	/// </summary>
 	[Authorize]
 	public class AgentController : Controller

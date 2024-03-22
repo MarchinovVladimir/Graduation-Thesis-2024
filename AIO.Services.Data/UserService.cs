@@ -54,7 +54,7 @@ namespace AIO.Services.Data
 
 			foreach (var user in allUsers)
 			{
-				Agent? agent = await this.dbContext.Agents
+				Agent? agent = await this.dbContext.Sellers
 					.FirstOrDefaultAsync(a => a.UserId.ToString() == user.Id);
 
 				if (agent != null)

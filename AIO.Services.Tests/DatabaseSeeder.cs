@@ -59,7 +59,7 @@ namespace AIO.Services.Tests
 
 			dbContext.Users.Add(AgentUser);
 			dbContext.Users.Add(User);
-			dbContext.Agents.Add(Agent);
+			dbContext.Sellers.Add(Agent);
 
 			dbContext.SaveChanges();
 		}
