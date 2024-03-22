@@ -8,22 +8,22 @@ namespace AIO.Areas.Admin.Controllers
 {
 	public class ProductController : BaseAdminController
 	{
-		private readonly IAgentService agentService;
+		private readonly ISellerService sellerService;
 		private readonly IProductService productService;
 
-		public ProductController(IAgentService agentService, IProductService productService)
+		public ProductController(ISellerService sellerService, IProductService productService)
 		{
-			this.agentService = agentService;
+			this.sellerService = sellerService;
 			this.productService = productService;
 		}
 
 		public async Task<IActionResult> Mine()
 		{
-			string agentId = await this.agentService.GetAgentIdByUserIdAsync(User.GetId());
+			string sellerId = await this.sellerService.GetSellerIdByUserIdAsync(User.GetId());
 
 			MyProductsViewModel viewModel = new MyProductsViewModel()
 			{
-				AddedProducts = await productService.GetAllProductsByAgentIdAsync(agentId)
+				AddedProducts = await productService.GetAllProductsBySellerIdAsync(sellerId)
 			};
 
 			return View(viewModel);

@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AIO.Web.ViewModels.Agent
+namespace AIO.Web.ViewModels.Seller
 {
-	public class AgentInfoOnProductViewModel
+	public class SellerInfoOnProductViewModel
 	{
 		public string FullName { get; set; } = null!;
 

@@ -1,7 +1,7 @@
 ﻿using AIO.Data;
 using AIO.Data.Models;
 using AIO.Services.Data.Interfaces;
-using AIO.Web.ViewModels.Agent;
+using AIO.Web.ViewModels.Seller;
 using Microsoft.EntityFrameworkCore;
 
 namespace AIO.Services.Data
@@ -9,17 +9,17 @@ namespace AIO.Services.Data
 	/// <summary>
 	/// Seller service for working with sellers.
 	/// </summary>
-	public class AgentService : IAgentService
+	public class SellerService : ISellerService
 	{
 		private readonly AIODbContext dbContext;
 
-		public AgentService(AIODbContext dbContext)
+		public SellerService(AIODbContext dbContext)
 		{
 			this.dbContext = dbContext;
 		}
 
 		/// <summary>
-		/// Service method for checking if agent exist by user id.
+		/// Service method for checking if seller exist by user id.
 		/// </summary>
 		/// <param name="userId"></param>
 		/// <returns></returns>
@@ -54,7 +54,7 @@ namespace AIO.Services.Data
 		/// <returns></returns>
 		public async Task CreateAsync(string userId, BecomeSellerFormModel model)
 		{
-			Agent seller = new Agent
+			Seller seller = new Seller
 			{
 				PhoneNumber = model.PhoneNumber,
 				UserId = Guid.Parse(userId)
@@ -64,32 +64,32 @@ namespace AIO.Services.Data
 			await this.dbContext.SaveChangesAsync();
 		}
 
-		public async Task<string> GetAgentIdByUserIdAsync(string userId)
+		public async Task<string> GetSellerIdByUserIdAsync(string userId)
 		{
-			Agent? agent = await this.dbContext.Sellers.FirstOrDefaultAsync(a => a.UserId.ToString() == userId);
+			Seller? seller = await this.dbContext.Sellers.FirstOrDefaultAsync(a => a.UserId.ToString() == userId);
 
-			if (agent == null)
+			if (seller == null)
 			{
 				return null;
 			}
 
-			return agent.Id.ToString();
+			return seller.Id.ToString();
 		}
 
 		public async Task<bool> HasProductWithIdAsync(string userId, string productId)
 		{
-			Agent? agent = await this.dbContext
+			Seller? seller = await this.dbContext
 				.Sellers
 				.Include(a => a.ProductsForSell)
 				.FirstOrDefaultAsync(a => a.UserId.ToString() == userId);
 
-			if (agent == null)
+			if (seller == null)
 			{
 				return false;
 			}
 
 			productId = productId.ToLower();
-			return agent.ProductsForSell.Any(p => p.Id.ToString() == productId);
+			return seller.ProductsForSell.Any(p => p.Id.ToString() == productId);
 		}
 	}
 }

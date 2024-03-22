@@ -8,7 +8,7 @@ namespace AIO.Services.Tests
 	{
 		public static ApplicationUser? AgentUser;
 		public static ApplicationUser? User;
-		public static Agent? Agent;
+		public static Seller? Seller;
 
 		public static void SeedDatabase(AIODbContext dbContext)
 		{
@@ -41,7 +41,7 @@ namespace AIO.Services.Tests
 				FirstName = "Gosho",
 				LastName = "Goshov"
 			};
-			Agent = new Agent()
+			Seller = new Seller()
 			{
 				PhoneNumber = "+359888888888",
 				User = AgentUser,
@@ -59,7 +59,7 @@ namespace AIO.Services.Tests
 
 			dbContext.Users.Add(AgentUser);
 			dbContext.Users.Add(User);
-			dbContext.Sellers.Add(Agent);
+			dbContext.Sellers.Add(Seller);
 
 			dbContext.SaveChanges();
 		}

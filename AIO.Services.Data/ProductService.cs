@@ -5,6 +5,7 @@ using AIO.Services.Data.Models.Product;
 using AIO.Views.Product.Enums;
 using AIO.Web.ViewModels.Home;
 using AIO.Web.ViewModels.Product;
+using AIO.Web.ViewModels.Seller;
 using Microsoft.EntityFrameworkCore;
 
 namespace AIO.Services.Data
@@ -57,7 +58,7 @@ namespace AIO.Services.Data
 				ImageUrl = formModel.ImageUrl,
 				Price = formModel.Price,
 				CategoryId = formModel.CategoryId,
-				AgentId = Guid.Parse(agentId),
+				SellerId = Guid.Parse(agentId),
 			};
 
 			await this.dbContext.Products.AddAsync(product);
@@ -122,17 +123,17 @@ namespace AIO.Services.Data
 		}
 
 		/// <summary>
-		/// Service for getting all products by agent id.
+		/// Service for getting all products by seller id.
 		/// </summary>
-		/// <param name="agentId"></param>
+		/// <param name="sellerId"></param>
 		/// <returns></returns>
-		public async Task<IEnumerable<ProductAllViewModel>> GetAllProductsByAgentIdAsync(string agentId)
+		public async Task<IEnumerable<ProductAllViewModel>> GetAllProductsBySellerIdAsync(string sellerId)
 		{
-			IEnumerable<ProductAllViewModel> allAgentProducts = await this.dbContext
+			IEnumerable<ProductAllViewModel> allSellerProducts = await this.dbContext
 				.Products
 				.AsNoTracking()
 				.Where(p => p.IsActive && 
-							p.AgentId.ToString() == agentId)
+							p.SellerId.ToString() == sellerId)
 				.Select(p => new ProductAllViewModel
 				{
 					Id = p.Id.ToString(),
@@ -141,7 +142,7 @@ namespace AIO.Services.Data
 					Price = p.Price,
 				}).ToArrayAsync();
 
-			return allAgentProducts;
+			return allSellerProducts;
 		}
 
 		/// <summary>
@@ -177,7 +178,7 @@ namespace AIO.Services.Data
 			Product product = await dbContext
 				.Products
 				.Include(p => p.Category)
-				.Include(p => p.Agent)
+				.Include(p => p.Seller)
 				.ThenInclude(a => a.User)
 				.AsNoTracking()
 				.Where(p => p.IsActive)
@@ -191,10 +192,10 @@ namespace AIO.Services.Data
 				ImageUrl = product.ImageUrl,
 				Category = product.Category.Name,
 				Price  = product.Price,
-				Agent = new Web.ViewModels.Agent.AgentInfoOnProductViewModel()
+				Seller = new Web.ViewModels.Seller.SellerInfoOnProductViewModel()
 				{
-					Email = product.Agent.User.Email,
-					PhoneNumber = product.Agent.PhoneNumber
+					Email = product.Seller.User.Email,
+					PhoneNumber = product.Seller.PhoneNumber
 				}
 				
 			};
@@ -238,15 +239,15 @@ namespace AIO.Services.Data
 		/// Service for checking if seller is owner of product with product id.
 		/// </summary>
 		/// <param name="productId"></param>
-		/// <param name="agentId"></param>
+		/// <param name="sellerId"></param>
 		/// <returns></returns>
-		public async Task<bool> IsAgentOwnerOfProductWithIdAsync(string productId, string agentId)
+		public async Task<bool> IsSellerOwnerOfProductWithIdAsync(string productId, string sellerId)
 		{
 			Product product = await dbContext.Products
 				.Where(p => p.IsActive)
 				.FirstAsync(p => p.Id.ToString() == productId);
 
-			return product.AgentId.ToString() == agentId;
+			return product.SellerId.ToString() == sellerId;
 		}
 
 		/// <summary>
@@ -317,12 +318,12 @@ namespace AIO.Services.Data
 		{
 			Product product = await dbContext
 				.Products
-				.Include(p => p.Agent)
+				.Include(p => p.Seller)
 				.ThenInclude(a => a.User)
 				.Where(p => p.IsActive)
 				.FirstAsync(p => p.Id.ToString() == productId);
 
-			return $"{product.Agent.User.FirstName} {product.Agent.User.LastName}";
+			return $"{product.Seller.User.FirstName} {product.Seller.User.LastName}";
 		}
 	}
 }

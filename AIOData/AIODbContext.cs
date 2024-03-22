@@ -33,7 +33,7 @@ namespace AIO.Data
         /// <summary>
         /// DbSet<Agent> Sellers table in the database.
         /// </summary>
-        public DbSet<Agent> Sellers { get; set;} = null!;
+        public DbSet<Seller> Sellers { get; set;} = null!;
 
         override protected void OnModelCreating(ModelBuilder modelBuilder)
         {

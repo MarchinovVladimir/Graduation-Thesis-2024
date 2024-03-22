@@ -1,14 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using static AIOCommon.EntityValidationConstants.Agent;
+using static AIOCommon.EntityValidationConstants.Seller;
 namespace AIO.Data.Models
 {
     /// <summary>
     /// Agent entity. Represents the user who sells products.
     /// </summary>
     [Comment("Agent entity. Represents the user who sells products.")]
-    public class Agent
+    public class Seller
     {
         /// <summary>
         /// Agent's entity property Id unique identifier.

@@ -1,8 +1,8 @@
-﻿using AIO.Web.ViewModels.Agent;
+﻿using AIO.Web.ViewModels.Seller;
 
 namespace AIO.Services.Data.Interfaces
 {
-    public interface IAgentService
+    public interface ISellerService
     {
         Task<bool> IsSellerExistByUserIdAsync(string userId);
 
@@ -10,7 +10,7 @@ namespace AIO.Services.Data.Interfaces
 
         Task CreateAsync(string userId, BecomeSellerFormModel model);
 
-        Task<string> GetAgentIdByUserIdAsync(string userId);
+        Task<string> GetSellerIdByUserIdAsync(string userId);
 
         Task<bool> HasProductWithIdAsync(string userId, string productId);
     }

@@ -1,6 +1,6 @@
 ﻿using AIO.Services.Data.Interfaces;
 using AIO.Web.Infrastructure.Extentions;
-using AIO.Web.ViewModels.Agent;
+using AIO.Web.ViewModels.Seller;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static AIOCommon.NotificationMessagesConstants;
@@ -11,13 +11,13 @@ namespace AIO.Controllers
 	/// Seller controller for working with sellers.
 	/// </summary>
 	[Authorize]
-	public class AgentController : Controller
+	public class SellerController : Controller
 	{
-		private readonly IAgentService agentService;
+		private readonly ISellerService sellerService;
 
-		public AgentController(IAgentService agentService)
+		public SellerController(ISellerService sellerService)
 		{
-			this.agentService = agentService;
+			this.sellerService = sellerService;
 		}
 
 		/// <summary>
@@ -28,8 +28,8 @@ namespace AIO.Controllers
 		public async Task<IActionResult> Become()
 		{
 			string userId = this.User.GetId();
-			bool isAgentExist = await this.agentService.IsSellerExistByUserIdAsync(userId);
-			if (isAgentExist)
+			bool isSellerExist = await this.sellerService.IsSellerExistByUserIdAsync(userId);
+			if (isSellerExist)
 			{
 				TempData[ErrorMessage] = "You are already a seller";
 
@@ -42,15 +42,15 @@ namespace AIO.Controllers
 		public async Task<IActionResult> Become(BecomeSellerFormModel model)
 		{
 			string userId = this.User.GetId();
-			bool isAgentExist = await this.agentService.IsSellerExistByUserIdAsync(userId);
-			if (isAgentExist)
+			bool isSellerExist = await this.sellerService.IsSellerExistByUserIdAsync(userId);
+			if (isSellerExist)
 			{
 				TempData[ErrorMessage] = "You are already a seller!";
 
 				return RedirectToAction("Index", "Home");
 			}
 
-			bool isPhoneNumberTaken = await this.agentService.IsSellerExistByPhoneNumberAsync(model.PhoneNumber);
+			bool isPhoneNumberTaken = await this.sellerService.IsSellerExistByPhoneNumberAsync(model.PhoneNumber);
 
 			if (isPhoneNumberTaken)
 			{
@@ -64,7 +64,8 @@ namespace AIO.Controllers
 
 			try
 			{
-				await this.agentService.CreateAsync(userId, model);
+				await sellerService.CreateAsync(userId, model);
+				
 			}
 			catch (Exception)
 			{

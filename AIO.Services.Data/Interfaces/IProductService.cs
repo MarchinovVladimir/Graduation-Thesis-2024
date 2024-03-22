@@ -12,7 +12,7 @@ namespace AIO.Services.Data.Interfaces
 
 		Task<AllProductsFilteredAndPagedServiceModel> GetAllProductsFilteredAndPagedAsync(AllProductsQueryModel queryModel);
 
-		Task<IEnumerable<ProductAllViewModel>> GetAllProductsByAgentIdAsync(string agentId);
+		Task<IEnumerable<ProductAllViewModel>> GetAllProductsBySellerIdAsync(string agentId);
 
 		Task<IEnumerable<ProductAllViewModel>> GetAllProductsByUserIdAsync(string userId);
 
@@ -22,7 +22,7 @@ namespace AIO.Services.Data.Interfaces
 
 		Task<ProductFormModel> GetProductFormByIdAsync(string productId);
 
-		Task<bool> IsAgentOwnerOfProductWithIdAsync(string productId, string agentId);
+		Task<bool> IsSellerOwnerOfProductWithIdAsync(string productId, string agentId);
 
 		Task EditProductByIdAndFormModel(string productId, ProductFormModel formModel);
 

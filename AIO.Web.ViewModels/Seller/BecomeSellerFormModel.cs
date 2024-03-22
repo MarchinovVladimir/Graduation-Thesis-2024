@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using static AIOCommon.EntityValidationConstants.Agent;
+using static AIOCommon.EntityValidationConstants.Seller;
 
-namespace AIO.Web.ViewModels.Agent
+namespace AIO.Web.ViewModels.Seller
 {
 	/// <summary>
 	/// View model for becoming a seller.

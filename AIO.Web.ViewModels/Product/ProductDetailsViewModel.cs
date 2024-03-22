@@ -1,4 +1,4 @@
-﻿using AIO.Web.ViewModels.Agent;
+﻿using AIO.Web.ViewModels.Seller;
 using System.ComponentModel.DataAnnotations;
 
 namespace AIO.Web.ViewModels.Product
@@ -12,6 +12,6 @@ namespace AIO.Web.ViewModels.Product
 		public string Category { get; set; } = null!;
 
 		[Required]
-		public AgentInfoOnProductViewModel Agent { get; set; } = null!;
+		public SellerInfoOnProductViewModel Seller { get; set; } = null!;
 	}
 }

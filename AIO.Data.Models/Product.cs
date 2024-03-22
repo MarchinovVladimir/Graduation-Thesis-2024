@@ -90,15 +90,15 @@ namespace AIO.Data.Models
         /// </summary>
         [Comment("The product's seller identifier.")]
         [Required]
-        public Guid AgentId { get; set; }
+        public Guid SellerId { get; set; }
 
         /// <summary>
         /// Product's entity property Agent. Navigation property.
         /// </summary>
         [Comment("The product's seller.")]
         [Required]
-        [ForeignKey(nameof(AgentId))]
-        public virtual Agent Agent { get; set; } = null!;
+        [ForeignKey(nameof(SellerId))]
+        public virtual Seller Seller { get; set; } = null!;
 
         /// <summary>
         /// Product's entity property BuyerId identifier.

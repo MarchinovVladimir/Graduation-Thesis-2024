@@ -1,9 +1,9 @@
 ﻿@using AIO.Services.Data.Interfaces
 @using AIO.Web.Infrastructure.Extentions
-@inject IAgentService AgentService
+@inject ISellerService SellerService
 @{
-	bool isUserAgent = await AgentService.IsSellerExistByUserIdAsync(User.GetId());
-	bool isAgentOwnerOfTheProduct = await AgentService.HasProductWithIdAsync(User.GetId(), Model.Id);
+	bool isUserSeller = await SellerService.IsSellerExistByUserIdAsync(User.GetId());
+	bool isSellerOwnerOfTheProduct = await SellerService.HasProductWithIdAsync(User.GetId(), Model.Id);
 }
 
 @model ProductDetailsViewModel
@@ -30,7 +30,7 @@
 			<div class="form-inline">
 				@if (this.User?.Identity?.IsAuthenticated ?? false)
 				{
-					@if ((isUserAgent && isAgentOwnerOfTheProduct) || User.IsAdmin())
+					@if ((isUserSeller && isSellerOwnerOfTheProduct) || User.IsAdmin())
 					{
 						<a class="btn btn-warning" asp-controller="Product" asp-action="Edit"
 						   asp-route-id="@Model.Id">Edit</a>
@@ -59,10 +59,10 @@
 			<p></p>
 			<div class="card" style="width: 18rem;">
 				<div class="card-body">
-					<h5 class="card-title">Agent Info</h5>
-					<p class="card-text">Full Name: @Model.Agent.FullName</p>
-					<p class="card-text">Email: @Model.Agent.Email</p>
-					<p class="card-text">Phone Number: @Model.Agent.PhoneNumber</p>
+					<h5 class="card-title">Seller Info</h5>
+					<p class="card-text">Full Name: @Model.Seller.FullName</p>
+					<p class="card-text">Email: @Model.Seller.Email</p>
+					<p class="card-text">Phone Number: @Model.Seller.PhoneNumber</p>
 				</div>
 			</div>
 		</div>

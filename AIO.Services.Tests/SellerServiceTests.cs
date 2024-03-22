@@ -7,12 +7,12 @@ using static AIO.Services.Tests.DatabaseSeeder;
 
 namespace AIO.Services.Tests
 {
-	public class AgentServiceTests
+	public class SellerServiceTests
 	{
 		private DbContextOptions<AIODbContext> dbOptions;
 		private AIODbContext dbContext;
 
-		private IAgentService agentService;
+		private ISellerService sellerService;
 
 
 		[OneTimeSetUp]
@@ -26,46 +26,46 @@ namespace AIO.Services.Tests
 			dbContext.Database.EnsureCreated();
 			SeedDatabase(dbContext);
 
-			agentService = new AgentService(dbContext);
+			sellerService = new SellerService(dbContext);
 		}	
 
 		[Test]
-		public async Task IsAgentExistByUserIdAsyncShouldRetrunTrueWhenExists()
+		public async Task IsellerExistByUserIdAsyncShouldRetrunTrueWhenExists()
 		{
-			string existingAgentUserId = AgentUser!.Id.ToString();
+			string existingSellerUserId = AgentUser!.Id.ToString();
 
-			bool result = await this.agentService.IsSellerExistByUserIdAsync(existingAgentUserId);
+			bool result = await this.sellerService.IsSellerExistByUserIdAsync(existingSellerUserId);
 
 			Assert.IsTrue(result);
 
 		}
 
 		[Test]
-		public async Task AgentExistsByUserIdAsyncShouldReturnFalseWhenNotExists()
+		public async Task SellerExistsByUserIdAsyncShouldReturnFalseWhenNotExists()
 		{
-			string existingAgentUserId = Agent!.Id.ToString();
+			string existingSellerUserId = Seller!.Id.ToString();
 
-			bool result = await this.agentService.IsSellerExistByUserIdAsync(existingAgentUserId);
+			bool result = await this.sellerService.IsSellerExistByUserIdAsync(existingSellerUserId);
 
 			Assert.IsFalse(result);
 		}
 
 		[Test]
-		public async Task IsAgentExistByPhoneNumberAsyncShouldRetrunTrueWhenExists()
+		public async Task IsSellerExistByPhoneNumberAsyncShouldRetrunTrueWhenExists()
 		{
-			string existingAgentPhoneNumber = Agent!.PhoneNumber;
+			string existingSellerPhoneNumber = Seller!.PhoneNumber;
 
-			bool result = await this.agentService.IsSellerExistByPhoneNumberAsync(existingAgentPhoneNumber);
+			bool result = await this.sellerService.IsSellerExistByPhoneNumberAsync(existingSellerPhoneNumber);
 
 			Assert.IsTrue(result);
 		}
 
 		[Test]
-		public async Task IsAgentExistByPhoneNumberAsyncShouldReturnFalseWhenNotExists()
+		public async Task IsSellerExistByPhoneNumberAsyncShouldReturnFalseWhenNotExists()
 		{
 			string existingAgentPhoneNumber = "1234567890";
 
-			bool result = await this.agentService.IsSellerExistByPhoneNumberAsync(existingAgentPhoneNumber);
+			bool result = await this.sellerService.IsSellerExistByPhoneNumberAsync(existingAgentPhoneNumber);
 
 			Assert.IsFalse(result);
 		}

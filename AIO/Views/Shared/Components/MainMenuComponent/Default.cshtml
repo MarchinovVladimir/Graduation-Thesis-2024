@@ -1,8 +1,8 @@
 ﻿@using AIO.Services.Data.Interfaces
 @using AIO.Web.Infrastructure.Extentions
-@inject IAgentService AgentService
+@inject ISellerService SellerService
 @{
-	bool isUserAgent = await AgentService.IsSellerExistByUserIdAsync(User.GetId());
+	bool isUserSeller = await SellerService.IsSellerExistByUserIdAsync(User.GetId());
 }
 
 <ul class="navbar-nav flex-grow-1">
@@ -11,7 +11,7 @@
 	</li>
 	@if (User?.Identity?.IsAuthenticated ?? false)
 	{
-		@if (isUserAgent)
+		@if (isUserSeller)
 		{
 			<li class="nav-item">
 				<a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Mine">My Products</a>
