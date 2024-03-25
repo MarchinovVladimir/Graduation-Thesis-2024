@@ -5,7 +5,6 @@ using AIO.Services.Data.Models.Product;
 using AIO.Views.Product.Enums;
 using AIO.Web.ViewModels.Home;
 using AIO.Web.ViewModels.Product;
-using AIO.Web.ViewModels.Seller;
 using Microsoft.EntityFrameworkCore;
 
 namespace AIO.Services.Data
@@ -47,9 +46,9 @@ namespace AIO.Services.Data
 		/// Service method for creating a product and returning its id.
 		/// </summary>
 		/// <param name="formModel"></param>
-		/// <param name="agentId"></param>
+		/// <param name="sellerId"></param>
 		/// <returns></returns>
-		public async Task<string> CreateProductAndRerurnIdAsync(ProductFormModel formModel, string agentId)
+		public async Task<string> CreateProductAndRerurnIdAsync(ProductFormModel formModel, string sellerId)
 		{
 			Product product = new Product
 			{
@@ -58,7 +57,7 @@ namespace AIO.Services.Data
 				ImageUrl = formModel.ImageUrl,
 				Price = formModel.Price,
 				CategoryId = formModel.CategoryId,
-				SellerId = Guid.Parse(agentId),
+				SellerId = Guid.Parse(sellerId),
 			};
 
 			await this.dbContext.Products.AddAsync(product);

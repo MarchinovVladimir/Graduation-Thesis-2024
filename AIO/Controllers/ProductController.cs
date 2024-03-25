@@ -112,8 +112,8 @@ namespace AIO.Controllers
 			catch (Exception)
 			{
 				ModelState.AddModelError(string.Empty, UnsuccesfulProductAddErrorMessage);
-
 				model.Categories = await productCategoryService.GetAllProductCategoriesAsync();
+
 				return View(model);
 			}
 		}

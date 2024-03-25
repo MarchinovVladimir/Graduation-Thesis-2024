@@ -64,6 +64,11 @@ namespace AIO.Services.Data
 			await this.dbContext.SaveChangesAsync();
 		}
 
+		/// <summary>
+		/// Service method for getting seller id by user id.
+		/// </summary>
+		/// <param name="userId"></param>
+		/// <returns></returns>
 		public async Task<string> GetSellerIdByUserIdAsync(string userId)
 		{
 			Seller? seller = await this.dbContext.Sellers.FirstOrDefaultAsync(a => a.UserId.ToString() == userId);
@@ -76,6 +81,12 @@ namespace AIO.Services.Data
 			return seller.Id.ToString();
 		}
 
+		/// <summary>
+		/// Service method for checking if seller has product with product id.
+		/// </summary>
+		/// <param name="userId"></param>
+		/// <param name="productId"></param>
+		/// <returns></returns>
 		public async Task<bool> HasProductWithIdAsync(string userId, string productId)
 		{
 			Seller? seller = await this.dbContext

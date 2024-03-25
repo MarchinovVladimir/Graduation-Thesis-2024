@@ -19,9 +19,9 @@ namespace AIO.Services.Data.Interfaces
 		/// Method that creates a product and returns its id.
 		/// </summary>
 		/// <param name="formModel"></param>
-		/// <param name="agentId"></param>
+		/// <param name="sellerId"></param>
 		/// <returns></returns>
-		Task<string> CreateProductAndRerurnIdAsync(ProductFormModel formModel, string agentId);
+		Task<string> CreateProductAndRerurnIdAsync(ProductFormModel formModel, string sellerId);
 
 		/// <summary>
 		/// Method that returns all products filtered and paged.
@@ -33,9 +33,9 @@ namespace AIO.Services.Data.Interfaces
 		/// <summary>
 		/// Method that returns all products by seller id.
 		/// </summary>
-		/// <param name="agentId"></param>
+		/// <param name="sellerId"></param>
 		/// <returns></returns>
-		Task<IEnumerable<ProductAllViewModel>> GetAllProductsBySellerIdAsync(string agentId);
+		Task<IEnumerable<ProductAllViewModel>> GetAllProductsBySellerIdAsync(string sellerId);
 
 		/// <summary>
 		/// Method that returns all products by user id.
@@ -69,9 +69,9 @@ namespace AIO.Services.Data.Interfaces
 		/// Method that checks if a seller is the owner of a product by its id.
 		/// </summary>
 		/// <param name="productId"></param>
-		/// <param name="agentId"></param>
+		/// <param name="sellerId"></param>
 		/// <returns></returns>
-		Task<bool> IsSellerOwnerOfProductWithIdAsync(string productId, string agentId);
+		Task<bool> IsSellerOwnerOfProductWithIdAsync(string productId, string sellerId);
 
 		/// <summary>
 		/// Method that edits a product by its id and form model.
