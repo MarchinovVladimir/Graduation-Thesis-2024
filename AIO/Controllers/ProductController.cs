@@ -6,9 +6,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static AIOCommon.NotificationMessagesConstants;
 using static AIOCommon.GeneralAppConstants;
+using static AIOCommon.ErrorMessageConstants.Product;
 
 namespace AIO.Controllers
 {
+	/// <summary>
+	/// Product controller.
+	/// </summary>
 	[Authorize]
 	public class ProductController : Controller
 	{
@@ -25,6 +29,11 @@ namespace AIO.Controllers
 			this.userService = userService;
 		}
 
+		/// <summary>
+		/// All action method. Returns all products.
+		/// </summary>
+		/// <param name="queryModel"></param>
+		/// <returns></returns>
 		[HttpGet]
 		[AllowAnonymous]
 		public async Task<IActionResult> All([FromQuery] AllProductsQueryModel queryModel)
@@ -38,6 +47,10 @@ namespace AIO.Controllers
 			return this.View(queryModel);
 		}
 
+		/// <summary>
+		/// Add action method. Returns view for adding a product.
+		/// </summary>
+		/// <returns></returns>
 		[HttpGet]
 		public async Task<IActionResult> Add()
 		{
@@ -46,7 +59,7 @@ namespace AIO.Controllers
 
 			if (!isSeller)
 			{
-				TempData[ErrorMessage] = "You must become an agent to add products.";
+				TempData[ErrorMessage] = BecomeSellerErrorMessage;
 
 				return RedirectToAction("Become", "Seller");
 			}

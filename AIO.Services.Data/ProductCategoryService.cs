@@ -5,6 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AIO.Services.Data
 {
+	/// <summary>
+	/// Product category service.
+	/// </summary>
 	public class ProductCategoryService : IProductCategoryService
 	{
 		private readonly AIODbContext context;
@@ -14,6 +17,10 @@ namespace AIO.Services.Data
 			this.context = context;
 		}
 
+		/// <summary>
+		/// Service method that returns all product categories.
+		/// </summary>
+		/// <returns></returns>
 		public async Task<ICollection<ProductCategoryViewModel>> GetAllProductCategoriesAsync()
 		{
 			ICollection<ProductCategoryViewModel> productCategories = await this.context.Categories

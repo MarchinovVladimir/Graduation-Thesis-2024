@@ -16,9 +16,11 @@
             public const int DescriptionMinLength = 10;
             public const int DescriptionMaxLength = 500;
 
+            public const int ImageUrlMinLength = 0;
             public const int ImageUrlMaxLength = 2048;
 
-            public const string PriceMinValue = "0.01";
+            public const string PriceMinValue = "0";
+            public const string PriceMaxValue = "1000000000000";
         }
 
         public static class Seller
