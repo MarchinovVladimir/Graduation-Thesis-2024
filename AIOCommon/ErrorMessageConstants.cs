@@ -17,6 +17,8 @@ namespace AIOCommon
             public const string URLInvalidErrorMessage = "Invalid URL.";
             public const string PriceRangeErrorMessage = "{0} must be between {2} and {1}";
             public const string GeneralErrorMessage = "Unexpected error occured. Please try again later or contact administrator!";
+            public const string CategoryNotExistsErrorMessage = "Selected category does not exist";
+            public const string UnsuccesfulProductAddErrorMessage = "An error occurred while adding the product. Please try again later or contact administrator!";
 		}
     }
 }
