@@ -54,15 +54,11 @@ namespace AIO.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Add()
 		{
+			if (await CheckIfTheUserIsNotSeller())
 
-			bool isSeller = await sellerService.IsSellerExistByUserIdAsync(this.User.GetId());
-
-			if (!isSeller)
 			{
-				TempData[ErrorMessage] = BecomeSellerErrorMessage;
-
 				return RedirectToAction("Become", "Seller");
-			}
+			}		
 
 			try
 			{
@@ -74,19 +70,16 @@ namespace AIO.Controllers
 			}
 			catch (Exception)
 			{
-                return GeneralError();
-            }
-        }
+				return GeneralError();
+			}
+		}
 
 		[HttpPost]
-        public async Task<IActionResult> Add(ProductFormModel model)
+		public async Task<IActionResult> Add(ProductFormModel model)
 		{
-			bool isSeller = await sellerService.IsSellerExistByUserIdAsync(this.User.GetId());
+			if (await CheckIfTheUserIsNotSeller())
 
-			if (!isSeller)
 			{
-				TempData[ErrorMessage] = "You must become an agent to add products.";
-
 				return RedirectToAction("Become", "Seller");
 			}
 
@@ -153,7 +146,7 @@ namespace AIO.Controllers
 			{
 				return GeneralError();
 			}
-			
+
 		}
 
 		[AllowAnonymous]
@@ -181,7 +174,7 @@ namespace AIO.Controllers
 			{
 				return GeneralError();
 			}
-			
+
 		}
 
 		[HttpGet]
@@ -220,7 +213,7 @@ namespace AIO.Controllers
 			catch (Exception)
 			{
 				return GeneralError();
-			}			
+			}
 		}
 
 		[HttpPost]
@@ -351,8 +344,21 @@ namespace AIO.Controllers
 
 		private IActionResult GeneralError()
 		{
-			TempData[ErrorMessage] = "Unexpected error occured. Please try again later or contact administrator!";
+			TempData[ErrorMessage] = GeneralErrorMessage;
 			return RedirectToAction("Index", "Home");
+		}
+
+		private async Task<bool> CheckIfTheUserIsNotSeller()
+		{
+			bool isSeller = await sellerService.IsSellerExistByUserIdAsync(this.User.GetId());
+
+			if (!isSeller)
+			{
+				TempData[ErrorMessage] = BecomeSellerErrorMessage;
+				return true;
+			}
+
+			return false;
 		}
 	}
 }

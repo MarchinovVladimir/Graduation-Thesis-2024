@@ -16,9 +16,7 @@ namespace AIOCommon
             public const string URLLengthErrorMessage = "{0} must be between {2} and {1} characters long.";
             public const string URLInvalidErrorMessage = "Invalid URL.";
             public const string PriceRangeErrorMessage = "{0} must be between {2} and {1}";
-
-
-
+            public const string GeneralErrorMessage = "Unexpected error occured. Please try again later or contact administrator!";
 		}
     }
 }
