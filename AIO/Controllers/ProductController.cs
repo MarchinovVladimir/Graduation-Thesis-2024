@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using static AIOCommon.NotificationMessagesConstants;
 using static AIOCommon.GeneralAppConstants;
 using static AIOCommon.ErrorMessageConstants.Product;
+using static AIOCommon.InformationalMessagesConstants.Product;
 
 namespace AIO.Controllers
 {
@@ -48,7 +49,7 @@ namespace AIO.Controllers
 		}
 
 		/// <summary>
-		/// Add action method. Returns view for adding a product.
+		/// Add action get method. Returns view for adding a product.
 		/// </summary>
 		/// <returns></returns>
 		[HttpGet]
@@ -74,6 +75,11 @@ namespace AIO.Controllers
 			}
 		}
 
+		/// <summary>
+		/// Add action post method. Adds a product.
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
 		[HttpPost]
 		public async Task<IActionResult> Add(ProductFormModel model)
 		{
@@ -85,7 +91,7 @@ namespace AIO.Controllers
 
 			if (!await productCategoryService.ExistsByIdAsync(model.CategoryId))
 			{
-				ModelState.AddModelError(nameof(model.CategoryId), "Selected category does not exist");
+				ModelState.AddModelError(nameof(model.CategoryId), CategoryNotExistsErrorMessage);
 			}
 
 			if (!ModelState.IsValid)
@@ -100,12 +106,12 @@ namespace AIO.Controllers
 				string sellerId = await sellerService.GetSellerIdByUserIdAsync(this.User.GetId());
 				productId = await productService.CreateProductAndRerurnIdAsync(model, sellerId);
 
-				TempData[SuccessMessage] = "Product was successfully added.";
+				TempData[SuccessMessage] = SuccessfullyAddedProduct;
 				return RedirectToAction("Details", "Product", new { id = productId });
 			}
 			catch (Exception)
 			{
-				ModelState.AddModelError(string.Empty, "An error occurred while adding the product.");
+				ModelState.AddModelError(string.Empty, UnsuccesfulProductAddErrorMessage);
 
 				model.Categories = await productCategoryService.GetAllProductCategoriesAsync();
 				return View(model);

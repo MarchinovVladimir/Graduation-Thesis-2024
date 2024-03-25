@@ -2,6 +2,9 @@
 
 namespace AIO.Web.Infrastructure.ModelBinders
 {
+	/// <summary>
+	/// Custom model binder provider for decimal values.
+	/// </summary>
 	public class DecimalModelBinderProvider : IModelBinderProvider
 	{
 		public IModelBinder? GetBinder(ModelBinderProviderContext context)

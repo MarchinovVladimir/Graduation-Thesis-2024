@@ -3,6 +3,9 @@ using System.Globalization;
 
 namespace AIO.Web.Infrastructure.ModelBinders
 {
+	/// <summary>
+	/// Custom model binder for decimal values.
+	/// </summary>
 	public class DecimalModelBinder : IModelBinder
 	{
 		public Task BindModelAsync(ModelBindingContext bindingContext)
