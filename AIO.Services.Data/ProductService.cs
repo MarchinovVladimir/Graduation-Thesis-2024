@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 namespace AIO.Services.Data
 {
 	/// <summary>
-	/// Service for products.
+	/// Service class for products.
 	/// </summary>
 	public class ProductService : IProductService
 	{
@@ -23,7 +23,7 @@ namespace AIO.Services.Data
 		}
 
 		/// <summary>
-		/// Service for getting the first three expiring products.
+		/// Service method for getting the first three expiring products.
 		/// </summary>
 		/// <returns></returns>
 		public async Task<IEnumerable<ProductIndexViewModel>> GetFirstThreeExpiringProducts()
@@ -44,7 +44,7 @@ namespace AIO.Services.Data
 		}
 
 		/// <summary>
-		/// Service for creating a product and returning its id.
+		/// Service method for creating a product and returning its id.
 		/// </summary>
 		/// <param name="formModel"></param>
 		/// <param name="agentId"></param>
@@ -68,7 +68,7 @@ namespace AIO.Services.Data
 		}
 
 		/// <summary>
-		/// Service for getting all products filtered and paged.
+		/// Service method for getting all products filtered and paged.
 		/// </summary>
 		/// <param name="queryModel"></param>
 		/// <returns></returns>
@@ -123,7 +123,7 @@ namespace AIO.Services.Data
 		}
 
 		/// <summary>
-		/// Service for getting all products by seller id.
+		/// Service method for getting all products by seller id.
 		/// </summary>
 		/// <param name="sellerId"></param>
 		/// <returns></returns>
@@ -146,7 +146,7 @@ namespace AIO.Services.Data
 		}
 
 		/// <summary>
-		/// Service for getting all products by user id.
+		/// Service method for getting all products by user id.
 		/// </summary>
 		/// <param name="userId"></param>
 		/// <returns></returns>
@@ -169,7 +169,7 @@ namespace AIO.Services.Data
 		}
 
 		/// <summary>
-		/// Service for getting product details by product id.
+		/// Service method for getting product details by product id.
 		/// </summary>
 		/// <param name="productId"></param>
 		/// <returns></returns>
@@ -203,7 +203,7 @@ namespace AIO.Services.Data
 		}
 
 		/// <summary>
-		/// Service for checking if product exists by product id.
+		/// Service method for checking if product exists by product id.
 		/// </summary>
 		/// <param name="productId"></param>
 		/// <returns></returns>
@@ -213,7 +213,7 @@ namespace AIO.Services.Data
 		}
 
 		/// <summary>
-		/// Service for getting product form by product id.
+		/// Service method for getting product form by product id.
 		/// </summary>
 		/// <param name="productId"></param>
 		/// <returns></returns>
@@ -236,7 +236,7 @@ namespace AIO.Services.Data
 		}
 
 		/// <summary>
-		/// Service for checking if seller is owner of product with product id.
+		/// Service method for checking if seller is owner of product with product id.
 		/// </summary>
 		/// <param name="productId"></param>
 		/// <param name="sellerId"></param>
@@ -251,7 +251,7 @@ namespace AIO.Services.Data
 		}
 
 		/// <summary>
-		/// Service for editing product by product id and product form model.
+		/// Service method for editing product by product id and product form model.
 		/// </summary>
 		/// <param name="productId"></param>
 		/// <param name="formModel"></param>
@@ -273,7 +273,7 @@ namespace AIO.Services.Data
 		}
 
 		/// <summary>
-		/// Service for getting product for delete by product id.
+		/// Service method for getting product for delete by product id.
 		/// </summary>
 		/// <param name="productId"></param>
 		/// <returns></returns>
@@ -293,7 +293,7 @@ namespace AIO.Services.Data
 		}
 
 		/// <summary>
-		/// Service for soft deleting product by product id.
+		/// Service method for soft deleting product by product id.
 		/// </summary>
 		/// <param name="productId"></param>
 		/// <returns></returns>
@@ -310,7 +310,7 @@ namespace AIO.Services.Data
 		}
 
 		/// <summary>
-		/// Service for getting seller full name by product id.
+		/// Service method for getting seller full name by product id.
 		/// </summary>
 		/// <param name="productId"></param>
 		/// <returns></returns>

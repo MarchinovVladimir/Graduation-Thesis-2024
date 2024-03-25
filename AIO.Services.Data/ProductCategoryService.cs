@@ -35,6 +35,11 @@ namespace AIO.Services.Data
 				return productCategories;
 		}
 
+		/// <summary>
+		/// Service method that checks if a product category exists by its id.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
 		public async Task<bool> ExistsByIdAsync(int id)
 		{
 			bool result = await this.context.Categories.AnyAsync(c => c.Id == id);
@@ -42,6 +47,10 @@ namespace AIO.Services.Data
 			return result;
 		}
 
+		/// <summary>
+		/// Service method that returns all product category names.
+		/// </summary>
+		/// <returns></returns>
 		public async Task<IEnumerable<string>> AllProductCategoryNamesAsync()
 		{
 			IEnumerable<string> AllProductCategoryNames = await this.context.Categories
