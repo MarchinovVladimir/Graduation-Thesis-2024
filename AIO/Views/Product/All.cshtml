@@ -19,7 +19,7 @@
 			</div>
 			<div class="form-group">
 				<label asp-for="ProductsPerPage"></label>
-				<select asp-for="ProductsPerPage" class="form-control">					
+				<select asp-for="ProductsPerPage" class="form-control">
 					<option value="3">3</option>
 					<option value="6">6</option>
 					<option value="9">9</option>
@@ -58,21 +58,24 @@
 	Model.ProductsPerPage);
 }
 <div class="row mb-5">
-	<div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-start">
-		<a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" :
-string.Empty)"
+	<div class="col-md-4 d-grid gap-2 d-md-flex justify-content-md-start">
+		<a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" :string.Empty)"
 		   asp-controller="Product"
 		   asp-action="All"
 		   asp-route-currentPage="@previousPage"
 		   asp-route-category="@Model.Category"
 		   asp-route-searchTerm="@Model.SearchString"
-		   asp-route-sorting="@((int)Model.ProductSorting)"><<</a>
+		   asp-route-sorting="@((int)Model.ProductSorting)"><<
+		</a>
 	</div>
 	@{
 		bool shouldNextPageBeDisabled = Model.CurrentPage == maxPage ||
 		!Model.Products.Any();
 	}
-	<div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-end">
+	<div class="col-md-4 text-center">
+		Page number: <div>@Model.CurrentPage</div> 
+	</div>
+	<div class="col-md-4 d-grid gap-2 d-md-flex justify-content-md-end">
 		<a class="btn btn-primary
  @(shouldNextPageBeDisabled ? "disabled" : string.Empty)"
 		   asp-controller="Product"
