@@ -15,9 +15,8 @@ namespace AIO.Web.Infrastructure.ModelBinders
 				throw new ArgumentNullException(nameof(bindingContext));
 			}
 
-			ValueProviderResult valueResult = bindingContext
-												.ValueProvider
-												.GetValue(bindingContext.ModelName);
+			ValueProviderResult valueResult = 
+				bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
 
 			if (valueResult != ValueProviderResult.None && !string.IsNullOrEmpty(valueResult.FirstValue))
 			{

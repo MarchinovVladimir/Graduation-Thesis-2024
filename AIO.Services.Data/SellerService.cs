@@ -71,7 +71,9 @@ namespace AIO.Services.Data
 		/// <returns></returns>
 		public async Task<string> GetSellerIdByUserIdAsync(string userId)
 		{
-			Seller? seller = await this.dbContext.Sellers.FirstOrDefaultAsync(a => a.UserId.ToString() == userId);
+			Seller? seller = await this.dbContext
+				.Sellers
+				.FirstOrDefaultAsync(a => a.UserId.ToString() == userId);
 
 			if (seller == null)
 			{

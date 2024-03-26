@@ -1,5 +1,8 @@
 ﻿namespace AIO.Views.Product.Enums
 {
+	/// <summary>
+	/// Enum for sorting products
+	/// </summary>
 	public enum ProductSorting
 	{
 		Newest = 0,

@@ -12,6 +12,14 @@ namespace AIO.Web.ViewModels.Product
 		public string Category { get; set; } = null!;
 
 		[Required]
+		public string CreatedOn { get; set; } = null!;
+
+		[Required]
+		public string ExpirationDate { get; set; } = null!;
+
+		[Required]
 		public SellerInfoOnProductViewModel Seller { get; set; } = null!;
+
+
 	}
 }

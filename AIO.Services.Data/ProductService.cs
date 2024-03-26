@@ -80,24 +80,27 @@ namespace AIO.Services.Data
 			if (!string.IsNullOrWhiteSpace(queryModel.Category))
 			{
 				productsQuery = productsQuery
-										.Where(p => p.Category.Name == queryModel.Category);
+						.Where(p => p.Category.Name == queryModel.Category);
 			}
 
 			if (!string.IsNullOrWhiteSpace(queryModel.SearchString))
 			{
 				string wildCard = $"%{queryModel.SearchString.ToLower()}%";	
+
 				productsQuery = productsQuery
-										.Where(p => EF.Functions.Like(p.Title, wildCard) ||
-													EF.Functions.Like(p.Description, wildCard));
+						.Where(p => EF.Functions.Like(p.Title, wildCard) ||
+									EF.Functions.Like(p.Description, wildCard));
 			}
 
 			productsQuery = queryModel.ProductSorting switch
 			{
-				ProductSorting.Newest => productsQuery.OrderByDescending(p => p.CreatedOn),
+				ProductSorting.Newest => productsQuery
+				.OrderByDescending(p => p.ExpirationDate),
 				ProductSorting.Oldest => productsQuery.OrderBy(p => p.CreatedOn),
 				ProductSorting.PriceLowToHigh => productsQuery.OrderBy(p => p.Price),
-				ProductSorting.PriceHighToLow => productsQuery.OrderByDescending(p => p.Price),
-				_ => productsQuery.OrderByDescending(p => p.CreatedOn),
+				ProductSorting.PriceHighToLow => productsQuery
+				.OrderByDescending(p => p.Price),
+				_ => productsQuery.OrderByDescending(p => p.ExpirationDate),
 			};
 
 			IEnumerable<ProductAllViewModel> allProducts = await productsQuery
@@ -112,7 +115,7 @@ namespace AIO.Services.Data
 					Price = p.Price,	
 				}).ToArrayAsync();	
 
-			int totalProductsCount = await productsQuery.CountAsync();
+			int totalProductsCount = productsQuery.Count();
 
 			return new AllProductsFilteredAndPagedServiceModel 
 			{ 
@@ -191,6 +194,8 @@ namespace AIO.Services.Data
 				ImageUrl = product.ImageUrl,
 				Category = product.Category.Name,
 				Price  = product.Price,
+				CreatedOn = product.CreatedOn.ToString("dd/MM/yyyy"),
+				ExpirationDate = product.ExpirationDate.ToString("dd/MM/yyyy"),
 				Seller = new Web.ViewModels.Seller.SellerInfoOnProductViewModel()
 				{
 					Email = product.Seller.User.Email,

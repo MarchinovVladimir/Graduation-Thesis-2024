@@ -23,7 +23,7 @@ namespace AIO.Services.Data
 		/// <returns></returns>
 		public async Task<ICollection<ProductCategoryViewModel>> GetAllProductCategoriesAsync()
 		{
-			ICollection<ProductCategoryViewModel> productCategories = await this.context.Categories
+			ICollection<ProductCategoryViewModel> productCategories = await	  context.Categories
 				.AsNoTracking()
 				.Select(c => new ProductCategoryViewModel
 				{

@@ -24,9 +24,11 @@
 				Price:
 				<b>@($"{Model.Price:f2}") BGN</b>
 			</p>
-			<p>@Model.Description</p>
+			<p>Description: <b>@Model.Description</b></p>
 			<p>Category: <b>@Model.Category</b></p>
-			@* <p><i>(@(Model.IsRented ? "Rented" : "Not Rented"))</i></p> *@
+			<p>Created on: <b>@Model.CreatedOn</b></p>
+			<p>Expires on: <b>@Model.ExpirationDate</b></p> 
+			@* <p><i>(@(Model.IsRented ? "Rented" : "Not Rented"))</i></p>
 			<div class="form-inline">
 				@if (this.User?.Identity?.IsAuthenticated ?? false)
 				{
@@ -54,7 +56,6 @@
 				value="Leave" />
 				</form>
 				} *@
-				}
 			</div>
 			<p></p>
 			<div class="card" style="width: 18rem;">

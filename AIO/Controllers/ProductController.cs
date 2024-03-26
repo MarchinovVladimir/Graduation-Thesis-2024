@@ -4,10 +4,10 @@ using AIO.Web.Infrastructure.Extentions;
 using AIO.Web.ViewModels.Product;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using static AIOCommon.NotificationMessagesConstants;
-using static AIOCommon.GeneralAppConstants;
 using static AIOCommon.ErrorMessageConstants.Product;
+using static AIOCommon.GeneralAppConstants;
 using static AIOCommon.InformationalMessagesConstants.Product;
+using static AIOCommon.NotificationMessagesConstants;
 
 namespace AIO.Controllers
 {
@@ -22,7 +22,11 @@ namespace AIO.Controllers
 		private readonly IProductService productService;
 		private readonly IUserService userService;
 
-		public ProductController(IProductCategoryService productCategoryService, ISellerService sellerService, IProductService productService, IUserService userService)
+		public ProductController(
+			IProductCategoryService productCategoryService,
+			ISellerService sellerService,
+			IProductService productService,
+			IUserService userService)
 		{
 			this.productCategoryService = productCategoryService;
 			this.sellerService = sellerService;
@@ -39,13 +43,15 @@ namespace AIO.Controllers
 		[AllowAnonymous]
 		public async Task<IActionResult> All([FromQuery] AllProductsQueryModel queryModel)
 		{
-			AllProductsFilteredAndPagedServiceModel serviceModel = await productService.GetAllProductsFilteredAndPagedAsync(queryModel);
+			AllProductsFilteredAndPagedServiceModel serviceModel = 
+				await productService.GetAllProductsFilteredAndPagedAsync(queryModel);
 
 			queryModel.Products = serviceModel.Products;
 			queryModel.TotalProducts = serviceModel.TotalProductsCount;
-			queryModel.Categories = await this.productCategoryService.AllProductCategoryNamesAsync();
+			queryModel.Categories = 
+				await productCategoryService.AllProductCategoryNamesAsync();
 
-			return this.View(queryModel);
+			return View(queryModel);
 		}
 
 		/// <summary>
@@ -59,7 +65,7 @@ namespace AIO.Controllers
 
 			{
 				return RedirectToAction("Become", "Seller");
-			}		
+			}
 
 			try
 			{
@@ -96,17 +102,21 @@ namespace AIO.Controllers
 
 			if (!ModelState.IsValid)
 			{
-				model.Categories = await productCategoryService.GetAllProductCategoriesAsync();
+				model.Categories =
+					await productCategoryService.GetAllProductCategoriesAsync();
 				return View(model);
 			}
 
 			string productId;
 			try
 			{
-				string sellerId = await sellerService.GetSellerIdByUserIdAsync(this.User.GetId());
-				productId = await productService.CreateProductAndRerurnIdAsync(model, sellerId);
+				string sellerId =
+					await sellerService.GetSellerIdByUserIdAsync(this.User.GetId());
+				productId =
+					await productService.CreateProductAndRerurnIdAsync(model, sellerId);
 
 				TempData[SuccessMessage] = SuccessfullyAddedProduct;
+
 				return RedirectToAction("Details", "Product", new { id = productId });
 			}
 			catch (Exception)
@@ -130,8 +140,8 @@ namespace AIO.Controllers
 
 			string userId = this.User.GetId();
 
-			bool isUserSeller = await sellerService
-				.IsSellerExistByUserIdAsync(userId);
+			bool isUserSeller = 
+				await sellerService.IsSellerExistByUserIdAsync(userId);
 			try
 			{
 				if (isUserSeller)
