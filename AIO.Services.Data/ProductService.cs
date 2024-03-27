@@ -349,5 +349,15 @@ namespace AIO.Services.Data
 
 			return $"{product.Seller.User.FirstName} {product.Seller.User.LastName}";
 		}
+
+		public async Task CheckProductIfItIsExpired()
+		{
+				await dbContext
+				.Products
+				.Where(p => p.IsActive && p.ExpirationDate < DateTime.UtcNow)
+				.ForEachAsync(p => p.IsActive = false);
+
+			await dbContext.SaveChangesAsync();
+		}
 	}
 }

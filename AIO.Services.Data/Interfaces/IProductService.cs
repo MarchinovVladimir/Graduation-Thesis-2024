@@ -103,6 +103,12 @@ namespace AIO.Services.Data.Interfaces
 		Task ReactivateProductByIdAsync(string productId);
 
 		/// <summary>
+		/// Method that checks if a product is expired.
+		/// </summary>
+		/// <returns></returns>
+		Task CheckProductIfItIsExpired();
+
+		/// <summary>
 		/// Method that returns the seller full name by product id.
 		/// </summary>
 		/// <param name="productId"></param>

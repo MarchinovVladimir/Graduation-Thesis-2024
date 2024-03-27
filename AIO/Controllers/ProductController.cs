@@ -43,6 +43,8 @@ namespace AIO.Controllers
 		[AllowAnonymous]
 		public async Task<IActionResult> All([FromQuery] AllProductsQueryModel queryModel)
 		{
+			await productService.CheckProductIfItIsExpired();
+
 			AllProductsFilteredAndPagedServiceModel serviceModel = 
 				await productService.GetAllProductsFilteredAndPagedAsync(queryModel);
 
@@ -148,6 +150,8 @@ namespace AIO.Controllers
 				await sellerService.IsSellerExistByUserIdAsync(userId);
 			try
 			{
+				await productService.CheckProductIfItIsExpired();
+
 				if (isUserSeller)
 				{
 					string sellerId =
@@ -199,6 +203,8 @@ namespace AIO.Controllers
 
 			try
 			{
+				await productService.CheckProductIfItIsExpired();
+
 				await productService.ReactivateProductByIdAsync(id);
 				return RedirectToAction("Mine", "Product");
 			}
@@ -222,6 +228,8 @@ namespace AIO.Controllers
 
 			try
 			{
+				await productService.CheckProductIfItIsExpired();
+
 				ProductDetailsViewModel model = await this.productService
 				.GetProductDetailsByIdAsync(id);
 
@@ -265,6 +273,8 @@ namespace AIO.Controllers
 
 			try
 			{
+				await productService.CheckProductIfItIsExpired();
+
 				ProductFormModel formModel = await productService.GetProductFormByIdAsync(id);
 				formModel.Categories = await productCategoryService.GetAllProductCategoriesAsync();
 				return View(formModel);
@@ -307,6 +317,8 @@ namespace AIO.Controllers
 				TempData[ErrorMessage] = "You must be the product owner to edit the product";
 				return RedirectToAction("Mine", "Product");
 			}
+
+			await productService.CheckProductIfItIsExpired();
 
 			try
 			{
@@ -353,6 +365,8 @@ namespace AIO.Controllers
 
 			try
 			{
+				await productService.CheckProductIfItIsExpired();
+
 				ProductPreDeleteDetailsViewModel viewModel = await productService.GetProductForDeleteByIdAsync(id);
 				return View(viewModel);
 			}
