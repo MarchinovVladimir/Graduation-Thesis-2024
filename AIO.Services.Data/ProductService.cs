@@ -350,6 +350,10 @@ namespace AIO.Services.Data
 			return $"{product.Seller.User.FirstName} {product.Seller.User.LastName}";
 		}
 
+		/// <summary>
+		/// Service method for checking if product is expired.
+		/// </summary>
+		/// <returns></returns>
 		public async Task CheckProductIfItIsExpired()
 		{
 				await dbContext

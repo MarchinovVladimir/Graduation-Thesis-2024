@@ -8,6 +8,15 @@
             public const int NameMaxLength = 50;
         }
 
+        public static class LocationArea
+        {
+			public const int NameMinLength = 2;
+			public const int NameMaxLength = 50;
+
+            public const int PostCodeMinLength = 2;
+            public const int PostCodeMaxLength = 10;
+		}
+
         public static class Product
         {
             public const int TitleMinLength = 2;

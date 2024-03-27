@@ -13,7 +13,7 @@ namespace AIO.Data.Models
         /// <summary>
         /// Category's unique identifier.
         /// </summary>
-        [Comment("Primary key")]
+        [Comment("Category's unique identifier.")]
         [Key]
         public int Id { get; set; }
 
@@ -28,7 +28,6 @@ namespace AIO.Data.Models
         /// <summary>
         /// Products collection with same category.
         /// </summary>
-        [Comment("Products collection")]
         public virtual ICollection<Product> Products { get; set; } = new HashSet<Product>();    
     }
 }

@@ -87,10 +87,23 @@ namespace AIO.Data.Models
         /// <summary>
         /// Product's entity property Category. Navigation property.
         /// </summary>
-        [Comment("The product's category.")]
         [Required]
         [ForeignKey(nameof(CategoryId))]
         public Category Category { get; set; } = null!;
+
+        /// <summary>
+        /// Product's entity property LocationAreaId identifier.
+        /// </summary>
+        [Comment("The location area where the product is located.")]
+        [Required]
+        public int LocationAreaId { get; set; }
+
+        /// <summary>
+        /// Product's entity property LocationArea. Navigation property.
+        /// </summary>
+        [Required]
+        [ForeignKey(nameof(LocationAreaId))]
+        public LocationArea LocationArea { get; set; } = null!;
 
         /// <summary>
         /// Product's entity property AgentId identifier.
@@ -102,7 +115,6 @@ namespace AIO.Data.Models
         /// <summary>
         /// Product's entity property Agent. Navigation property.
         /// </summary>
-        [Comment("The product's seller.")]
         [Required]
         [ForeignKey(nameof(SellerId))]
         public virtual Seller Seller { get; set; } = null!;

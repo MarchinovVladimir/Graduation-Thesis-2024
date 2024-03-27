@@ -31,6 +31,11 @@ namespace AIO.Data
         public DbSet<Category> Categories { get; set; } = null!;
 
         /// <summary>
+        /// DbSet<LocationArea> LocationAreas table in the database.
+        /// </summary>
+        public DbSet<LocationArea> LocationAreas { get; set; } = null!;
+
+        /// <summary>
         /// DbSet<Agent> Sellers table in the database.
         /// </summary>
         public DbSet<Seller> Sellers { get; set;} = null!;
