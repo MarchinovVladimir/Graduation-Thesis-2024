@@ -96,6 +96,13 @@ namespace AIO.Services.Data.Interfaces
 		Task DeleteProductByIdAsync(string productId);
 
 		/// <summary>
+		/// Method that reactivates a product by its id.
+		/// </summary>
+		/// <param name="productId"></param>
+		/// <returns></returns>
+		Task ReactivateProductByIdAsync(string productId);
+
+		/// <summary>
 		/// Method that returns the seller full name by product id.
 		/// </summary>
 		/// <param name="productId"></param>

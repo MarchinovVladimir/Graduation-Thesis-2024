@@ -104,7 +104,7 @@ namespace AIO.Services.Data
 			};
 
 			IEnumerable<ProductAllViewModel> allProducts = await productsQuery
-				.Where(p => p.IsActive)
+				.Where(p => !p.IsSold)
 				.Skip((queryModel.CurrentPage - 1) * queryModel.ProductsPerPage)
 				.Take(queryModel.ProductsPerPage)
 				.Select(p => new ProductAllViewModel
@@ -113,6 +113,8 @@ namespace AIO.Services.Data
 					Title = p.Title,
 					ImageUrl = p.ImageUrl,
 					Price = p.Price,	
+					IsActive = p.IsActive,
+					IsSold = p.IsSold
 				}).ToArrayAsync();	
 
 			int totalProductsCount = productsQuery.Count();
@@ -134,7 +136,7 @@ namespace AIO.Services.Data
 			IEnumerable<ProductAllViewModel> allSellerProducts = await this.dbContext
 				.Products
 				.AsNoTracking()
-				.Where(p => p.IsActive && 
+				.Where(p => !p.IsSold && 
 							p.SellerId.ToString() == sellerId)
 				.Select(p => new ProductAllViewModel
 				{
@@ -142,6 +144,8 @@ namespace AIO.Services.Data
 					Title = p.Title,
 					ImageUrl = p.ImageUrl,
 					Price = p.Price,
+					IsActive = p.IsActive,
+					IsSold = p.IsSold
 				}).ToArrayAsync();
 
 			return allSellerProducts;
@@ -157,7 +161,7 @@ namespace AIO.Services.Data
 			IEnumerable<ProductAllViewModel> allUserProducts =await  this.dbContext
 				.Products
 				.AsNoTracking()
-				.Where(p => p.IsActive && 
+				.Where(p => !p.IsSold && 
 							p.BuyerId.ToString() == userId)
 				.Select(p => new ProductAllViewModel
 				{
@@ -165,6 +169,8 @@ namespace AIO.Services.Data
 					Title = p.Title,
 					ImageUrl = p.ImageUrl,
 					Price = p.Price,
+					IsActive = p.IsActive,
+					IsSold = p.IsSold
 				}).ToArrayAsync();
 
 			return allUserProducts;
@@ -183,7 +189,7 @@ namespace AIO.Services.Data
 				.Include(p => p.Seller)
 				.ThenInclude(a => a.User)
 				.AsNoTracking()
-				.Where(p => p.IsActive)
+				.Where(p => !p.IsSold)
 				.FirstAsync(p => p.Id.ToString() == productId);	
 
 			return new ProductDetailsViewModel()
@@ -248,7 +254,7 @@ namespace AIO.Services.Data
 		public async Task<bool> IsSellerOwnerOfProductWithIdAsync(string productId, string sellerId)
 		{
 			Product product = await dbContext.Products
-				.Where(p => p.IsActive)
+				.Where(p => !p.IsSold)
 				.FirstAsync(p => p.Id.ToString() == productId);
 
 			return product.SellerId.ToString() == sellerId;
@@ -285,7 +291,7 @@ namespace AIO.Services.Data
 		{
 			Product product = await dbContext
 				.Products
-				.Where(p => p.IsActive)
+				.Where(p => !p.IsSold)
 				.FirstAsync(p => p.Id.ToString() == productId);
 
 			return new ProductPreDeleteDetailsViewModel()
@@ -305,10 +311,24 @@ namespace AIO.Services.Data
 		{
 			Product productToDelete = await dbContext
 				.Products
-				.Where(p => p.IsActive)
+				.Where(p => !p.IsSold)
 				.FirstAsync(p => p.Id.ToString() == productId);
 
+			productToDelete.IsSold = true;
 			productToDelete.IsActive = false;
+
+			await dbContext.SaveChangesAsync();
+		}
+
+		public async Task ReactivateProductByIdAsync(string productId)
+		{
+			Product productToReactivate = await dbContext
+				.Products
+				.Where(p => !p.IsSold)
+				.FirstAsync(p => p.Id.ToString() == productId);
+
+			productToReactivate.IsActive = true;
+			productToReactivate.CreatedOn = DateTime.UtcNow;
 
 			await dbContext.SaveChangesAsync();
 		}
@@ -324,7 +344,7 @@ namespace AIO.Services.Data
 				.Products
 				.Include(p => p.Seller)
 				.ThenInclude(a => a.User)
-				.Where(p => p.IsActive)
+				.Where(p => !p.IsSold)
 				.FirstAsync(p => p.Id.ToString() == productId);
 
 			return $"{product.Seller.User.FirstName} {product.Seller.User.LastName}";

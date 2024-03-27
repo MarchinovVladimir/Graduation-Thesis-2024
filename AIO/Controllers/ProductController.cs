@@ -128,6 +128,10 @@ namespace AIO.Controllers
 			}
 		}
 
+		/// <summary>
+		/// Mine action method. Returns all products of the current user.
+		/// </summary>
+		/// <returns></returns>
 		[HttpGet]
 		public async Task<IActionResult> Mine()
 		{
@@ -163,6 +167,45 @@ namespace AIO.Controllers
 				return GeneralError();
 			}
 
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> Reactivate(string id)
+		{
+
+			bool doesProductExist = await productService.ExistsByIdAsync(id);
+
+			if (!doesProductExist)
+			{
+				this.TempData[ErrorMessage] = "Product does not exist!";
+				return RedirectToAction("All", "Product");
+			}
+
+			bool isUserSeller = await sellerService.IsSellerExistByUserIdAsync(this.User.GetId());
+			if (!isUserSeller && !User.IsAdmin())
+			{
+				this.TempData[ErrorMessage] = "You must become a seller to be able to reactivate the product!";
+				return RedirectToAction("Become", "Seller");
+			}
+
+			string sellerId = await sellerService.GetSellerIdByUserIdAsync(this.User.GetId());
+			bool isSellerOwner = await productService.IsSellerOwnerOfProductWithIdAsync(id, sellerId);
+
+			if (!isSellerOwner && !User.IsAdmin())
+			{
+				TempData[ErrorMessage] = "You must be the product owner to reactivate the product";
+				return RedirectToAction("Mine", "Product");
+			}
+
+			try
+			{
+				await productService.ReactivateProductByIdAsync(id);
+				return RedirectToAction("Mine", "Product");
+			}
+			catch (Exception)
+			{
+				return GeneralError();
+			}
 		}
 
 		[AllowAnonymous]

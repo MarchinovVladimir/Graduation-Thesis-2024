@@ -64,11 +64,18 @@ namespace AIO.Data.Models
         public DateTime ExpirationDate { get; set; }
 
 		/// <summary>
-		/// Product's entity property IsActive (is deleted).   
+		/// Product's entity property IsActive. Shows if the listing is active.   
 		/// </summary>
-		[Comment("The product's status.")]
+		[Comment("Is product listing active?")]
         [Required]
         public bool IsActive { get; set; }
+
+        /// <summary>
+        /// Product's entity property IsSold. Shows if the product is sold.
+        /// </summary>
+        [Comment("Is the product sold?")]
+        [Required]
+        public bool IsSold { get; set; }    
 
 		/// <summary>
 		/// Product's entity property CategoryId identifier.
