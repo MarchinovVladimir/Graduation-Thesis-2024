@@ -20,6 +20,10 @@ namespace AIO.Data.Configurations
 				.HasDefaultValue(true);
 
 			builder
+				.Property(p => p.IsSold)
+				.HasDefaultValue(false);
+
+			builder
 				.HasOne(p => p.Category)
 				.WithMany(c => c.Products)
 				.HasForeignKey(p => p.CategoryId)
