@@ -186,6 +186,7 @@ namespace AIO.Services.Data
 			Product product = await dbContext
 				.Products
 				.Include(p => p.Category)
+				.Include(p => p.LocationArea)
 				.Include(p => p.Seller)
 				.ThenInclude(a => a.User)
 				.AsNoTracking()
@@ -200,6 +201,8 @@ namespace AIO.Services.Data
 				ImageUrl = product.ImageUrl,
 				Category = product.Category.Name,
 				Price  = product.Price,
+				Location = product.LocationArea.Name,
+				PostCode = product.LocationArea.PostCode,
 				CreatedOn = product.CreatedOn.ToString("dd/MM/yyyy"),
 				ExpirationDate = product.ExpirationDate.ToString("dd/MM/yyyy"),
 				Seller = new Web.ViewModels.Seller.SellerInfoOnProductViewModel()

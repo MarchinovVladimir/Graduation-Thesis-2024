@@ -1,4 +1,5 @@
-﻿using AIO.Web.ViewModels.Seller;
+﻿using AIO.Web.ViewModels.LocatiomArea;
+using AIO.Web.ViewModels.Seller;
 using System.ComponentModel.DataAnnotations;
 
 namespace AIO.Web.ViewModels.Product
@@ -16,6 +17,15 @@ namespace AIO.Web.ViewModels.Product
 
 		[Required]
 		public string ExpirationDate { get; set; } = null!;
+
+		[Required]
+		public int LocationAreaId { get; set; }
+
+		[Required]
+		public string Location { get; set; } = null!;
+
+		[Required]
+		public string PostCode { get; set; } = null!;
 
 		[Required]
 		public SellerInfoOnProductViewModel Seller { get; set; } = null!;

@@ -21,17 +21,20 @@ namespace AIO.Controllers
 		private readonly ISellerService sellerService;
 		private readonly IProductService productService;
 		private readonly IUserService userService;
+		private readonly ILocationAreaService locationAreaService;
 
 		public ProductController(
 			IProductCategoryService productCategoryService,
 			ISellerService sellerService,
 			IProductService productService,
-			IUserService userService)
+			IUserService userService,
+			ILocationAreaService locationAreaService)
 		{
 			this.productCategoryService = productCategoryService;
 			this.sellerService = sellerService;
 			this.productService = productService;
 			this.userService = userService;
+			this.locationAreaService = locationAreaService;
 		}
 
 		/// <summary>
@@ -45,12 +48,12 @@ namespace AIO.Controllers
 		{
 			await productService.CheckProductIfItIsExpired();
 
-			AllProductsFilteredAndPagedServiceModel serviceModel = 
+			AllProductsFilteredAndPagedServiceModel serviceModel =
 				await productService.GetAllProductsFilteredAndPagedAsync(queryModel);
 
 			queryModel.Products = serviceModel.Products;
 			queryModel.TotalProducts = serviceModel.TotalProductsCount;
-			queryModel.Categories = 
+			queryModel.Categories =
 				await productCategoryService.AllProductCategoryNamesAsync();
 
 			return View(queryModel);
@@ -73,7 +76,10 @@ namespace AIO.Controllers
 			{
 				ProductFormModel model = new ProductFormModel()
 				{
-					Categories = await productCategoryService.GetAllProductCategoriesAsync()
+					Categories =
+					await productCategoryService.GetAllProductCategoriesAsync(),
+					LocationAreas =
+					await locationAreaService.GetAllLocationAreasAsync()
 				};
 				return View(model);
 			}
@@ -102,10 +108,17 @@ namespace AIO.Controllers
 				ModelState.AddModelError(nameof(model.CategoryId), CategoryNotExistsErrorMessage);
 			}
 
+			if (!await locationAreaService.ExistsByIdAsync(model.LocationAreaId))
+			{
+				ModelState.AddModelError(nameof(model.LocationAreaId), LocationNotExistsErrorMessage);
+			}
+
 			if (!ModelState.IsValid)
 			{
 				model.Categories =
 					await productCategoryService.GetAllProductCategoriesAsync();
+				model.LocationAreas = 
+					await locationAreaService.GetAllLocationAreasAsync();
 				return View(model);
 			}
 
@@ -124,7 +137,10 @@ namespace AIO.Controllers
 			catch (Exception)
 			{
 				ModelState.AddModelError(string.Empty, UnsuccesfulProductAddErrorMessage);
-				model.Categories = await productCategoryService.GetAllProductCategoriesAsync();
+				model.Categories = 
+					await productCategoryService.GetAllProductCategoriesAsync();
+				model.LocationAreas =
+					await locationAreaService.GetAllLocationAreasAsync();
 
 				return View(model);
 			}
@@ -146,7 +162,7 @@ namespace AIO.Controllers
 
 			string userId = this.User.GetId();
 
-			bool isUserSeller = 
+			bool isUserSeller =
 				await sellerService.IsSellerExistByUserIdAsync(userId);
 			try
 			{
@@ -276,7 +292,10 @@ namespace AIO.Controllers
 				await productService.CheckProductIfItIsExpired();
 
 				ProductFormModel formModel = await productService.GetProductFormByIdAsync(id);
-				formModel.Categories = await productCategoryService.GetAllProductCategoriesAsync();
+				formModel.Categories = 
+					await productCategoryService.GetAllProductCategoriesAsync();
+				formModel.LocationAreas =
+					await locationAreaService.GetAllLocationAreasAsync();
 				return View(formModel);
 			}
 			catch (Exception)
@@ -290,7 +309,10 @@ namespace AIO.Controllers
 		{
 			if (!ModelState.IsValid)
 			{
-				model.Categories = await productCategoryService.GetAllProductCategoriesAsync();
+				model.Categories = 
+					await productCategoryService.GetAllProductCategoriesAsync();
+				model.LocationAreas =
+					await locationAreaService.GetAllLocationAreasAsync();
 				return View(model);
 			}
 
@@ -327,7 +349,10 @@ namespace AIO.Controllers
 			catch (Exception)
 			{
 				ModelState.AddModelError(string.Empty, "Unexpected error occured while tring to edit the product. Please try again later or contact administrator!");
-				model.Categories = await productCategoryService.GetAllProductCategoriesAsync();
+				model.Categories = 
+					await productCategoryService.GetAllProductCategoriesAsync();
+				model.LocationAreas =
+					await locationAreaService.GetAllLocationAreasAsync();
 
 				return View(model);
 			}

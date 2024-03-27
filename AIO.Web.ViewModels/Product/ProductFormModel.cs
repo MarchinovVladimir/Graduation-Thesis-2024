@@ -1,4 +1,5 @@
-﻿using AIO.Web.ViewModels.ProductCategory;
+﻿using AIO.Web.ViewModels.LocatiomArea;
+using AIO.Web.ViewModels.ProductCategory;
 using System.ComponentModel.DataAnnotations;
 using static AIOCommon.EntityValidationConstants.Product;
 using static AIOCommon.ErrorMessageConstants.Product;
@@ -30,6 +31,15 @@ namespace AIO.Web.ViewModels.Product
 		public int CategoryId { get; set; }
 
 		[Required]
-		public ICollection<ProductCategoryViewModel> Categories { get; set; } = new HashSet<ProductCategoryViewModel>();
+		[Display(Name = "Location")]
+		public int LocationAreaId { get; set; }
+
+		[Required]
+		public ICollection<ProductCategoryViewModel> Categories { get; set; } = 
+			new HashSet<ProductCategoryViewModel>();
+
+		[Required]
+		public ICollection<LocationAreaViewModel> LocationAreas { get; set; } = 
+			new HashSet<LocationAreaViewModel>();
 	}
 }
