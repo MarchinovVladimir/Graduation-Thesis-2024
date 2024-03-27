@@ -33,6 +33,16 @@
 				</select>
 				<span asp-validation-for="CategoryId" class="small textdanger"></span>
 			</div>
+			<div class="form-group">
+				<label asp-for="LocationAreaId"></label>
+				<select asp-for="LocationAreaId" class="form-control">
+					@foreach (var locationArea in Model.LocationAreas)
+					{
+						<option value="@locationArea.Id">@locationArea.Name</option>
+					}
+				</select>
+				<span asp-validation-for="LocationAreaId" class="small textdanger"></span>
+			</div>
 			<div class="text-center">
 				<input class="btn btn-primary mt-3" type="submit" value="Save" />
 			</div>

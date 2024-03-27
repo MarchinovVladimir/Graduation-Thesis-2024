@@ -1,4 +1,4 @@
-﻿using AIO.Web.ViewModels.LocatiomArea;
+﻿using AIO.Web.ViewModels.LocationArea;
 
 namespace AIO.Services.Data.Interfaces
 {

@@ -1,4 +1,4 @@
-﻿using AIO.Web.ViewModels.LocatiomArea;
+﻿using AIO.Web.ViewModels.LocationArea;
 using AIO.Web.ViewModels.ProductCategory;
 using System.ComponentModel.DataAnnotations;
 using static AIOCommon.EntityValidationConstants.Product;

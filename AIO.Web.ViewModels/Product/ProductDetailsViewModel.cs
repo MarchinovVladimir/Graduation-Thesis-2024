@@ -1,4 +1,4 @@
-﻿using AIO.Web.ViewModels.LocatiomArea;
+﻿using AIO.Web.ViewModels.LocationArea;
 using AIO.Web.ViewModels.Seller;
 using System.ComponentModel.DataAnnotations;
 

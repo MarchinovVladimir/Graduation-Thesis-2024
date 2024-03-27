@@ -57,6 +57,7 @@ namespace AIO.Services.Data
 				ImageUrl = formModel.ImageUrl,
 				Price = formModel.Price,
 				CategoryId = formModel.CategoryId,
+				LocationAreaId = formModel.LocationAreaId,
 				SellerId = Guid.Parse(sellerId),
 			};
 
@@ -235,6 +236,7 @@ namespace AIO.Services.Data
 			Product product = await dbContext
 				.Products
 				.Include(p => p.Category)
+				.Include(p => p.LocationArea)
 				.Where(p => p.IsActive)
 				.FirstAsync(p => p.Id.ToString() == productId);
 
@@ -245,6 +247,7 @@ namespace AIO.Services.Data
 				ImageUrl = product.ImageUrl,
 				Price = product.Price,
 				CategoryId = product.CategoryId,
+				LocationAreaId = product.LocationAreaId
 			};
 		}
 
@@ -281,6 +284,7 @@ namespace AIO.Services.Data
 			product.ImageUrl = formModel.ImageUrl;
 			product.CategoryId = formModel.CategoryId;
 			product.Price = formModel.Price;	
+			product.LocationAreaId = formModel.LocationAreaId;
 
 			await dbContext.SaveChangesAsync();
 		}

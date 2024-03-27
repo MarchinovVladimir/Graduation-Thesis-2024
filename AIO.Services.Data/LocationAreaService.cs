@@ -1,6 +1,6 @@
 ﻿using AIO.Data;
 using AIO.Services.Data.Interfaces;
-using AIO.Web.ViewModels.LocatiomArea;
+using AIO.Web.ViewModels.LocationArea;
 using Microsoft.EntityFrameworkCore;
 
 namespace AIO.Services.Data
