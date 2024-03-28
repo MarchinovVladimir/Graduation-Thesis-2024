@@ -229,7 +229,9 @@ namespace AIO.Services.Data
 		/// <returns></returns>
 		public async Task<bool> ExistsByIdAsync(string productId)
 		{
-			return await dbContext.Products.AnyAsync(p => p.Id.ToString() == productId);
+			return await dbContext.Products
+				.Where(p => !p.IsSold)
+				.AnyAsync(p => p.Id.ToString() == productId);
 		}
 
 		/// <summary>
@@ -237,13 +239,13 @@ namespace AIO.Services.Data
 		/// </summary>
 		/// <param name="productId"></param>
 		/// <returns></returns>
-		public async Task<ProductFormModel> GetProductFormByIdAsync(string productId)
+		public async Task<ProductFormModel> GetProductForEditByIdAsync(string productId)
 		{
 			Product product = await dbContext
 				.Products
 				.Include(p => p.Category)
 				.Include(p => p.LocationArea)
-				.Where(p => p.IsActive)
+				.Where(p => !p.IsSold)
 				.FirstAsync(p => p.Id.ToString() == productId);
 
 			return new ProductFormModel()

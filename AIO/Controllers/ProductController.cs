@@ -1,5 +1,4 @@
-﻿using AIO.Data.Models;
-using AIO.Services.Data.Interfaces;
+﻿using AIO.Services.Data.Interfaces;
 using AIO.Services.Data.Models.Product;
 using AIO.Web.Infrastructure.Extentions;
 using AIO.Web.ViewModels.Product;
@@ -70,7 +69,6 @@ namespace AIO.Controllers
 		public async Task<IActionResult> Add()
 		{
 			if (await CheckIfTheUserIsNotSeller())
-
 			{
 				return RedirectToAction("Become", "Seller");
 			}
@@ -80,9 +78,9 @@ namespace AIO.Controllers
 				ProductFormModel model = new ProductFormModel()
 				{
 					Categories =
-					await productCategoryService.GetAllProductCategoriesAsync(),
+						await productCategoryService.GetAllProductCategoriesAsync(),
 					LocationAreas =
-					await locationAreaService.GetAllLocationAreasAsync()
+						await locationAreaService.GetAllLocationAreasAsync()
 				};
 				return View(model);
 			}
@@ -101,7 +99,6 @@ namespace AIO.Controllers
 		public async Task<IActionResult> Add(ProductFormModel model)
 		{
 			if (await CheckIfTheUserIsNotSeller())
-
 			{
 				return RedirectToAction("Become", "Seller");
 			}
@@ -122,10 +119,12 @@ namespace AIO.Controllers
 					await productCategoryService.GetAllProductCategoriesAsync();
 				model.LocationAreas =
 					await locationAreaService.GetAllLocationAreasAsync();
+
 				return View(model);
 			}
 
 			string productId;
+
 			try
 			{
 				string sellerId =
@@ -133,13 +132,14 @@ namespace AIO.Controllers
 				productId =
 					await productService.CreateProductAndRerurnIdAsync(model, sellerId);
 
-				TempData[SuccessMessage] = SuccessfullyAddedProduct;
+				TempData[SuccessMessage] = SuccessfullyAddedProductMessage;
 
 				return RedirectToAction("Details", "Product", new { id = productId });
 			}
 			catch (Exception)
 			{
 				ModelState.AddModelError(string.Empty, UnsuccesfulProductAddErrorMessage);
+
 				model.Categories =
 					await productCategoryService.GetAllProductCategoriesAsync();
 				model.LocationAreas =
@@ -164,9 +164,7 @@ namespace AIO.Controllers
 			IEnumerable<ProductAllViewModel> products;
 
 			string userId = this.User.GetId();
-
-			bool isUserSeller =
-				await sellerService.IsSellerExistByUserIdAsync(userId);
+			bool isUserSeller =await sellerService.IsSellerExistByUserIdAsync(userId);
 
 			try
 			{
@@ -183,14 +181,12 @@ namespace AIO.Controllers
 				{
 					products = await productService.GetAllProductsByUserIdAsync(userId);
 				}
-
 				return View(products);
 			}
 			catch (Exception)
 			{
 				return GeneralError();
 			}
-
 		}
 
 		/// <summary>
@@ -201,37 +197,37 @@ namespace AIO.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Reactivate(string id)
 		{
-
-			bool doesProductExist = await productService.ExistsByIdAsync(id);
-
-			if (!doesProductExist)
+			if (await CheckIfProductDoesNotExist(id))
 			{
-				this.TempData[ErrorMessage] = ProductDoesNotExistErrorMessage;
-				return RedirectToAction(nameof(All), nameof(Product));
+				return RedirectToAction("All", "Product");
 			}
 
 			bool isUserSeller = await sellerService.IsSellerExistByUserIdAsync(this.User.GetId());
+
 			if (!isUserSeller && !User.IsAdmin())
 			{
 				this.TempData[ErrorMessage] = MustBeSellerToReactivateErrorMessage;
+
 				return RedirectToAction("Become", "Seller");
 			}
 
 			string sellerId = await sellerService.GetSellerIdByUserIdAsync(this.User.GetId());
+
 			bool isSellerOwner = await productService.IsSellerOwnerOfProductWithIdAsync(id, sellerId);
 
 			if (!isSellerOwner && !User.IsAdmin())
 			{
 				TempData[ErrorMessage] = MustBeSellerToReactivateErrorMessage;
-				return RedirectToAction(nameof(Mine), nameof(Product));
+
+				return RedirectToAction("Mine", "Product");
 			}
 
 			try
 			{
 				await productService.CheckProductIfItIsExpired();
-
 				await productService.ReactivateProductByIdAsync(id);
-				return RedirectToAction(nameof(Mine), nameof(Product));
+
+				return RedirectToAction("Mine", "Product");
 			}
 			catch (Exception)
 			{
@@ -248,20 +244,17 @@ namespace AIO.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Details(string id)
 		{
-			bool doesProductExist = await productService.ExistsByIdAsync(id);
-
-			if (!doesProductExist)
+			if (await CheckIfProductDoesNotExist(id))
 			{
-				this.TempData[ErrorMessage] = ProductDoesNotExistErrorMessage;
-				return RedirectToAction(nameof(All), nameof(Product));
+				return RedirectToAction("All", "Product");
 			}
 
 			try
 			{
 				await productService.CheckProductIfItIsExpired();
 
-				ProductDetailsViewModel model = await this.productService
-				.GetProductDetailsByIdAsync(id);
+				ProductDetailsViewModel model = 
+					await this.productService.GetProductDetailsByIdAsync(id);
 
 				model.Seller.FullName = await productService.GetSellerFullNameByProductIdAsync(id);
 
@@ -274,21 +267,25 @@ namespace AIO.Controllers
 
 		}
 
+		/// <summary>
+		/// Edit action get method. Returns view for editing a product.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
 		[HttpGet]
 		public async Task<IActionResult> Edit(string id)
 		{
-			bool doesProductExist = await productService.ExistsByIdAsync(id);
-
-			if (!doesProductExist)
+			if (await CheckIfProductDoesNotExist(id))
 			{
-				this.TempData[ErrorMessage] = "Product does not exist!";
 				return RedirectToAction("All", "Product");
-			}
+			}		
 
 			bool isUserSeller = await sellerService.IsSellerExistByUserIdAsync(this.User.GetId());
+
 			if (!isUserSeller && !User.IsAdmin())
 			{
-				this.TempData[ErrorMessage] = "You must become an seller to be able to edit!";
+				this.TempData[ErrorMessage] = MustBeSellerToEditErrorMessage;
+
 				return RedirectToAction("Become", "Seller");
 			}
 
@@ -297,7 +294,8 @@ namespace AIO.Controllers
 
 			if (!isSellerOwner && !User.IsAdmin())
 			{
-				TempData[ErrorMessage] = "You must be the product owner to edit the product";
+				TempData[ErrorMessage] = MustBeSellerToEditErrorMessage;
+
 				return RedirectToAction("Mine", "Product");
 			}
 
@@ -305,11 +303,13 @@ namespace AIO.Controllers
 			{
 				await productService.CheckProductIfItIsExpired();
 
-				ProductFormModel formModel = await productService.GetProductFormByIdAsync(id);
+				ProductFormModel formModel = await productService.GetProductForEditByIdAsync(id);
+
 				formModel.Categories =
 					await productCategoryService.GetAllProductCategoriesAsync();
 				formModel.LocationAreas =
 					await locationAreaService.GetAllLocationAreasAsync();
+
 				return View(formModel);
 			}
 			catch (Exception)
@@ -318,6 +318,12 @@ namespace AIO.Controllers
 			}
 		}
 
+		/// <summary>
+		/// Edit action post method. Edits a product.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="model"></param>
+		/// <returns></returns>
 		[HttpPost]
 		public async Task<IActionResult> Edit(string id, ProductFormModel model)
 		{
@@ -327,30 +333,32 @@ namespace AIO.Controllers
 					await productCategoryService.GetAllProductCategoriesAsync();
 				model.LocationAreas =
 					await locationAreaService.GetAllLocationAreasAsync();
+
 				return View(model);
 			}
 
-			bool doesProductExist = await productService.ExistsByIdAsync(id);
-
-			if (!doesProductExist)
+			if (await CheckIfProductDoesNotExist(id))
 			{
-				this.TempData[ErrorMessage] = "Product does not exist!";
 				return RedirectToAction("All", "Product");
 			}
 
 			bool isUserSeller = await sellerService.IsSellerExistByUserIdAsync(this.User.GetId());
+
 			if (!isUserSeller && !User.IsAdmin())
 			{
-				this.TempData[ErrorMessage] = "You must become a seller to be able to edit!";
+				this.TempData[ErrorMessage] = MustBeSellerToEditErrorMessage;
+
 				return RedirectToAction("Become", "Seller");
 			}
 
 			string sellerId = await sellerService.GetSellerIdByUserIdAsync(this.User.GetId());
+
 			bool isSellerOwner = await productService.IsSellerOwnerOfProductWithIdAsync(id, sellerId);
 
 			if (!isSellerOwner && !User.IsAdmin())
 			{
-				TempData[ErrorMessage] = "You must be the product owner to edit the product";
+				TempData[ErrorMessage] = MustBeSellerToEditErrorMessage;
+
 				return RedirectToAction("Mine", "Product");
 			}
 
@@ -362,7 +370,8 @@ namespace AIO.Controllers
 			}
 			catch (Exception)
 			{
-				ModelState.AddModelError(string.Empty, "Unexpected error occured while tring to edit the product. Please try again later or contact administrator!");
+				ModelState.AddModelError(string.Empty, GeneralErrorMessage);
+
 				model.Categories =
 					await productCategoryService.GetAllProductCategoriesAsync();
 				model.LocationAreas =
@@ -371,34 +380,41 @@ namespace AIO.Controllers
 				return View(model);
 			}
 
-			TempData[SuccessMessage] = "Product was successfully edited.";
+			TempData[SuccessMessage] = SuccessfullyEditedProductMessage;
+
 			return RedirectToAction("Details", "Product", new { id = id });
 		}
 
+		/// <summary>
+		/// Delete action get method. Returns view for deleting a product.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
 		[HttpGet]
 		public async Task<IActionResult> Delete(string id)
 		{
-			bool doesProductExist = await productService.ExistsByIdAsync(id);
-
-			if (!doesProductExist)
+			if (await CheckIfProductDoesNotExist(id))
 			{
-				this.TempData[ErrorMessage] = "Product does not exist!";
 				return RedirectToAction("All", "Product");
 			}
 
 			bool isUserSeller = await sellerService.IsSellerExistByUserIdAsync(this.User.GetId());
+
 			if (!isUserSeller && !User.IsAdmin())
 			{
-				this.TempData[ErrorMessage] = "You must become a seller to be able to edit!";
+				this.TempData[ErrorMessage] = MustBeSellerToEditErrorMessage;
+
 				return RedirectToAction("Become", "Seller");
 			}
 
 			string sellerId = await sellerService.GetSellerIdByUserIdAsync(this.User.GetId());
+
 			bool isSellerOwner = await productService.IsSellerOwnerOfProductWithIdAsync(id, sellerId);
 
 			if (!isSellerOwner && !User.IsAdmin())
 			{
-				TempData[ErrorMessage] = "You must be the product owner to edit the product";
+				TempData[ErrorMessage] = MustBeSellerToEditErrorMessage;
+
 				return RedirectToAction("Mine", "Product");
 			}
 
@@ -406,7 +422,9 @@ namespace AIO.Controllers
 			{
 				await productService.CheckProductIfItIsExpired();
 
-				ProductPreDeleteDetailsViewModel viewModel = await productService.GetProductForDeleteByIdAsync(id);
+				ProductPreDeleteDetailsViewModel viewModel = 
+					await productService.GetProductForDeleteByIdAsync(id);
+
 				return View(viewModel);
 			}
 			catch (Exception)
@@ -415,21 +433,26 @@ namespace AIO.Controllers
 			}
 		}
 
+		/// <summary>
+		/// Delete action post method. Deletes a product.Set the IsSold property to true.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="model"></param>
+		/// <returns></returns>
 		[HttpPost]
 		public async Task<IActionResult> Delete(string id, ProductPreDeleteDetailsViewModel model)
 		{
-			bool doesProductExist = await productService.ExistsByIdAsync(id);
-
-			if (!doesProductExist)
+			if (await CheckIfProductDoesNotExist(id))
 			{
-				this.TempData[ErrorMessage] = "Product does not exist!";
 				return RedirectToAction("All", "Product");
 			}
 
 			bool isUserSeller = await sellerService.IsSellerExistByUserIdAsync(this.User.GetId());
+
 			if (!isUserSeller && !User.IsAdmin())
 			{
-				this.TempData[ErrorMessage] = "You must become a seller to be able to edit!";
+				this.TempData[ErrorMessage] = MustBeSellerToEditErrorMessage;
+
 				return RedirectToAction("Become", "Seller");
 			}
 
@@ -438,14 +461,17 @@ namespace AIO.Controllers
 
 			if (!isSellerOwner && !User.IsAdmin())
 			{
-				TempData[ErrorMessage] = "You must be the product owner to edit the product";
+				TempData[ErrorMessage] = MustBeSellerToEditErrorMessage;
+
 				return RedirectToAction("Mine", "Product");
 			}
 
 			try
 			{
 				await productService.DeleteProductByIdAsync(id);
-				TempData[WarningMessage] = "The product was successfully deleted!";
+
+				TempData[WarningMessage] = SuccessfullyDeletedProductMessage;
+
 				return RedirectToAction("Mine", "Product");
 			}
 			catch (Exception)
@@ -457,6 +483,7 @@ namespace AIO.Controllers
 		private IActionResult GeneralError()
 		{
 			TempData[ErrorMessage] = GeneralErrorMessage;
+
 			return RedirectToAction("Index", "Home");
 		}
 
@@ -469,7 +496,19 @@ namespace AIO.Controllers
 				TempData[ErrorMessage] = BecomeSellerErrorMessage;
 				return true;
 			}
+			return false;
+		}
 
+		private async Task<bool> CheckIfProductDoesNotExist(string id)
+		{
+			bool doesProductExist = await productService.ExistsByIdAsync(id);
+
+			if (!doesProductExist)
+			{
+				this.TempData[ErrorMessage] = ProductDoesNotExistErrorMessage;
+
+				return true;
+			}
 			return false;
 		}
 	}

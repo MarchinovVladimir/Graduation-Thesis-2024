@@ -23,15 +23,13 @@
 			{
 				@if ((isUserSeller && isSellerOwnerOfTheProduct) || User.IsAdmin())
 				{
+					<a asp-area="" asp-controller="Product" asp-action="Edit" asp-route-id="@Model.Id"
+					   class="btn btn-warning">Edit</a>
+
 					@if (!Model.IsActive)
 					{
 						<a asp-area="" asp-controller="Product" asp-action="Reactivate" asp-route-id="@Model.Id"
 						   class="btn btn-warning">Reactivate</a>
-					}
-					else
-					{
-						<a asp-area="" asp-controller="Product" asp-action="Edit" asp-route-id="@Model.Id"
-						   class="btn btn-warning">Edit</a>
 					}
 
 					<a asp-area="" asp-controller="Product" asp-action="Delete" asp-route-id="@Model.Id"

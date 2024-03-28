@@ -10,7 +10,12 @@
 		/// </summary>
 		public static class Product
 		{
-			public const string SuccessfullyAddedProduct = "The product was successfully added.";
+			public const string SuccessfullyAddedProductMessage =
+				"The product was successfully added.";
+			public const string SuccessfullyEditedProductMessage =
+				"The product was successfully edited.";
+			public const string SuccessfullyDeletedProductMessage = 
+				"The product was successfully deleted.";
 		}
 	}
 }

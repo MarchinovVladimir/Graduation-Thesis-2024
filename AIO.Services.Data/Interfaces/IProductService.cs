@@ -59,11 +59,11 @@ namespace AIO.Services.Data.Interfaces
 		Task<bool> ExistsByIdAsync(string productId);
 
 		/// <summary>
-		/// Method from IProductService that returns a product form model by its id.
+		/// Method from IProductService that returns a product for editing by its id.
 		/// </summary>
 		/// <param name="productId"></param>
 		/// <returns></returns>
-		Task<ProductFormModel> GetProductFormByIdAsync(string productId);
+		Task<ProductFormModel> GetProductForEditByIdAsync(string productId);
 
 		/// <summary>
 		/// Method from IProductService that checks if a seller is the owner of a product by its id.
