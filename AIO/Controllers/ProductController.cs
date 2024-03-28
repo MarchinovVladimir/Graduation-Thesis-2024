@@ -75,13 +75,10 @@ namespace AIO.Controllers
 
 			try
 			{
-				ProductFormModel model = new ProductFormModel()
-				{
-					Categories =
-						await productCategoryService.GetAllProductCategoriesAsync(),
-					LocationAreas =
-						await locationAreaService.GetAllLocationAreasAsync()
-				};
+				ProductFormModel model = new ProductFormModel();
+
+				model = await LoadsProductFormModelCategoriesAndLocationAreasAsync(model);
+				
 				return View(model);
 			}
 			catch (Exception)
@@ -115,10 +112,7 @@ namespace AIO.Controllers
 
 			if (!ModelState.IsValid)
 			{
-				model.Categories =
-					await productCategoryService.GetAllProductCategoriesAsync();
-				model.LocationAreas =
-					await locationAreaService.GetAllLocationAreasAsync();
+				model = await LoadsProductFormModelCategoriesAndLocationAreasAsync(model);
 
 				return View(model);
 			}
@@ -140,10 +134,7 @@ namespace AIO.Controllers
 			{
 				ModelState.AddModelError(string.Empty, UnsuccesfulProductAddErrorMessage);
 
-				model.Categories =
-					await productCategoryService.GetAllProductCategoriesAsync();
-				model.LocationAreas =
-					await locationAreaService.GetAllLocationAreasAsync();
+				model = await LoadsProductFormModelCategoriesAndLocationAreasAsync(model);
 
 				return View(model);
 			}
@@ -164,7 +155,7 @@ namespace AIO.Controllers
 			IEnumerable<ProductAllViewModel> products;
 
 			string userId = this.User.GetId();
-			bool isUserSeller =await sellerService.IsSellerExistByUserIdAsync(userId);
+			bool isUserSeller = await sellerService.IsSellerExistByUserIdAsync(userId);
 
 			try
 			{
@@ -253,7 +244,7 @@ namespace AIO.Controllers
 			{
 				await productService.CheckProductIfItIsExpired();
 
-				ProductDetailsViewModel model = 
+				ProductDetailsViewModel model =
 					await this.productService.GetProductDetailsByIdAsync(id);
 
 				model.Seller.FullName = await productService.GetSellerFullNameByProductIdAsync(id);
@@ -278,7 +269,7 @@ namespace AIO.Controllers
 			if (await CheckIfProductDoesNotExist(id))
 			{
 				return RedirectToAction("All", "Product");
-			}		
+			}
 
 			bool isUserSeller = await sellerService.IsSellerExistByUserIdAsync(this.User.GetId());
 
@@ -305,10 +296,7 @@ namespace AIO.Controllers
 
 				ProductFormModel formModel = await productService.GetProductForEditByIdAsync(id);
 
-				formModel.Categories =
-					await productCategoryService.GetAllProductCategoriesAsync();
-				formModel.LocationAreas =
-					await locationAreaService.GetAllLocationAreasAsync();
+				formModel = await LoadsProductFormModelCategoriesAndLocationAreasAsync(formModel);
 
 				return View(formModel);
 			}
@@ -329,10 +317,7 @@ namespace AIO.Controllers
 		{
 			if (!ModelState.IsValid)
 			{
-				model.Categories =
-					await productCategoryService.GetAllProductCategoriesAsync();
-				model.LocationAreas =
-					await locationAreaService.GetAllLocationAreasAsync();
+				model = await LoadsProductFormModelCategoriesAndLocationAreasAsync(model);
 
 				return View(model);
 			}
@@ -372,10 +357,7 @@ namespace AIO.Controllers
 			{
 				ModelState.AddModelError(string.Empty, GeneralErrorMessage);
 
-				model.Categories =
-					await productCategoryService.GetAllProductCategoriesAsync();
-				model.LocationAreas =
-					await locationAreaService.GetAllLocationAreasAsync();
+				model = await LoadsProductFormModelCategoriesAndLocationAreasAsync(model);
 
 				return View(model);
 			}
@@ -422,7 +404,7 @@ namespace AIO.Controllers
 			{
 				await productService.CheckProductIfItIsExpired();
 
-				ProductPreDeleteDetailsViewModel viewModel = 
+				ProductPreDeleteDetailsViewModel viewModel =
 					await productService.GetProductForDeleteByIdAsync(id);
 
 				return View(viewModel);
@@ -510,6 +492,14 @@ namespace AIO.Controllers
 				return true;
 			}
 			return false;
+		}
+
+		private async Task<ProductFormModel> LoadsProductFormModelCategoriesAndLocationAreasAsync(ProductFormModel model)
+		{
+			model.Categories = await productCategoryService.GetAllProductCategoriesAsync();
+			model.LocationAreas = await locationAreaService.GetAllLocationAreasAsync();
+
+			return model;
 		}
 	}
 }
