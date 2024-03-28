@@ -9,7 +9,7 @@ namespace AIO.Web.Infrastructure.Extentions
     public static class ClaimsPrincipalExtentions
     {
         /// <summary>
-        /// Method for getting user id from ClaimsPrincipal.
+        /// Extention method for getting user id from ClaimsPrincipal.
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
@@ -18,6 +18,11 @@ namespace AIO.Web.Infrastructure.Extentions
             return user.FindFirstValue(ClaimTypes.NameIdentifier);
         }
 
+        /// <summary>
+        /// Extention method for checking is the user in admin role from ClaimsPrincipal.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public static bool IsAdmin(this ClaimsPrincipal user)
         {
 			return user.IsInRole(AdminRoleName);

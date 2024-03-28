@@ -10,13 +10,13 @@ namespace AIO.Services.Data.Interfaces
 	public interface IProductService
 	{
 		/// <summary>
-		/// Method that returns the first three expiring products.
+		/// Method from IProductService that returns the first three expiring products.
 		/// </summary>
 		/// <returns></returns>
 		Task<IEnumerable<ProductIndexViewModel>> GetFirstThreeExpiringProducts();
 
 		/// <summary>
-		/// Method that creates a product and returns its id.
+		/// Method from IProductService that creates a product and returns its id.
 		/// </summary>
 		/// <param name="formModel"></param>
 		/// <param name="sellerId"></param>
@@ -24,49 +24,49 @@ namespace AIO.Services.Data.Interfaces
 		Task<string> CreateProductAndRerurnIdAsync(ProductFormModel formModel, string sellerId);
 
 		/// <summary>
-		/// Method that returns all products filtered and paged.
+		/// Method from IProductService that returns all products filtered and paged.
 		/// </summary>
 		/// <param name="queryModel"></param>
 		/// <returns></returns>
 		Task<AllProductsFilteredAndPagedServiceModel> GetAllProductsFilteredAndPagedAsync(AllProductsQueryModel queryModel);
 
 		/// <summary>
-		/// Method that returns all products by seller id.
+		/// Method from IProductService that returns all products by seller id.
 		/// </summary>
 		/// <param name="sellerId"></param>
 		/// <returns></returns>
 		Task<IEnumerable<ProductAllViewModel>> GetAllProductsBySellerIdAsync(string sellerId);
 
 		/// <summary>
-		/// Method that returns all products by user id.
+		/// Method from IProductService that returns all products by user id.
 		/// </summary>
 		/// <param name="userId"></param>
 		/// <returns></returns>
 		Task<IEnumerable<ProductAllViewModel>> GetAllProductsByUserIdAsync(string userId);
 
 		/// <summary>
-		/// Method that returns all products by category id.
+		/// Method from IProductService that returns all products by category id.
 		/// </summary>
 		/// <param name="productId"></param>
 		/// <returns></returns>
 		Task<ProductDetailsViewModel> GetProductDetailsByIdAsync(string productId);
 
 		/// <summary>
-		/// Method that checks if a product exists by its id.
+		/// Method from IProductService that checks if a product exists by its id.
 		/// </summary>
 		/// <param name="productId"></param>
 		/// <returns></returns>
 		Task<bool> ExistsByIdAsync(string productId);
 
 		/// <summary>
-		/// Method that returns a product form model by its id.
+		/// Method from IProductService that returns a product form model by its id.
 		/// </summary>
 		/// <param name="productId"></param>
 		/// <returns></returns>
 		Task<ProductFormModel> GetProductFormByIdAsync(string productId);
 
 		/// <summary>
-		/// Method that checks if a seller is the owner of a product by its id.
+		/// Method from IProductService that checks if a seller is the owner of a product by its id.
 		/// </summary>
 		/// <param name="productId"></param>
 		/// <param name="sellerId"></param>
@@ -74,7 +74,7 @@ namespace AIO.Services.Data.Interfaces
 		Task<bool> IsSellerOwnerOfProductWithIdAsync(string productId, string sellerId);
 
 		/// <summary>
-		/// Method that edits a product by its id and form model.
+		/// Method from IProductService that edits a product by its id and form model.
 		/// </summary>
 		/// <param name="productId"></param>
 		/// <param name="formModel"></param>
@@ -82,34 +82,34 @@ namespace AIO.Services.Data.Interfaces
 		Task EditProductByIdAndFormModel(string productId, ProductFormModel formModel);
 
 		/// <summary>
-		/// Method that returns a product for delete by its id.
+		/// Method from IProductService that returns a product for delete by its id.
 		/// </summary>
 		/// <param name="productId"></param>
 		/// <returns></returns>
 		Task<ProductPreDeleteDetailsViewModel> GetProductForDeleteByIdAsync(string productId);
 
 		/// <summary>
-		/// Method that deletes a product by its id.
+		/// Method from IProductService that deletes a product by its id.
 		/// </summary>
 		/// <param name="productId"></param>
 		/// <returns></returns>
 		Task DeleteProductByIdAsync(string productId);
 
 		/// <summary>
-		/// Method that reactivates a product by its id.
+		/// Method from IProductService that reactivates a product by its id.
 		/// </summary>
 		/// <param name="productId"></param>
 		/// <returns></returns>
 		Task ReactivateProductByIdAsync(string productId);
 
 		/// <summary>
-		/// Method that checks if a product is expired.
+		/// Method from IProductService that checks if a product is expired.
 		/// </summary>
 		/// <returns></returns>
 		Task CheckProductIfItIsExpired();
 
 		/// <summary>
-		/// Method that returns the seller full name by product id.
+		/// Method from IProductService that returns the seller full name by product id.
 		/// </summary>
 		/// <param name="productId"></param>
 		/// <returns></returns>

@@ -117,7 +117,7 @@ namespace AIO.Controllers
 			{
 				model.Categories =
 					await productCategoryService.GetAllProductCategoriesAsync();
-				model.LocationAreas = 
+				model.LocationAreas =
 					await locationAreaService.GetAllLocationAreasAsync();
 				return View(model);
 			}
@@ -137,7 +137,7 @@ namespace AIO.Controllers
 			catch (Exception)
 			{
 				ModelState.AddModelError(string.Empty, UnsuccesfulProductAddErrorMessage);
-				model.Categories = 
+				model.Categories =
 					await productCategoryService.GetAllProductCategoriesAsync();
 				model.LocationAreas =
 					await locationAreaService.GetAllLocationAreasAsync();
@@ -147,7 +147,7 @@ namespace AIO.Controllers
 		}
 
 		/// <summary>
-		/// Mine action method. Returns all products of the current user.
+		/// Mine action method. Returns all products of the current user. Sends view model to the view.
 		/// </summary>
 		/// <returns></returns>
 		[HttpGet]
@@ -164,6 +164,7 @@ namespace AIO.Controllers
 
 			bool isUserSeller =
 				await sellerService.IsSellerExistByUserIdAsync(userId);
+
 			try
 			{
 				await productService.CheckProductIfItIsExpired();
@@ -292,7 +293,7 @@ namespace AIO.Controllers
 				await productService.CheckProductIfItIsExpired();
 
 				ProductFormModel formModel = await productService.GetProductFormByIdAsync(id);
-				formModel.Categories = 
+				formModel.Categories =
 					await productCategoryService.GetAllProductCategoriesAsync();
 				formModel.LocationAreas =
 					await locationAreaService.GetAllLocationAreasAsync();
@@ -309,7 +310,7 @@ namespace AIO.Controllers
 		{
 			if (!ModelState.IsValid)
 			{
-				model.Categories = 
+				model.Categories =
 					await productCategoryService.GetAllProductCategoriesAsync();
 				model.LocationAreas =
 					await locationAreaService.GetAllLocationAreasAsync();
@@ -349,7 +350,7 @@ namespace AIO.Controllers
 			catch (Exception)
 			{
 				ModelState.AddModelError(string.Empty, "Unexpected error occured while tring to edit the product. Please try again later or contact administrator!");
-				model.Categories = 
+				model.Categories =
 					await productCategoryService.GetAllProductCategoriesAsync();
 				model.LocationAreas =
 					await locationAreaService.GetAllLocationAreasAsync();

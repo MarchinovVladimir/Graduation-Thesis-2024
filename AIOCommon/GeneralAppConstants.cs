@@ -22,20 +22,20 @@
         /// </summary>
 		public const int ProductsPerPageDefaultValue = 3;
 
-        /// <summary>
-        /// The name of the area for the admin.
-        /// </summary>
-        public const string AdminAreaName = "Admin";
+		/// <summary>
+		/// The name of the area for the administrator.
+		/// </summary>
+		public const string AdminAreaName = "Admin";
 
         /// <summary>
-        /// The name of the role for the admin.
+        /// The name of the role for the administrator.
         /// </summary>
         public const string AdminRoleName = "Administrator";
 
-        /// <summary>
-        /// The email of the admin.
-        /// </summary>
-        public const string DevelopmentAdminEmail = "admin@admin.bg";
+		/// <summary>
+		/// The email of the administrator.
+		/// </summary>
+		public const string DevelopmentAdminEmail = "admin@admin.bg";
 
         /// <summary>
         /// The uses cache key.
