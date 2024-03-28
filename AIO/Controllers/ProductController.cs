@@ -1,4 +1,5 @@
-﻿using AIO.Services.Data.Interfaces;
+﻿using AIO.Data.Models;
+using AIO.Services.Data.Interfaces;
 using AIO.Services.Data.Models.Product;
 using AIO.Web.Infrastructure.Extentions;
 using AIO.Web.ViewModels.Product;
@@ -190,40 +191,45 @@ namespace AIO.Controllers
 
 		}
 
+		/// <summary>
+		/// Reactivate action method. Reactivates a product with expired date.
+		/// </summary>
+		/// <param name="productId"></param>
+		/// <returns></returns>
 		[HttpGet]
-		public async Task<IActionResult> Reactivate(string id)
+		public async Task<IActionResult> Reactivate(string productId)
 		{
 
-			bool doesProductExist = await productService.ExistsByIdAsync(id);
+			bool doesProductExist = await productService.ExistsByIdAsync(productId);
 
 			if (!doesProductExist)
 			{
-				this.TempData[ErrorMessage] = "Product does not exist!";
-				return RedirectToAction("All", "Product");
+				this.TempData[ErrorMessage] = ProductDoesNotExistErrorMessage;
+				return RedirectToAction(nameof(All), nameof(Product));
 			}
 
 			bool isUserSeller = await sellerService.IsSellerExistByUserIdAsync(this.User.GetId());
 			if (!isUserSeller && !User.IsAdmin())
 			{
-				this.TempData[ErrorMessage] = "You must become a seller to be able to reactivate the product!";
+				this.TempData[ErrorMessage] = MustBeSellerToReactivateErrorMessage;
 				return RedirectToAction("Become", "Seller");
 			}
 
 			string sellerId = await sellerService.GetSellerIdByUserIdAsync(this.User.GetId());
-			bool isSellerOwner = await productService.IsSellerOwnerOfProductWithIdAsync(id, sellerId);
+			bool isSellerOwner = await productService.IsSellerOwnerOfProductWithIdAsync(productId, sellerId);
 
 			if (!isSellerOwner && !User.IsAdmin())
 			{
-				TempData[ErrorMessage] = "You must be the product owner to reactivate the product";
-				return RedirectToAction("Mine", "Product");
+				TempData[ErrorMessage] = MustBeSellerToReactivateErrorMessage;
+				return RedirectToAction(nameof(Mine), nameof(Product));
 			}
 
 			try
 			{
 				await productService.CheckProductIfItIsExpired();
 
-				await productService.ReactivateProductByIdAsync(id);
-				return RedirectToAction("Mine", "Product");
+				await productService.ReactivateProductByIdAsync(productId);
+				return RedirectToAction(nameof(Mine), nameof(Product));
 			}
 			catch (Exception)
 			{
@@ -231,16 +237,21 @@ namespace AIO.Controllers
 			}
 		}
 
+		/// <summary>
+		/// Details action method. Returns details of a product.
+		/// </summary>
+		/// <param name="productId"></param>
+		/// <returns></returns>
 		[AllowAnonymous]
 		[HttpGet]
-		public async Task<IActionResult> Details(string id)
+		public async Task<IActionResult> Details(string productId)
 		{
-			bool doesProductExist = await productService.ExistsByIdAsync(id);
+			bool doesProductExist = await productService.ExistsByIdAsync(productId);
 
 			if (!doesProductExist)
 			{
-				this.TempData[ErrorMessage] = "Product does not exist!";
-				return RedirectToAction("All", "Product");
+				this.TempData[ErrorMessage] = ProductDoesNotExistErrorMessage;
+				return RedirectToAction(nameof(All), nameof(Product));
 			}
 
 			try
@@ -248,9 +259,9 @@ namespace AIO.Controllers
 				await productService.CheckProductIfItIsExpired();
 
 				ProductDetailsViewModel model = await this.productService
-				.GetProductDetailsByIdAsync(id);
+				.GetProductDetailsByIdAsync(productId);
 
-				model.Seller.FullName = await productService.GetSellerFullNameByProductIdAsync(id);
+				model.Seller.FullName = await productService.GetSellerFullNameByProductIdAsync(productId);
 
 				return View(model);
 			}

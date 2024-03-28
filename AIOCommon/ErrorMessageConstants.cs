@@ -20,6 +20,8 @@ namespace AIOCommon
             public const string CategoryNotExistsErrorMessage = "Selected category does not exist";
             public const string UnsuccesfulProductAddErrorMessage = "An error occurred while adding the product. Please try again later or contact administrator!";
             public const string LocationNotExistsErrorMessage = "Selected location does not exist";
+            public const string ProductDoesNotExistErrorMessage = "Product does not exist!";
+            public const string MustBeSellerToReactivateErrorMessage = "You must be a product's seller to be able to reactivate the product!";
 		}
     }
 }
