@@ -84,6 +84,12 @@ namespace AIO.Services.Data
 						.Where(p => p.Category.Name == queryModel.Category);
 			}
 
+			if (!string.IsNullOrWhiteSpace(queryModel.LocationArea))
+			{
+				productsQuery = productsQuery
+						.Where(p => p.LocationArea.Name == queryModel.LocationArea);
+			}
+
 			if (!string.IsNullOrWhiteSpace(queryModel.SearchString))
 			{
 				string wildCard = $"%{queryModel.SearchString.ToLower()}%";	

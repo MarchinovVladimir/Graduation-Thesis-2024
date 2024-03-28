@@ -56,6 +56,8 @@ namespace AIO.Controllers
 			queryModel.TotalProducts = serviceModel.TotalProductsCount;
 			queryModel.Categories =
 				await productCategoryService.AllProductCategoryNamesAsync();
+			queryModel.LocationAreas =
+				await locationAreaService.AllLocationAreasNamesAsync();
 
 			return View(queryModel);
 		}
@@ -194,13 +196,13 @@ namespace AIO.Controllers
 		/// <summary>
 		/// Reactivate action method. Reactivates a product with expired date.
 		/// </summary>
-		/// <param name="productId"></param>
+		/// <param name="id"></param>
 		/// <returns></returns>
 		[HttpGet]
-		public async Task<IActionResult> Reactivate(string productId)
+		public async Task<IActionResult> Reactivate(string id)
 		{
 
-			bool doesProductExist = await productService.ExistsByIdAsync(productId);
+			bool doesProductExist = await productService.ExistsByIdAsync(id);
 
 			if (!doesProductExist)
 			{
@@ -216,7 +218,7 @@ namespace AIO.Controllers
 			}
 
 			string sellerId = await sellerService.GetSellerIdByUserIdAsync(this.User.GetId());
-			bool isSellerOwner = await productService.IsSellerOwnerOfProductWithIdAsync(productId, sellerId);
+			bool isSellerOwner = await productService.IsSellerOwnerOfProductWithIdAsync(id, sellerId);
 
 			if (!isSellerOwner && !User.IsAdmin())
 			{
@@ -228,7 +230,7 @@ namespace AIO.Controllers
 			{
 				await productService.CheckProductIfItIsExpired();
 
-				await productService.ReactivateProductByIdAsync(productId);
+				await productService.ReactivateProductByIdAsync(id);
 				return RedirectToAction(nameof(Mine), nameof(Product));
 			}
 			catch (Exception)
@@ -240,13 +242,13 @@ namespace AIO.Controllers
 		/// <summary>
 		/// Details action method. Returns details of a product.
 		/// </summary>
-		/// <param name="productId"></param>
+		/// <param name="id"></param>
 		/// <returns></returns>
 		[AllowAnonymous]
 		[HttpGet]
-		public async Task<IActionResult> Details(string productId)
+		public async Task<IActionResult> Details(string id)
 		{
-			bool doesProductExist = await productService.ExistsByIdAsync(productId);
+			bool doesProductExist = await productService.ExistsByIdAsync(id);
 
 			if (!doesProductExist)
 			{
@@ -259,9 +261,9 @@ namespace AIO.Controllers
 				await productService.CheckProductIfItIsExpired();
 
 				ProductDetailsViewModel model = await this.productService
-				.GetProductDetailsByIdAsync(productId);
+				.GetProductDetailsByIdAsync(id);
 
-				model.Seller.FullName = await productService.GetSellerFullNameByProductIdAsync(productId);
+				model.Seller.FullName = await productService.GetSellerFullNameByProductIdAsync(id);
 
 				return View(model);
 			}

@@ -15,6 +15,12 @@ namespace AIO.Web.ViewModels.Product
         public string? Category { get; set; }
 
 		/// <summary>
+		/// LocationArea property of the AllProductsQueryModel.
+		/// </summary>
+		[Display(Name = "Location")]
+		public string? LocationArea { get; set; }
+
+		/// <summary>
 		/// ProductsPerPage property of the AllProductsQueryModel.
 		/// </summary>
 		[Display(Name = "Products per page")]
@@ -46,6 +52,11 @@ namespace AIO.Web.ViewModels.Product
 		/// Categories property of the AllProductsQueryModel.
 		/// </summary>
 		public IEnumerable<string> Categories { get; set; } = new HashSet<string>();
+
+		/// <summary>
+		/// LocationAreas property of the AllProductsQueryModel.
+		/// </summary>
+		public IEnumerable<string> LocationAreas { get; set; } = new HashSet<string>();
 
 		/// <summary>
 		/// Products property of the AllProductsQueryModel.
