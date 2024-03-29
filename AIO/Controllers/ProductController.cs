@@ -68,7 +68,7 @@ namespace AIO.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Add()
 		{
-			if (await CheckIfTheUserIsNotSeller())
+			if (await CheckIfUserIsNotSellerNorAdmin())
 			{
 				return RedirectToAction("Become", "Seller");
 			}
@@ -95,7 +95,7 @@ namespace AIO.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Add(ProductFormModel model)
 		{
-			if (await CheckIfTheUserIsNotSeller())
+			if (await CheckIfUserIsNotSellerNorAdmin())
 			{
 				return RedirectToAction("Become", "Seller");
 			}
@@ -193,23 +193,13 @@ namespace AIO.Controllers
 				return RedirectToAction("All", "Product");
 			}
 
-			bool isUserSeller = await sellerService.IsSellerExistByUserIdAsync(this.User.GetId());
-
-			if (!isUserSeller && !User.IsAdmin())
+			if (await CheckIfUserIsNotSellerNorAdmin()) ////////
 			{
-				this.TempData[ErrorMessage] = MustBeSellerToReactivateErrorMessage;
-
 				return RedirectToAction("Become", "Seller");
 			}
 
-			string sellerId = await sellerService.GetSellerIdByUserIdAsync(this.User.GetId());
-
-			bool isSellerOwner = await productService.IsSellerOwnerOfProductWithIdAsync(id, sellerId);
-
-			if (!isSellerOwner && !User.IsAdmin())
+			if (await CheckIfUserIsNotOwnerNorAdmin(id))
 			{
-				TempData[ErrorMessage] = MustBeSellerToReactivateErrorMessage;
-
 				return RedirectToAction("Mine", "Product");
 			}
 
@@ -271,22 +261,13 @@ namespace AIO.Controllers
 				return RedirectToAction("All", "Product");
 			}
 
-			bool isUserSeller = await sellerService.IsSellerExistByUserIdAsync(this.User.GetId());
-
-			if (!isUserSeller && !User.IsAdmin())
+			if (await CheckIfUserIsNotSellerNorAdmin()) ////
 			{
-				this.TempData[ErrorMessage] = MustBeSellerToEditErrorMessage;
-
 				return RedirectToAction("Become", "Seller");
 			}
 
-			string sellerId = await sellerService.GetSellerIdByUserIdAsync(this.User.GetId());
-			bool isSellerOwner = await productService.IsSellerOwnerOfProductWithIdAsync(id, sellerId);
-
-			if (!isSellerOwner && !User.IsAdmin())
+			if (await CheckIfUserIsNotOwnerNorAdmin(id))
 			{
-				TempData[ErrorMessage] = MustBeSellerToEditErrorMessage;
-
 				return RedirectToAction("Mine", "Product");
 			}
 
@@ -327,23 +308,13 @@ namespace AIO.Controllers
 				return RedirectToAction("All", "Product");
 			}
 
-			bool isUserSeller = await sellerService.IsSellerExistByUserIdAsync(this.User.GetId());
-
-			if (!isUserSeller && !User.IsAdmin())
+			if (await CheckIfUserIsNotSellerNorAdmin()) ////
 			{
-				this.TempData[ErrorMessage] = MustBeSellerToEditErrorMessage;
-
 				return RedirectToAction("Become", "Seller");
 			}
 
-			string sellerId = await sellerService.GetSellerIdByUserIdAsync(this.User.GetId());
-
-			bool isSellerOwner = await productService.IsSellerOwnerOfProductWithIdAsync(id, sellerId);
-
-			if (!isSellerOwner && !User.IsAdmin())
+			if (await CheckIfUserIsNotOwnerNorAdmin(id))
 			{
-				TempData[ErrorMessage] = MustBeSellerToEditErrorMessage;
-
 				return RedirectToAction("Mine", "Product");
 			}
 
@@ -380,23 +351,13 @@ namespace AIO.Controllers
 				return RedirectToAction("All", "Product");
 			}
 
-			bool isUserSeller = await sellerService.IsSellerExistByUserIdAsync(this.User.GetId());
-
-			if (!isUserSeller && !User.IsAdmin())
+			if (await CheckIfUserIsNotSellerNorAdmin()) ////
 			{
-				this.TempData[ErrorMessage] = MustBeSellerToEditErrorMessage;
-
 				return RedirectToAction("Become", "Seller");
 			}
 
-			string sellerId = await sellerService.GetSellerIdByUserIdAsync(this.User.GetId());
-
-			bool isSellerOwner = await productService.IsSellerOwnerOfProductWithIdAsync(id, sellerId);
-
-			if (!isSellerOwner && !User.IsAdmin())
+			if (await CheckIfUserIsNotOwnerNorAdmin(id))
 			{
-				TempData[ErrorMessage] = MustBeSellerToEditErrorMessage;
-
 				return RedirectToAction("Mine", "Product");
 			}
 
@@ -429,22 +390,13 @@ namespace AIO.Controllers
 				return RedirectToAction("All", "Product");
 			}
 
-			bool isUserSeller = await sellerService.IsSellerExistByUserIdAsync(this.User.GetId());
-
-			if (!isUserSeller && !User.IsAdmin())
+			if (await CheckIfUserIsNotSellerNorAdmin())
 			{
-				this.TempData[ErrorMessage] = MustBeSellerToEditErrorMessage;
-
 				return RedirectToAction("Become", "Seller");
-			}
+			}			
 
-			string sellerId = await sellerService.GetSellerIdByUserIdAsync(this.User.GetId());
-			bool isSellerOwner = await productService.IsSellerOwnerOfProductWithIdAsync(id, sellerId);
-
-			if (!isSellerOwner && !User.IsAdmin())
+			if (await CheckIfUserIsNotOwnerNorAdmin(id))
 			{
-				TempData[ErrorMessage] = MustBeSellerToEditErrorMessage;
-
 				return RedirectToAction("Mine", "Product");
 			}
 
@@ -469,13 +421,28 @@ namespace AIO.Controllers
 			return RedirectToAction("Index", "Home");
 		}
 
-		private async Task<bool> CheckIfTheUserIsNotSeller()
+		private async Task<bool> CheckIfUserIsNotSellerNorAdmin()
 		{
 			bool isSeller = await sellerService.IsSellerExistByUserIdAsync(this.User.GetId());
 
-			if (!isSeller)
+			if (!isSeller && !User.IsAdmin())
 			{
 				TempData[ErrorMessage] = BecomeSellerErrorMessage;
+				return true;
+			}
+			return false;
+		}
+
+		private async Task<bool> CheckIfUserIsNotOwnerNorAdmin(string productId)
+		{
+			string sellerId = await sellerService.GetSellerIdByUserIdAsync(this.User.GetId());
+
+			bool isSellerOwner = await productService.IsSellerOwnerOfProductWithIdAsync(productId, sellerId);
+
+			if (!isSellerOwner && !User.IsAdmin())
+			{
+				this.TempData[ErrorMessage] = MustBeSellerToEditOrDeleteErrorMessage;
+
 				return true;
 			}
 			return false;

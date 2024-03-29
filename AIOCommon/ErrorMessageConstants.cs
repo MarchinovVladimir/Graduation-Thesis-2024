@@ -23,8 +23,8 @@
             public const string ProductDoesNotExistErrorMessage = "Product does not exist!";
             public const string MustBeSellerToReactivateErrorMessage = 
                 "You must be a product's seller to be able to reactivate the product!";
-            public const string MustBeSellerToEditErrorMessage = 
-                "You must be a product's seller to be able to edit the product!";
+            public const string MustBeSellerToEditOrDeleteErrorMessage = 
+                "You must be a product's seller to be able to edit or delete the product!";
 		}
     }
 }
