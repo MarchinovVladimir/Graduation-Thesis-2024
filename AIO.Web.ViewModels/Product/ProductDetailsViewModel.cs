@@ -1,5 +1,4 @@
-﻿using AIO.Web.ViewModels.LocationArea;
-using AIO.Web.ViewModels.Seller;
+﻿using AIO.Web.ViewModels.Seller;
 using System.ComponentModel.DataAnnotations;
 
 namespace AIO.Web.ViewModels.Product

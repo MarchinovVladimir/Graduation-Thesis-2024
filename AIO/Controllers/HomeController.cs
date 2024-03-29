@@ -1,12 +1,14 @@
 ﻿using AIO.Services.Data.Interfaces;
 using AIO.Web.ViewModels.Home;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 using static AIOCommon.GeneralAppConstants;
 
 namespace AIO.Controllers
 {
-    public class HomeController : Controller
+	/// <summary>
+	/// Home controller.
+	/// </summary>
+	public class HomeController : Controller
     {
         private readonly IProductService productService;
 
@@ -15,6 +17,10 @@ namespace AIO.Controllers
            this.productService = productService;
         }
 
+        /// <summary>
+        /// Index action method.
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> Index()
         {
             if(User.IsInRole(AdminRoleName))
@@ -27,6 +33,11 @@ namespace AIO.Controllers
             return View(viewModel);
         }
 
+        /// <summary>
+        /// Error action method.
+        /// </summary>
+        /// <param name="statusCode"></param>
+        /// <returns></returns>
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error(int statusCode)
         {
