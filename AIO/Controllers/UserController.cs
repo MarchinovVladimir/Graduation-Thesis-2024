@@ -9,6 +9,9 @@ using static AIOCommon.GeneralAppConstants;
 
 namespace AIO.Controllers
 {
+    /// <summary>
+    /// User controller for handling user registration and login.
+    /// </summary>
     public class UserController : Controller
     {
         private readonly SignInManager<ApplicationUser> signInManager;
@@ -25,12 +28,21 @@ namespace AIO.Controllers
             this.memoryCache = memoryCache;
         }
 
+        /// <summary>
+        /// Register get method for displaying the registration form.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult Register()
         {
             return View();
         }
 
+        /// <summary>
+        /// Register post method for handling the registration form submission.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateRecaptcha(Action = nameof(Register), ValidationFailedAction = ValidationFailedAction.ContinueRequest)]
         public async Task<IActionResult> Register(RegisterFormModel model)
@@ -68,6 +80,11 @@ namespace AIO.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Login get method for displaying the login form.
+        /// </summary>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> Login(string? returnUrl = null)
         {
@@ -81,6 +98,11 @@ namespace AIO.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Login post method for handling the login form submission.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateRecaptcha(Action = nameof(Login), ValidationFailedAction = ValidationFailedAction.ContinueRequest)]
         public async Task<IActionResult> Login(LoginFormModel model)
