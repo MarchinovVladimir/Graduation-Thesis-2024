@@ -5,14 +5,15 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using static AIOCommon.ErrorMessageConstants.ApplicationUser;
 using static AIOCommon.GeneralAppConstants;
 
 namespace AIO.Controllers
 {
-    /// <summary>
-    /// User controller for handling user registration and login.
-    /// </summary>
-    public class UserController : Controller
+	/// <summary>
+	/// User controller for handling user registration and login.
+	/// </summary>
+	public class UserController : Controller
     {
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly UserManager<ApplicationUser> userManager;
@@ -113,7 +114,7 @@ namespace AIO.Controllers
 
                 if (user == null)
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, InvalidLoginAttemptErrorMessage);
                     return View(model);
                 }
 
@@ -131,7 +132,7 @@ namespace AIO.Controllers
                     }
                 }
 
-                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                ModelState.AddModelError(string.Empty, InvalidLoginAttemptErrorMessage);
             }
 
             return View(model);
