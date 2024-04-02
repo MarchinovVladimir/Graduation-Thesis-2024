@@ -4,8 +4,15 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AIO.Data.Configurations
 {
+	/// <summary>
+	/// Configuration for the product entity.
+	/// </summary>
 	public class ProductEntityConfiguration : IEntityTypeConfiguration<Product>
 	{
+		/// <summary>
+		/// Configures the product entity.
+		/// </summary>
+		/// <param name="builder"></param>
 		public void Configure(EntityTypeBuilder<Product> builder)
 		{
 			builder
@@ -60,6 +67,10 @@ namespace AIO.Data.Configurations
 				.HasData(GenerateProducts());
 		}
 
+		/// <summary>
+		/// Method for generating products.
+		/// </summary>
+		/// <returns></returns>
 		private Product[] GenerateProducts()
 		{
 			ICollection<Product> products = new HashSet<Product>();
