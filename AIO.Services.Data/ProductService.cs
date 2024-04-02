@@ -284,7 +284,7 @@ namespace AIO.Services.Data
 		{
 			Product product = await dbContext
 				.Products
-				.Where(p => p.IsActive)
+				.Where(p => !p.IsSold)
 				.FirstAsync(p => p.Id.ToString() == productId);
 
 			product.Title = formModel.Title;

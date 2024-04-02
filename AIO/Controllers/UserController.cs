@@ -1,5 +1,6 @@
 ﻿using AIO.Data.Models;
 using AIO.Web.ViewModels.User;
+using Ganss.Xss;
 using Griesoft.AspNetCore.ReCaptcha;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
@@ -48,6 +49,14 @@ namespace AIO.Controllers
         [ValidateRecaptcha(Action = nameof(Register), ValidationFailedAction = ValidationFailedAction.ContinueRequest)]
         public async Task<IActionResult> Register(RegisterFormModel model)
         {
+            HtmlSanitizer sanitizer = new HtmlSanitizer();
+            model.Email = sanitizer.Sanitize(model.Email);
+            model.Password = sanitizer.Sanitize(model.Password);
+            model.ConfirmPassword = sanitizer.Sanitize(model.ConfirmPassword);
+            model.FirstName = sanitizer.Sanitize(model.FirstName);
+            model.LastName = sanitizer.Sanitize(model.LastName);
+
+
             if (ModelState.IsValid)
             {
                 ApplicationUser user = new ApplicationUser
@@ -108,6 +117,11 @@ namespace AIO.Controllers
         [ValidateRecaptcha(Action = nameof(Login), ValidationFailedAction = ValidationFailedAction.ContinueRequest)]
         public async Task<IActionResult> Login(LoginFormModel model)
         {
+            HtmlSanitizer sanitizer = new HtmlSanitizer();
+
+            model.Email = sanitizer.Sanitize(model.Email);
+            model.Password = sanitizer.Sanitize(model.Password);
+
             if (ModelState.IsValid)
             {
                 ApplicationUser user = await userManager.FindByEmailAsync(model.Email);

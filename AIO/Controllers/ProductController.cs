@@ -2,6 +2,7 @@
 using AIO.Services.Data.Models.Product;
 using AIO.Web.Infrastructure.Extentions;
 using AIO.Web.ViewModels.Product;
+using Ganss.Xss;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static AIOCommon.ErrorMessageConstants.Product;
@@ -75,10 +76,11 @@ namespace AIO.Controllers
 
 			try
 			{
+
 				ProductFormModel model = new ProductFormModel();
 
 				model = await LoadsProductFormModelCategoriesAndLocationAreasAsync(model);
-				
+
 				return View(model);
 			}
 			catch (Exception)
@@ -95,6 +97,13 @@ namespace AIO.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Add(ProductFormModel model)
 		{
+
+			HtmlSanitizer sanitizer = new HtmlSanitizer();
+
+			model.Title = sanitizer.Sanitize(model.Title);
+			model.Description = sanitizer.Sanitize(model.Description);
+			model.ImageUrl = sanitizer.Sanitize(model.ImageUrl);
+
 			if (await CheckIfUserIsNotSellerNorAdmin())
 			{
 				return RedirectToAction("Become", "Seller");
@@ -296,6 +305,13 @@ namespace AIO.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Edit(string id, ProductFormModel model)
 		{
+
+			HtmlSanitizer sanitizer = new HtmlSanitizer();
+
+			model.Title = sanitizer.Sanitize(model.Title);
+			model.Description = sanitizer.Sanitize(model.Description);
+			model.ImageUrl = sanitizer.Sanitize(model.ImageUrl);
+
 			if (!ModelState.IsValid)
 			{
 				model = await LoadsProductFormModelCategoriesAndLocationAreasAsync(model);
@@ -319,6 +335,7 @@ namespace AIO.Controllers
 			}
 
 			await productService.CheckProductIfItIsExpired();
+
 
 			try
 			{

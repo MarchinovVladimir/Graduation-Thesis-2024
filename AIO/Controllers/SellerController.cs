@@ -1,6 +1,7 @@
 ﻿using AIO.Services.Data.Interfaces;
 using AIO.Web.Infrastructure.Extentions;
 using AIO.Web.ViewModels.Seller;
+using Ganss.Xss;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static AIOCommon.NotificationMessagesConstants;
@@ -38,9 +39,18 @@ namespace AIO.Controllers
 			return View();
 		}
 
+		/// <summary>
+		/// Post method for becoming a seller.
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
 		[HttpPost]
 		public async Task<IActionResult> Become(BecomeSellerFormModel model)
 		{
+			HtmlSanitizer sanitizer = new HtmlSanitizer();
+
+			model.PhoneNumber = sanitizer.Sanitize(model.PhoneNumber);
+
 			string userId = this.User.GetId();
 			bool isSellerExist = await this.sellerService.IsSellerExistByUserIdAsync(userId);
 			if (isSellerExist)
