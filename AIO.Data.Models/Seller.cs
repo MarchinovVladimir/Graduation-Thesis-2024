@@ -5,30 +5,30 @@ using static AIOCommon.EntityValidationConstants.Seller;
 namespace AIO.Data.Models
 {
     /// <summary>
-    /// Agent entity. Represents the user who sells products.
+    /// Seller entity. Represents the user who sells products.
     /// </summary>
     [Comment("Agent entity. Represents the user who sells products.")]
     public class Seller
     {
-        /// <summary>
-        /// Agent's entity property Id unique identifier.
-        /// </summary>
-        [Comment("Agent identifier")]
+		/// <summary>
+		/// Seller's entity property Id unique identifier.
+		/// </summary>
+		[Comment("Agent identifier")]
         [Key]
         public Guid Id { get; set; } = Guid.NewGuid();
 
 		/// <summary>
-		/// Agent's entity property PhoneNumber.
+		/// Seller's entity property PhoneNumber.
 		/// </summary>
 		[Comment("Agent phone number")]
         [Required]
         [MaxLength(PhoneNumberMaxLength)]
         public string PhoneNumber { get; set; } = null!;
 
-        /// <summary>
-        /// Agent's entity property UserId.
-        /// </summary>
-        [Comment("User identifier")]
+		/// <summary>
+		/// Seller's entity property UserId.
+		/// </summary>
+		[Comment("User identifier")]
         public Guid UserId { get; set; }
 
         /// <summary>

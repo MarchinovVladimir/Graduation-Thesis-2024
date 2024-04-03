@@ -1,12 +1,14 @@
 using AIO.Data;
 using AIO.Services.Data;
 using AIO.Services.Data.Interfaces;
+using AIO.Web.ViewModels.Seller;
 using Microsoft.EntityFrameworkCore;
 using static AIO.Services.Tests.DatabaseSeeder;
 
 
 namespace AIO.Services.Tests
 {
+	[TestFixture]
 	public class SellerServiceTests
 	{
 		private DbContextOptions<AIODbContext> dbOptions;
@@ -27,12 +29,12 @@ namespace AIO.Services.Tests
 			SeedDatabase(dbContext);
 
 			sellerService = new SellerService(dbContext);
-		}	
+		}
 
 		[Test]
-		public async Task IsellerExistByUserIdAsyncShouldRetrunTrueWhenExists()
+		public async Task IsSellerExistByUserIdAsyncShouldRetrunTrueWhenExists()
 		{
-			string existingSellerUserId = AgentUser!.Id.ToString();
+			string existingSellerUserId = SellerUser!.Id.ToString();
 
 			bool result = await this.sellerService.IsSellerExistByUserIdAsync(existingSellerUserId);
 
@@ -70,26 +72,69 @@ namespace AIO.Services.Tests
 			Assert.IsFalse(result);
 		}
 
-		//[Test]
-		//public async Task HasProductWithIdAsyncShouldReturnTrueWhenExists()
-		//{
-		//	string existingAgentUserId = AgentUser!.Id.ToString();
-		//	string existingProductId = Product!.Id.ToString();
+		[Test]
+		public async Task GetSellerIdByUserIdAsyncShouldReturnSellerId()
+		{
+			string existingSellerUserId = SellerUser!.Id.ToString();
 
-		//	bool result = await this.agentService.HasProductWithIdAsync(existingAgentUserId, existingProductId);
+			var result = await this.sellerService.GetSellerIdByUserIdAsync(existingSellerUserId);
 
-		//	Assert.IsTrue(result);
-		//}
+			Assert.AreEqual(Seller!.Id.ToString(), result);
+		}
 
-		//[Test]
-		//public async Task HasProductWithIdAsyncShouldReturnFalseWhenNotExists()
-		//{
-		//	string existingAgentUserId = AgentUser!.Id.ToString();
-		//	string existingProductId = User!.Id.ToString();
+		[Test]
+		public async Task GetSellerIdByUserIdAsyncShouldReturnNullIfMissing()
+		{
+			string existingSellerUserId = Seller!.Id.ToString();
 
-		//	bool result = await this.agentService.HasProductWithIdAsync(existingAgentUserId, existingProductId);
+			var result = await this.sellerService.GetSellerIdByUserIdAsync(existingSellerUserId);
 
-		//	Assert.IsFalse(result);
-		//}
+			Assert.IsNull(result);
+		}
+
+		[Test]
+		public async Task HasProductWithIdAsyncShouldReturnTrueIfProductExists()
+		{
+			string existingSellerUserId = SellerUser!.Id.ToString();
+			string existingProductId = Seller!.ProductsForSell.First().Id.ToString();
+
+
+			var result = await this.sellerService.HasProductWithIdAsync(existingSellerUserId, existingProductId);
+
+			Assert.IsTrue(result);
+		}
+
+		[Test]
+		public async Task HasProductWithIdAsyncShouldReturnFalseIfProductNotExists()
+		{
+			string existingSellerUserId = SellerUser!.Id.ToString();
+			string existingProductId = Guid.NewGuid().ToString();
+
+			var result = await this.sellerService.HasProductWithIdAsync(existingSellerUserId, existingProductId);
+
+			Assert.IsFalse(result);
+		}
+
+		[Test]
+		public async Task CreateAsyncShouldCreateNewSeller()
+		{
+			string userId = Guid.NewGuid().ToString();
+			string phoneNumber = "1234567890";
+
+			await this.sellerService.CreateAsync(userId, new BecomeSellerFormModel
+			{
+				PhoneNumber = phoneNumber
+			});
+
+			var result = await this.sellerService.GetSellerIdByUserIdAsync(userId);
+
+			Assert.IsNotNull(result);
+		}
+
+		[OneTimeTearDown]
+		public void OneTimeTearDown()
+		{
+			dbContext.Database.EnsureDeleted();
+		}
 	}
 }
