@@ -47,7 +47,7 @@ namespace AIO.Controllers
 		[AllowAnonymous]
 		public async Task<IActionResult> All([FromQuery] AllProductsQueryModel queryModel)
 		{
-			await productService.CheckProductIfItIsExpired();
+			await productService.CheckProductIfItIsExpiredAsync();
 
 			AllProductsFilteredAndPagedServiceModel serviceModel =
 				await productService.GetAllProductsFilteredAndPagedAsync(queryModel);
@@ -168,7 +168,7 @@ namespace AIO.Controllers
 
 			try
 			{
-				await productService.CheckProductIfItIsExpired();
+				await productService.CheckProductIfItIsExpiredAsync();
 
 				if (isUserSeller)
 				{
@@ -214,7 +214,7 @@ namespace AIO.Controllers
 
 			try
 			{
-				await productService.CheckProductIfItIsExpired();
+				await productService.CheckProductIfItIsExpiredAsync();
 				await productService.ReactivateProductByIdAsync(id);
 
 				return RedirectToAction("Mine", "Product");
@@ -241,7 +241,7 @@ namespace AIO.Controllers
 
 			try
 			{
-				await productService.CheckProductIfItIsExpired();
+				await productService.CheckProductIfItIsExpiredAsync();
 
 				ProductDetailsViewModel model =
 					await this.productService.GetProductDetailsByIdAsync(id);
@@ -282,7 +282,7 @@ namespace AIO.Controllers
 
 			try
 			{
-				await productService.CheckProductIfItIsExpired();
+				await productService.CheckProductIfItIsExpiredAsync();
 
 				ProductFormModel formModel = await productService.GetProductForEditByIdAsync(id);
 
@@ -334,7 +334,7 @@ namespace AIO.Controllers
 				return RedirectToAction("Mine", "Product");
 			}
 
-			await productService.CheckProductIfItIsExpired();
+			await productService.CheckProductIfItIsExpiredAsync();
 
 
 			try
@@ -380,7 +380,7 @@ namespace AIO.Controllers
 
 			try
 			{
-				await productService.CheckProductIfItIsExpired();
+				await productService.CheckProductIfItIsExpiredAsync();
 
 				ProductPreDeleteDetailsViewModel viewModel =
 					await productService.GetProductForDeleteByIdAsync(id);

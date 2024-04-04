@@ -8,54 +8,10 @@ namespace AIO.Services.Tests
 		public static ApplicationUser? SellerUser;
 		public static ApplicationUser? User;
 		public static Seller? Seller;
+		public static Product? Product;
 
 		public static void SeedDatabase(AIODbContext dbContext)
-		{
-			//Category[] categories = new Category[]
-			//{
-			//	new Category()
-			//	{
-			//		Id = 1,
-			//		Name = "Vehicle"
-			//	},
-			//	new Category()
-			//	{
-			//		Id
-			//		Name = "Bicycle"
-			//	},
-			//	new Category()
-			//	{
-			//		Name = "Real Estate"
-			//	}
-			//};
-
-			//dbContext.Categories.AddRange(categories);
-
-			//LocationArea[] locationAreas = new LocationArea[]
-			//{
-			//	new LocationArea()
-			//	{
-			//		Name = "Sofia",
-			//		PostCode = "1000"
-			//	},
-			//	new LocationArea()
-			//	{
-			//		Name = "Plovdiv",
-			//		PostCode = "4000"
-			//	},
-			//	new LocationArea()
-			//	{
-			//		Name = "Varna",
-			//		PostCode = "9000"
-			//	},
-			//	new LocationArea()
-			//	{
-			//		Name = "Burgas",
-			//		PostCode = "8000"
-			//	}
-			//};
-
-			//dbContext.LocationAreas.AddRange(locationAreas);
+		{						
 
 			SellerUser = new ApplicationUser()
 			{
@@ -100,46 +56,25 @@ namespace AIO.Services.Tests
 
 			dbContext.Sellers.Add(Seller);
 
-
-			Product productHouse = new Product()
+			Product = new Product()
 			{
-				Title = "House",
-				Description = "A house for sale",
-				ImageUrl = "https://www.bhg.com/thmb/H9VV9JNnKl-H1faFXnPlQfNprYw=/1799x0/filters:no_upscale():strip_icc ()/white-modern-house-curved-patio-archway-c0a4a3b3-aa51b24d14d0464ea15d36e05aa85ac9.jpg",
-				Price = 100000m,
-				CategoryId = 3,
-				SellerId = Guid.Parse("DB47B449-630E-4857-BC80-34A6C3E8E822"),
+				Title = "TestProduct",
+				Description = "TestProductDescription",
+				ImageUrl = "TestProductImageUrl",
+				Price = 100,
+				CreatedOn = DateTime.UtcNow,
+				ExpirationDate = DateTime.UtcNow.AddDays(7),
 				IsActive = true,
-				CreatedOn = DateTime.Parse("2024-03-27 14:00:07.6830277"),
-				ExpirationDate = DateTime.Parse("2024-04-03 14:00:07.6830277"),
 				IsSold = false,
-				LocationAreaId = 3
-			};
-
-			Product productCar = new Product()
-			{
-				Title = "Car",
-				Description = "A car for sale",
-				ImageUrl = "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?   q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGNhcnN8ZW58MHx8MHx8  fDA%3D",
-				Price = 10000m,
 				CategoryId = 1,
-				SellerId = Guid.Parse("DB47B449-630E-4857-BC80-34A6C3E8E822"),
-				IsActive = false,
-				CreatedOn = DateTime.Parse("2024-03-21 17:23:43.6400000"),
-				ExpirationDate = DateTime.Parse("2024-03-28 17:23:43.6400000"),
-				IsSold = true,
 				LocationAreaId = 1,
+				SellerId = Seller.Id,
+				
 			};
 
-
-
-			dbContext.Products.Add(productHouse);
-			dbContext.Products.Add(productCar);
-
-			Seller.ProductsForSell.Add(productHouse);
+			dbContext.Products.Add(Product);
 
 			dbContext.SaveChanges();
-
 		}
 	}
 }

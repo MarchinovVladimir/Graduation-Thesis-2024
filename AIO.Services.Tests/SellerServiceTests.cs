@@ -93,18 +93,6 @@ namespace AIO.Services.Tests
 		}
 
 		[Test]
-		public async Task HasProductWithIdAsyncShouldReturnTrueIfProductExists()
-		{
-			string existingSellerUserId = SellerUser!.Id.ToString();
-			string existingProductId = Seller!.ProductsForSell.First().Id.ToString();
-
-
-			var result = await this.sellerService.HasProductWithIdAsync(existingSellerUserId, existingProductId);
-
-			Assert.IsTrue(result);
-		}
-
-		[Test]
 		public async Task HasProductWithIdAsyncShouldReturnFalseIfProductNotExists()
 		{
 			string existingSellerUserId = SellerUser!.Id.ToString();

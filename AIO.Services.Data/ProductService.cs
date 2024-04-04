@@ -268,7 +268,7 @@ namespace AIO.Services.Data
 		public async Task<bool> IsSellerOwnerOfProductWithIdAsync(string productId, string sellerId)
 		{
 			Product product = await dbContext.Products
-				.Where(p => !p.IsSold)
+				.Where(p => p.IsSold == false)
 				.FirstAsync(p => p.Id.ToString() == productId);
 
 			return product.SellerId.ToString() == sellerId;
@@ -284,7 +284,7 @@ namespace AIO.Services.Data
 		{
 			Product product = await dbContext
 				.Products
-				.Where(p => !p.IsSold)
+				.Where(p => p.IsSold == false)
 				.FirstAsync(p => p.Id.ToString() == productId);
 
 			product.Title = formModel.Title;
@@ -369,7 +369,7 @@ namespace AIO.Services.Data
 		/// Service method for checking if product is expired.
 		/// </summary>
 		/// <returns></returns>
-		public async Task CheckProductIfItIsExpired()
+		public async Task CheckProductIfItIsExpiredAsync()
 		{
 				await dbContext
 				.Products

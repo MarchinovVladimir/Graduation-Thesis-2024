@@ -106,7 +106,7 @@ namespace AIO.Services.Data.Interfaces
 		/// Method from IProductService that checks if a product is expired.
 		/// </summary>
 		/// <returns></returns>
-		Task CheckProductIfItIsExpired();
+		Task CheckProductIfItIsExpiredAsync();
 
 		/// <summary>
 		/// Method from IProductService that returns the seller full name by product id.
