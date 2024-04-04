@@ -11,49 +11,51 @@ namespace AIO.Services.Tests
 
 		public static void SeedDatabase(AIODbContext dbContext)
 		{
-			Category[] categories = new Category[]
-			{
-				new Category()
-				{
-					Name = "Vehicle"
-				},
-				new Category()
-				{
-					Name = "Bicycle"
-				},
-				new Category()
-				{
-					Name = "Real Estate"
-				}
-			};
+			//Category[] categories = new Category[]
+			//{
+			//	new Category()
+			//	{
+			//		Id = 1,
+			//		Name = "Vehicle"
+			//	},
+			//	new Category()
+			//	{
+			//		Id
+			//		Name = "Bicycle"
+			//	},
+			//	new Category()
+			//	{
+			//		Name = "Real Estate"
+			//	}
+			//};
 
-			dbContext.Categories.AddRange(categories);
+			//dbContext.Categories.AddRange(categories);
 
-			LocationArea[] locationAreas = new LocationArea[]
-			{
-				new LocationArea()
-				{
-					Name = "Sofia",
-					PostCode = "1000"
-				},
-				new LocationArea()
-				{
-					Name = "Plovdiv",
-					PostCode = "4000"
-				},
-				new LocationArea()
-				{
-					Name = "Varna",
-					PostCode = "9000"
-				},
-				new LocationArea()
-				{
-					Name = "Burgas",
-					PostCode = "8000"
-				}
-			};
+			//LocationArea[] locationAreas = new LocationArea[]
+			//{
+			//	new LocationArea()
+			//	{
+			//		Name = "Sofia",
+			//		PostCode = "1000"
+			//	},
+			//	new LocationArea()
+			//	{
+			//		Name = "Plovdiv",
+			//		PostCode = "4000"
+			//	},
+			//	new LocationArea()
+			//	{
+			//		Name = "Varna",
+			//		PostCode = "9000"
+			//	},
+			//	new LocationArea()
+			//	{
+			//		Name = "Burgas",
+			//		PostCode = "8000"
+			//	}
+			//};
 
-			dbContext.LocationAreas.AddRange(locationAreas);
+			//dbContext.LocationAreas.AddRange(locationAreas);
 
 			SellerUser = new ApplicationUser()
 			{

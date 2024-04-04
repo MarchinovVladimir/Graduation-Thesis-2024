@@ -65,7 +65,7 @@ namespace AIO.Services.Tests
 		[Test]
 		public async Task IsSellerExistByPhoneNumberAsyncShouldReturnFalseWhenNotExists()
 		{
-			string existingAgentPhoneNumber = "1234567890";
+			string existingAgentPhoneNumber = "000000000";
 
 			bool result = await this.sellerService.IsSellerExistByPhoneNumberAsync(existingAgentPhoneNumber);
 
