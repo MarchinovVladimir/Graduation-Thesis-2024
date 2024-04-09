@@ -5,5 +5,6 @@ To create admin:
 - An extension method "IApplicationBuilder SeedAdministrator(this IApplicationBuilder app, string email)" declared for the IApplicationBuilder interface. It extends the functionality of the IApplicationBuilder interface, allowing you to call this method on an instance of IApplicationBuilder
 - The extention method  SeedAdministrator(this IApplicationBuilder app, string email) is called in Program.cs after authentication and authorization middlewares:
 - If there is no role assign to a seller with the given email it will be seeded if there is the role assigment will be skiped.
+- The Roles could be added from MSSQL as well.
   
  
