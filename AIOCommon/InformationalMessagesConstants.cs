@@ -17,5 +17,11 @@
 			public const string SuccessfullyDeletedProductMessage = 
 				"The product was successfully deleted.";
 		}
+
+		public static class LocationArea
+		{
+			public const string SuccessfullyAddedLocationAreaMessage =
+				"The location area was successfully added.";
+		}
 	}
 }

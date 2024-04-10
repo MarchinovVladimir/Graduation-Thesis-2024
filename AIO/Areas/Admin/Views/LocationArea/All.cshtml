@@ -1,0 +1,20 @@
+﻿@model IEnumerable<LocationAreaViewModel>
+@{
+
+	ViewBag.Title = "All location areas";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+@if (!Model.Any())
+{
+	<h2 class="text-center">There are no location areas yet!</h2>
+}
+
+<div class="row">
+	@foreach (var location in Model)
+	{
+		<partial name="_LocationPartial" model="@location" ; />
+	}
+</div>

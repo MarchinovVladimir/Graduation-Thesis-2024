@@ -1,0 +1,12 @@
+﻿@model LocationAreaViewModel
+
+<div class="col-md-4">
+	<div class="card mb-3">
+		<div class="card-body text-center">
+			<h4>Location name: @Model.Name</h4>
+			<h4>Location post code: @Model.PostCode</h4>
+			<a asp-area="Admin" asp-controller="LocationArea" asp-action="Edit" asp-route-id="@Model.Id"
+			   class="btn btn-warning">Edit</a>
+		</div>
+	</div>
+</div>

@@ -42,7 +42,18 @@
 				"The {0} must be at least {2} and at max {1} characters long.";
 			public const string  LastNameLengthErrorMessage =
 				"The {0} must be at least {2} and at max {1} characters long.";
+		}
 
+        public static class LocationArea
+        {
+			public const string GeneralErrorMessage =
+				"Unexpected error occured. Please try again later !";
+			public const string LocationAreaNotFoundMessage = "Location area not found!";
+			public const string NameLengthErrorMessage =
+				"{0} must be between {2} and {1} characters long.";
+			public const string PostCodeLengthErrorMessage =
+				"{0} must be between {2} and {1} characters long.";
+			public const string LocationAreaExistsErrorMessage = "Location area already exists!";
 		}
     }
 }

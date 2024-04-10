@@ -1,0 +1,21 @@
+﻿@model LocationAreaFormModel
+<div class="row">
+	<div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+		<form method="post">
+			<div class="form-group">
+				<label asp-for="Name"></label>
+				<input asp-for="Name" class="form-control" placeholder="Location name...">
+				<span asp-validation-for="Name" class="small text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="PostCode"></label>
+				<textarea asp-for="PostCode" rows="4" class="form-control"
+						  placeholder="Post code..."></textarea>
+				<span asp-validation-for="PostCode" class="small textdanger"></span>
+			</div>
+			<div class="text-center">
+				<input class="btn btn-primary mt-3" type="submit" value="Save" />
+			</div>
+		</form>
+	</div>
+</div>

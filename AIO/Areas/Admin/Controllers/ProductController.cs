@@ -1,11 +1,13 @@
 ﻿using AIO.Areas.Admin.ViewModels;
 using AIO.Services.Data.Interfaces;
 using AIO.Web.Infrastructure.Extentions;
-using AIO.Web.ViewModels.Product;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AIO.Areas.Admin.Controllers
 {
+	/// <summary>
+	/// Product controller for admin area.
+	/// </summary>
 	public class ProductController : BaseAdminController
 	{
 		private readonly ISellerService sellerService;
@@ -17,6 +19,10 @@ namespace AIO.Areas.Admin.Controllers
 			this.productService = productService;
 		}
 
+		/// <summary>
+		/// Get all products added by the current seller / admin /.
+		/// </summary>
+		/// <returns></returns>
 		public async Task<IActionResult> Mine()
 		{
 			string sellerId = await this.sellerService.GetSellerIdByUserIdAsync(User.GetId());
