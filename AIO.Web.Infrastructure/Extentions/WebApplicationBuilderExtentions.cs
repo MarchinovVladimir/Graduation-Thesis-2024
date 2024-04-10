@@ -45,6 +45,12 @@ namespace Microsoft.Extensions.DependencyInjection
 			services.AddScoped<IProductService, ProductService>();
 		}
 
+		/// <summary>
+		/// This method registers all services with their interfaces and implementations of given assambly
+		/// </summary>
+		/// <param name="services"></param>
+		/// <param name="config"></param>
+		/// <returns></returns>
 		public static IServiceCollection AddApplicationDbContext(this IServiceCollection services, IConfiguration config)
 		{
 			string connectionString = config.GetConnectionString("DefaultConnection");
@@ -55,7 +61,7 @@ namespace Microsoft.Extensions.DependencyInjection
 		}
 
 		/// <summary>
-		/// This method seed admin role if it does not exist.
+		/// This method seeds admin role if it does not exist.
 		/// Passed email should be valid email of an existing user in the application.
 		/// </summary>
 		/// <param name="app"></param>
@@ -67,8 +73,9 @@ namespace Microsoft.Extensions.DependencyInjection
 
 			IServiceProvider serviceProvider = scopedServices.ServiceProvider;
 
-			UserManager<ApplicationUser> userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-			RoleManager<IdentityRole<Guid>> roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
+			UserManager<ApplicationUser> userManager = 
+			  serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+			RoleManager<IdentityRole<Guid>> roleManager =					   serviceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
 
 			Task.Run(async () =>
 			{
@@ -90,6 +97,11 @@ namespace Microsoft.Extensions.DependencyInjection
 			return app;
 		}
 
+		/// <summary>
+		/// This method enables the middleware for checking online users.
+		/// </summary>
+		/// <param name="app"></param>
+		/// <returns></returns>
 		public static IApplicationBuilder EnableOnlineUsersCheck(this IApplicationBuilder app)
 		{
 			return app.UseMiddleware<OnlineUsersMiddleware>();

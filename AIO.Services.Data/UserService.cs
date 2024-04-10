@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AIO.Services.Data
 {
+	/// <summary>
+	/// User service for handling user-related operations.
+	/// </summary>
 	public class UserService : IUserService
 	{
 		private readonly AIODbContext dbContext;
@@ -15,6 +18,11 @@ namespace AIO.Services.Data
 			this.dbContext = dbContext;
 		}
 
+		/// <summary>
+		/// Get the full name of a user by email.
+		/// </summary>
+		/// <param name="email"></param>
+		/// <returns></returns>
 		public async Task<string> GetFullNameByEmailAsync(string email)
 		{
 			ApplicationUser? user = await this.dbContext.Users.FirstOrDefaultAsync(x => x.Email == email);
@@ -27,6 +35,11 @@ namespace AIO.Services.Data
 			return $"{user.FirstName} {user.LastName}";
 		}
 
+		/// <summary>
+		/// Get the full name of a user by id.
+		/// </summary>
+		/// <param name="userId"></param>
+		/// <returns></returns>
 		public async Task<string> GetFullNameByIdAsync(string userId)
 		{
 			ApplicationUser? user = await this.dbContext
@@ -41,6 +54,10 @@ namespace AIO.Services.Data
 			return $"{user.FirstName} {user.LastName}";
 		}
 
+		/// <summary>
+		/// Get all users.
+		/// </summary>
+		/// <returns></returns>
 		public async Task<IEnumerable<UserViewModel>> AllAsync()
 		{
 			List<UserViewModel> allUsers = await this.dbContext
