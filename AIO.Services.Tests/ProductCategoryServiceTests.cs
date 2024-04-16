@@ -4,6 +4,7 @@ using AIO.Services.Data;
 using AIO.Services.Data.Interfaces;
 using AIO.Web.ViewModels.ProductCategory;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using static AIO.Services.Tests.DatabaseSeeder;
 
 namespace AIO.Services.Tests
@@ -38,7 +39,7 @@ namespace AIO.Services.Tests
 		{
 			ICollection<ProductCategoryViewModel> productCategories = await this.productCategoryService.GetAllProductCategoriesAsync();
 
-			Assert.AreEqual(3, productCategories.Count);
+			Assert.That(productCategories.Count(), Is.EqualTo(3));
 		}
 
 		[Test]
@@ -62,7 +63,7 @@ namespace AIO.Services.Tests
 		{
 			IEnumerable<string> allProductCategoryNames = await this.productCategoryService.AllProductCategoryNamesAsync();
 
-			Assert.AreEqual(3, allProductCategoryNames.Count());
+			Assert.That(allProductCategoryNames.Count(), Is.EqualTo(3));
 		}
 
 		[Test]
@@ -70,9 +71,41 @@ namespace AIO.Services.Tests
 		{
 			IEnumerable<string> allProductCategoryNames = await this.productCategoryService.AllProductCategoryNamesAsync();
 
-			Assert.AreEqual("Vehicle", allProductCategoryNames.First());
-			Assert.AreEqual("Bicycle", allProductCategoryNames.Skip(1).First());
-			Assert.AreEqual("Real Estate", allProductCategoryNames.Last());
+			Assert.That(allProductCategoryNames.First(), Is.EqualTo("Vehicle"));
+			Assert.That(allProductCategoryNames.Skip(1).First(), Is.EqualTo("Bicycle"));
+			Assert.That(allProductCategoryNames.Last(), Is.EqualTo("Real Estate"));
+		}
+
+		[Test]
+		public async Task ExistsByNameAsyncShouldReturnTrueWhenExists()
+		{
+			bool result = await this.productCategoryService.ExistsByNameAsync("Vehicle");
+
+			Assert.IsTrue(result);
+		}
+
+		[Test]
+		public async Task ExistsByNameAsyncShouldReturnFalseWhenNotExists()
+		{
+			bool result = await this.productCategoryService.ExistsByNameAsync("NotExists");
+
+			Assert.IsFalse(result);
+		}
+
+		[Test]
+		public async Task ExistsByNameAsyncShouldReturnFalseWhenExistsButDifferentCase()
+		{
+			bool result = await this.productCategoryService.ExistsByNameAsync("vehicle");
+
+			Assert.IsFalse(result);
+		}
+
+		[Test]
+		public async Task ExistsByNameAsyncShouldReturnTrueWhenExistsWithDifferentCase()
+		{
+			bool result = await this.productCategoryService.ExistsByNameAsync("Vehicle");
+
+			Assert.IsTrue(result);
 		}
 
 		[OneTimeTearDown]
