@@ -1,4 +1,5 @@
-﻿using AIO.Data;
+﻿using AIO.Areas.Admin.ViewModels;
+using AIO.Data;
 using AIO.Services.Data;
 using AIO.Services.Data.Interfaces;
 using AIO.Web.ViewModels.LocationArea;
@@ -35,7 +36,7 @@ namespace AIO.Services.Tests
 		{
 			ICollection<LocationAreaViewModel> locationAreas = await this.locationAreaService.GetAllLocationAreasAsync();
 
-			Assert.AreEqual(4, locationAreas.Count);
+			Assert.That(locationAreas.Count(), Is.EqualTo(4));
 		}
 
 		[Test]
@@ -59,7 +60,7 @@ namespace AIO.Services.Tests
 		{
 			IEnumerable<string> locationAreasNames = await this.locationAreaService.AllLocationAreasNamesAsync();
 
-			Assert.AreEqual(4, locationAreasNames.Count());
+			Assert.That(locationAreasNames.Count(), Is.EqualTo(4));
 		}
 
 		[Test]
@@ -67,10 +68,37 @@ namespace AIO.Services.Tests
 		{
 			IEnumerable<string> locationAreasNames = await this.locationAreaService.AllLocationAreasNamesAsync();
 
-			Assert.AreEqual("Sofia", locationAreasNames.First());
-			Assert.AreEqual("Plovdiv", locationAreasNames.Skip(1).First());
-			Assert.AreEqual("Varna", locationAreasNames.Skip(2).First());
-			Assert.AreEqual("Burgas", locationAreasNames.Skip(3).First());
+			Assert.That(locationAreasNames.First(), Is.EqualTo("Sofia"));
+			Assert.That(locationAreasNames.Skip(1).First(), Is.EqualTo("Plovdiv"));
+			Assert.That(locationAreasNames.Skip(2).First(), Is.EqualTo("Varna"));
+			Assert.That(locationAreasNames.Skip(3).First(), Is.EqualTo("Burgas"));
+		}
+
+		[Test]
+		public async Task GetLocationAreaByIdAsyncShouldReturnCorrectLocationArea()
+		{
+			LocationAreaFormModel locationArea = 
+				await this.locationAreaService.GetLocationAreaByIdAsync(1);
+
+			Assert.That(locationArea.Name, Is.EqualTo("Sofia"));
+		}
+
+		[Test]
+		public async Task EditLocationAreaByIdAndFormModelShouldEditCorrectly()
+		{
+			LocationAreaFormModel locationArea = new LocationAreaFormModel
+			{
+				Name = "Sofia",
+				PostCode = "1000"
+			};
+
+			await this.locationAreaService.EditLocationAreaByIdAndFormModel(1, locationArea);
+
+			LocationAreaFormModel editedLocationArea = 
+				await this.locationAreaService.GetLocationAreaByIdAsync(1);
+
+			Assert.That(editedLocationArea.Name, Is.EqualTo("Sofia"));
+			Assert.That(editedLocationArea.PostCode, Is.EqualTo("1000"));
 		}
 
 		[OneTimeTearDown]
