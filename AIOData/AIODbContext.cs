@@ -6,10 +6,10 @@ using System.Reflection;
 
 namespace AIO.Data
 {
-    /// <summary>
-    /// The database context for the application.
-    /// </summary>
-    public class AIODbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
+	/// <summary>
+	/// The database context for the application.
+	/// </summary>
+	public class AIODbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
     {
         /// <summary>
         /// Initializes a new instance of the AIODbContex class.

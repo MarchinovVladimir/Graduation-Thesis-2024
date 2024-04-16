@@ -4,21 +4,21 @@ using static AIOCommon.EntityValidationConstants.Category;
 
 namespace AIO.Data.Models
 {
-    /// <summary>
-    /// Category of the product.
-    /// </summary>
-    [Comment("The category of the product.")]
+	/// <summary>
+	/// Category entity of the product.
+	/// </summary>
+	[Comment("The category of the product.")]
     public class Category
     {
         /// <summary>
-        /// Category's unique identifier.
+        /// Category's entity unique identifier.
         /// </summary>
         [Comment("Category's unique identifier.")]
         [Key]
         public int Id { get; set; }
 
         /// <summary>
-        /// Category name.
+        /// Category entity name.
         /// </summary>
         [Comment("Category name")]
         [Required]

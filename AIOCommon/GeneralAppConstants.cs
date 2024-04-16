@@ -1,5 +1,8 @@
 ﻿namespace AIOCommon
 {
+    /// <summary>
+    /// Common constants for the application. 
+    /// </summary>
     public static class GeneralAppConstants
     {
         /// <summary>

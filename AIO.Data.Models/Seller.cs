@@ -4,23 +4,23 @@ using System.ComponentModel.DataAnnotations.Schema;
 using static AIOCommon.EntityValidationConstants.Seller;
 namespace AIO.Data.Models
 {
-    /// <summary>
-    /// Seller entity. Represents the user who sells products.
-    /// </summary>
-    [Comment("Agent entity. Represents the user who sells products.")]
+	/// <summary>
+	/// Seller entity. Represents the user who sells products.
+	/// </summary>
+	[Comment("Seller entity. Represents the user who sells products.")]
     public class Seller
     {
 		/// <summary>
 		/// Seller's entity property Id unique identifier.
 		/// </summary>
-		[Comment("Agent identifier")]
+		[Comment("Seller unique identifier")]
         [Key]
         public Guid Id { get; set; } = Guid.NewGuid();
 
 		/// <summary>
 		/// Seller's entity property PhoneNumber.
 		/// </summary>
-		[Comment("Agent phone number")]
+		[Comment("Seller phone number")]
         [Required]
         [MaxLength(PhoneNumberMaxLength)]
         public string PhoneNumber { get; set; } = null!;

@@ -2,7 +2,6 @@
 {
     public static class EntityValidationConstants
     {
-
         public static class Category
         {
             public const int NameMinLength = 2;

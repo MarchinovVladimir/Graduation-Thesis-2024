@@ -5,10 +5,10 @@ using static AIOCommon.EntityValidationConstants.Product;
 
 namespace AIO.Data.Models
 {
-    /// <summary>
-    /// Product entity class.
-    /// </summary>
-    [Comment("The product that is for sell.")]
+	/// <summary>
+	/// Product entity class.
+	/// </summary>
+	[Comment("The product that is for sell.")]
     public class Product
     {
         /// <summary>
@@ -50,14 +50,14 @@ namespace AIO.Data.Models
         public decimal Price { get; set; }
 
         /// <summary>
-        /// Product's entity property start time.
+        /// Product's entity property created on date.
         /// </summary>
         [Comment("The date when the product listing is created")]
         [Required]
         public DateTime CreatedOn { get; set; }
 
         /// <summary>
-        /// Product's entity property end time.
+        /// Product's entity property expired date.
         /// </summary>
         [Comment("The date when the product listing expires")]
         [Required]
