@@ -30,7 +30,6 @@ namespace AIO.Areas.Admin.Controllers
 		{
 			try
 			{
-
 				ICollection<LocationAreaViewModel> locationAreas = await locationAreaService.GetAllLocationAreasAsync();
 
 				return View(locationAreas);
@@ -91,16 +90,16 @@ namespace AIO.Areas.Admin.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Edit(int id)
 		{
+			if (!await locationAreaService.ExistsByIdAsync(id))
+			{
+				TempData[ErrorMessage] = LocationAreaNotFoundMessage;
+
+				return RedirectToAction("All", "LocationArea", new {area = AdminAreaName});
+			}
+
 			try
 			{
 				LocationAreaFormModel locationArea = await locationAreaService.GetLocationAreaByIdAsync(id);
-
-				if (locationArea == null)
-				{
-					TempData[ErrorMessage] = LocationAreaNotFoundMessage;
-
-					return RedirectToAction("All", "LocationArea", new {area = AdminAreaName});
-				}
 
 				return View(locationArea);
 			}

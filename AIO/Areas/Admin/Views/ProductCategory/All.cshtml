@@ -1,0 +1,20 @@
+﻿@model IEnumerable<ProductCategoryViewModel>
+@{
+
+	ViewBag.Title = "All product's categories";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+@if (!Model.Any())
+{
+	<h2 class="text-center">There are no product's categories!</h2>
+}
+
+<div class="row">
+	@foreach (var category in Model)
+	{
+		<partial name="_CategoryPartial" model="@category" ; />
+	}
+</div>

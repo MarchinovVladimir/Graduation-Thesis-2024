@@ -44,7 +44,6 @@ namespace AIO.Services.Data
 
 		public async Task<LocationAreaFormModel> GetLocationAreaByIdAsync(int id)
 		{
-
 			return await dbContext.LocationAreas
 				.Where(la => la.Id == id)
 				.Select(la => new LocationAreaFormModel
@@ -53,7 +52,6 @@ namespace AIO.Services.Data
 					PostCode = la.PostCode
 				})
 				.FirstAsync();
-
 		}
 
 		public async Task EditLocationAreaByIdAndFormModel(int locationAreaId, LocationAreaFormModel formModel)

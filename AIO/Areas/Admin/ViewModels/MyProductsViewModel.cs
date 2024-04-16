@@ -4,6 +4,7 @@ namespace AIO.Areas.Admin.ViewModels
 {
 	public class MyProductsViewModel
 	{
-		public IEnumerable<ProductAllViewModel> AddedProducts { get; set; } = new HashSet<ProductAllViewModel>();
+		public IEnumerable<ProductAllViewModel> AddedProducts { get; set; } = 
+			new HashSet<ProductAllViewModel>();
 	}
 }

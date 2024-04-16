@@ -55,5 +55,16 @@
 				"{0} must be between {2} and {1} characters long.";
 			public const string LocationAreaExistsErrorMessage = "Location area already exists!";
 		}
+
+		public static class Category
+		{
+			public const string GeneralErrorMessage =
+				"Unexpected error occured. Please try again later !";
+			public const string NameLengthErrorMessage =
+				"{0} must be between {2} and {1} characters long.";
+			public const string CategoryExistsErrorMessage = "Category already exists!";
+			public const string ProductCategoryNotFoundMessage = "Product category not found!";
+			public const string ProductCategoryExistsErrorMessage = "Product category already exists!";
+		}
     }
 }
