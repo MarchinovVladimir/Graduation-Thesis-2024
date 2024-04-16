@@ -4,7 +4,6 @@ using AIO.Services.Data;
 using AIO.Services.Data.Interfaces;
 using AIO.Web.ViewModels.ProductCategory;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using static AIO.Services.Tests.DatabaseSeeder;
 
 namespace AIO.Services.Tests

@@ -18,10 +18,26 @@
 				"The product was successfully deleted.";
 		}
 
+		/// <summary>
+		/// Informational message for the user.
+		/// </summary>
 		public static class LocationArea
 		{
 			public const string SuccessfullyAddedLocationAreaMessage =
 				"The location area was successfully added.";
+			public const string SuccessfullyEditedLocationAreaMessage =
+				"The location area was successfully edited.";
+		}
+
+		/// <summary>
+		/// Informational message for the user.
+		/// </summary>
+		public static class Category
+		{
+			public const string SuccessfullyAddedCategoryMessage =
+				"The category was successfully added.";
+			public const string SuccessfullyEditedCategoryMessage =
+				"The category was successfully edited.";
 		}
 	}
 }

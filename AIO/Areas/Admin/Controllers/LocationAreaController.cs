@@ -1,11 +1,11 @@
-﻿using AIO.Services.Data.Interfaces;
+﻿using AIO.Areas.Admin.ViewModels;
+using AIO.Services.Data.Interfaces;
 using AIO.Web.ViewModels.LocationArea;
 using Microsoft.AspNetCore.Mvc;
-using static AIOCommon.NotificationMessagesConstants;
 using static AIOCommon.ErrorMessageConstants.LocationArea;
 using static AIOCommon.GeneralAppConstants;
 using static AIOCommon.InformationalMessagesConstants.LocationArea;
-using AIO.Areas.Admin.ViewModels;
+using static AIOCommon.NotificationMessagesConstants;
 
 namespace AIO.Areas.Admin.Controllers
 {
@@ -126,6 +126,7 @@ namespace AIO.Areas.Admin.Controllers
 			try
 			{
 				await locationAreaService.EditLocationAreaByIdAndFormModel(id, locationArea);
+				TempData[SuccessMessage] = SuccessfullyEditedLocationAreaMessage;
 				return RedirectToAction("All", "LocationArea", new {area = AdminAreaName});
 			}
 			catch (Exception)
@@ -134,6 +135,10 @@ namespace AIO.Areas.Admin.Controllers
 			}
 		}
 
+		/// <summary>
+		/// Private method for general error.
+		/// </summary>
+		/// <returns></returns>
 		private IActionResult GeneralError()
 		{
 			TempData[ErrorMessage] = GeneralErrorMessage;

@@ -3,6 +3,7 @@ using AIO.Web.ViewModels.ProductCategory;
 using Microsoft.AspNetCore.Mvc;
 using static AIOCommon.ErrorMessageConstants.Category;
 using static AIOCommon.GeneralAppConstants;
+using static AIOCommon.InformationalMessagesConstants.Category;
 using static AIOCommon.NotificationMessagesConstants;
 
 
@@ -65,9 +66,18 @@ namespace AIO.Areas.Admin.Controllers
 				return View(productCategory);
 			}
 
-			await productCategoryService.AddProductCategoryAsync(productCategory);
+			try
+			{
+				await productCategoryService.AddProductCategoryAsync(productCategory);
+				TempData[SuccessMessage] = SuccessfullyAddedCategoryMessage;
 
-			return RedirectToAction(nameof(All));
+				return RedirectToAction(nameof(All));
+			}
+			catch (Exception)
+			{
+				return GeneralError();
+			}
+			
 		}
 
 		/// <summary>
@@ -84,8 +94,6 @@ namespace AIO.Areas.Admin.Controllers
 
 				return RedirectToAction("All", "ProductCategory", new { area = AdminAreaName });
 			}
-
-			
 
 			try
 			{
@@ -118,9 +126,18 @@ namespace AIO.Areas.Admin.Controllers
 				return View(productCategory);
 			}
 
-			await productCategoryService.EditProductCategoryAsync(id, productCategory);
+			try
+			{
+				await productCategoryService.EditProductCategoryAsync(id, productCategory);
+				TempData[SuccessMessage] = SuccessfullyEditedCategoryMessage;
 
-			return RedirectToAction(nameof(All));
+				return RedirectToAction(nameof(All));
+			}
+			catch (Exception)
+			{
+				return GeneralError();
+			}
+			
 		}
 
 		/// <summary>
