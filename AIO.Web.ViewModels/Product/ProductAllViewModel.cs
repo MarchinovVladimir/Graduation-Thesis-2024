@@ -26,7 +26,7 @@ namespace AIO.Web.ViewModels.Product
 		/// <summary>
 		/// Price property of the ProductAllViewModel.
 		/// </summary>
-        public decimal Price { get; set; }
+		public decimal Price { get; set; }
 
 		/// <summary>
 		/// IsActive property of the ProductAllViewModel.
@@ -37,5 +37,5 @@ namespace AIO.Web.ViewModels.Product
 		/// IsSold property of the ProductAllViewModel.
 		/// </summary>
 		public bool IsSold { get; set; }
-    }
+	}
 }

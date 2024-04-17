@@ -12,7 +12,7 @@ namespace AIO.Web.ViewModels.Product
 		/// <summary>
 		/// Category property of the AllProductsQueryModel.
 		/// </summary>
-        public string? Category { get; set; }
+		public string? Category { get; set; }
 
 		/// <summary>
 		/// LocationArea property of the AllProductsQueryModel.
@@ -47,7 +47,7 @@ namespace AIO.Web.ViewModels.Product
 		/// TotalProducts property of the AllProductsQueryModel.
 		/// </summary>
 		public int TotalProducts { get; set; }
-		
+
 		/// <summary>
 		/// Categories property of the AllProductsQueryModel.
 		/// </summary>
@@ -61,8 +61,8 @@ namespace AIO.Web.ViewModels.Product
 		/// <summary>
 		/// Products property of the AllProductsQueryModel.
 		/// </summary>
-		public IEnumerable<ProductAllViewModel> Products { get; set; } = 
+		public IEnumerable<ProductAllViewModel> Products { get; set; } =
 			new HashSet<ProductAllViewModel>();
 
-    }
+	}
 }
