@@ -39,5 +39,11 @@
 			public const string SuccessfullyEditedCategoryMessage =
 				"The category was successfully edited.";
 		}
+
+		public static class Seller
+		{
+			public const string BecomingSellerSuccessMessage =
+				"You became seller successfully!";
+		}
 	}
 }

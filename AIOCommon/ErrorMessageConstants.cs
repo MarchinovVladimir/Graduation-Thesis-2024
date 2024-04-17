@@ -66,5 +66,15 @@
 			public const string ProductCategoryNotFoundMessage = "Product category not found!";
 			public const string ProductCategoryExistsErrorMessage = "Product category already exists!";
 		}
+
+		public static class Seller
+		{
+			public const string AlreadyASellerErrorMessage = "You are already a seller!";
+			public const string PhoneNumberTakenErrorMessage = "Phone number is already taken";
+			public const string UnexpectedErrorWhileRegistratingErrorMessage =
+				"Unexpexted error occured while registrating you as a seller! Please try again later or contact administrator";
+			public const string PhoneNumberLengthErrorMessage =
+				"{0} must be between {2} and {1} characters long.";
+		}
     }
 }
