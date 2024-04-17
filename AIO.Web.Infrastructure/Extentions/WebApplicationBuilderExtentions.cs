@@ -37,12 +37,11 @@ namespace Microsoft.Extensions.DependencyInjection
 				Type? interfaceType = implementationType.GetInterface($"I{implementationType.Name}");
 				if (interfaceType == null)
 				{
-					throw new InvalidOperationException($"No interface found for {implementationType.Name}!");
+					throw new InvalidOperationException($"No interface found for the service with name: {implementationType.Name}!");
 				}
 
 				services.AddScoped(interfaceType, implementationType);
 			}
-			services.AddScoped<IProductService, ProductService>();
 		}
 
 		/// <summary>
@@ -73,9 +72,9 @@ namespace Microsoft.Extensions.DependencyInjection
 
 			IServiceProvider serviceProvider = scopedServices.ServiceProvider;
 
-			UserManager<ApplicationUser> userManager = 
+			UserManager<ApplicationUser> userManager =
 			  serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-			RoleManager<IdentityRole<Guid>> roleManager =					   serviceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
+			RoleManager<IdentityRole<Guid>> roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
 
 			Task.Run(async () =>
 			{

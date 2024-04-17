@@ -75,12 +75,12 @@ namespace AIO.Controllers
 			try
 			{
 				await sellerService.CreateAsync(userId, model);
-				
+
 			}
 			catch (Exception)
 			{
 
-				TempData[ErrorMessage] = 
+				TempData[ErrorMessage] =
 					"Unexpexted error occured while registrating you a seller! Please try again later or contact administrator";
 				return RedirectToAction("Index", "Home");
 			}

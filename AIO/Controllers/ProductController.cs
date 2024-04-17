@@ -410,7 +410,7 @@ namespace AIO.Controllers
 			if (await CheckIfUserIsNotSellerNorAdmin())
 			{
 				return RedirectToAction("Become", "Seller");
-			}			
+			}
 
 			if (await CheckIfUserIsNotOwnerNorAdmin(id))
 			{
@@ -431,6 +431,10 @@ namespace AIO.Controllers
 			}
 		}
 
+		/// <summary>
+		/// Private method for general error.
+		/// </summary>
+		/// <returns></returns>
 		private IActionResult GeneralError()
 		{
 			TempData[ErrorMessage] = GeneralErrorMessage;
@@ -438,6 +442,10 @@ namespace AIO.Controllers
 			return RedirectToAction("Index", "Home");
 		}
 
+		/// <summary>
+		/// Private method for checking if user is not seller nor admin.
+		/// </summary>
+		/// <returns></returns>
 		private async Task<bool> CheckIfUserIsNotSellerNorAdmin()
 		{
 			bool isSeller = await sellerService.IsSellerExistByUserIdAsync(this.User.GetId());
@@ -450,6 +458,11 @@ namespace AIO.Controllers
 			return false;
 		}
 
+		/// <summary>
+		/// Private method for checking if user is not owner nor admin.
+		/// </summary>
+		/// <param name="productId"></param>
+		/// <returns></returns>
 		private async Task<bool> CheckIfUserIsNotOwnerNorAdmin(string productId)
 		{
 			string sellerId = await sellerService.GetSellerIdByUserIdAsync(this.User.GetId());
@@ -465,6 +478,11 @@ namespace AIO.Controllers
 			return false;
 		}
 
+		/// <summary>
+		/// Private method for checking if product does not exist by id.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
 		private async Task<bool> CheckIfProductDoesNotExist(string id)
 		{
 			bool doesProductExist = await productService.ExistsByIdAsync(id);
@@ -478,6 +496,11 @@ namespace AIO.Controllers
 			return false;
 		}
 
+		/// <summary>
+		/// Private method for loading product form model categories and location areas.
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
 		private async Task<ProductFormModel> LoadsProductFormModelCategoriesAndLocationAreasAsync(ProductFormModel model)
 		{
 			model.Categories = await productCategoryService.GetAllProductCategoriesAsync();

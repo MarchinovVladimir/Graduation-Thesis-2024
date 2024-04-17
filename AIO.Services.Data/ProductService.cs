@@ -22,7 +22,7 @@ namespace AIO.Services.Data
 		}
 
 		/// <summary>
-		/// Service method for getting the first three expiring products.
+		/// Service method for getting the first three expiring products, which are not sold and are active.
 		/// </summary>
 		/// <returns></returns>
 		public async Task<IEnumerable<ProductIndexViewModel>> GetFirstThreeExpiringProducts()
@@ -92,7 +92,7 @@ namespace AIO.Services.Data
 
 			if (!string.IsNullOrWhiteSpace(queryModel.SearchString))
 			{
-				string wildCard = $"%{queryModel.SearchString.ToLower()}%";	
+				string wildCard = $"%{queryModel.SearchString.ToLower()}%";
 
 				productsQuery = productsQuery
 						.Where(p => EF.Functions.Like(p.Title, wildCard) ||
@@ -119,15 +119,15 @@ namespace AIO.Services.Data
 					Id = p.Id.ToString(),
 					Title = p.Title,
 					ImageUrl = p.ImageUrl,
-					Price = p.Price,	
+					Price = p.Price,
 					IsActive = p.IsActive,
 					IsSold = p.IsSold
-				}).ToArrayAsync();	
+				}).ToArrayAsync();
 
 			int totalProductsCount = productsQuery.Count();
 
-			return new AllProductsFilteredAndPagedServiceModel 
-			{ 
+			return new AllProductsFilteredAndPagedServiceModel
+			{
 				TotalProductsCount = totalProductsCount,
 				Products = allProducts
 			};
@@ -143,7 +143,7 @@ namespace AIO.Services.Data
 			IEnumerable<ProductAllViewModel> allSellerProducts = await this.dbContext
 				.Products
 				.AsNoTracking()
-				.Where(p => !p.IsSold && 
+				.Where(p => !p.IsSold &&
 							p.SellerId.ToString() == sellerId)
 				.Select(p => new ProductAllViewModel
 				{
@@ -165,10 +165,10 @@ namespace AIO.Services.Data
 		/// <returns></returns>
 		public async Task<IEnumerable<ProductAllViewModel>> GetAllProductsByUserIdAsync(string userId)
 		{
-			IEnumerable<ProductAllViewModel> allUserProducts =await  this.dbContext
+			IEnumerable<ProductAllViewModel> allUserProducts = await this.dbContext
 				.Products
 				.AsNoTracking()
-				.Where(p => !p.IsSold && 
+				.Where(p => !p.IsSold &&
 							p.BuyerId.ToString() == userId)
 				.Select(p => new ProductAllViewModel
 				{
@@ -198,16 +198,16 @@ namespace AIO.Services.Data
 				.ThenInclude(a => a.User)
 				.AsNoTracking()
 				.Where(p => !p.IsSold)
-				.FirstAsync(p => p.Id.ToString() == productId);	
+				.FirstAsync(p => p.Id.ToString() == productId);
 
 			return new ProductDetailsViewModel()
-			{ 
-				Id= product.Id.ToString(),
+			{
+				Id = product.Id.ToString(),
 				Title = product.Title,
 				Description = product.Description,
 				ImageUrl = product.ImageUrl,
 				Category = product.Category.Name,
-				Price  = product.Price,
+				Price = product.Price,
 				Location = product.LocationArea.Name,
 				PostCode = product.LocationArea.PostCode,
 				CreatedOn = product.CreatedOn.ToString("dd/MM/yyyy"),
@@ -217,9 +217,9 @@ namespace AIO.Services.Data
 					Email = product.Seller.User.Email,
 					PhoneNumber = product.Seller.PhoneNumber
 				}
-				
+
 			};
-				
+
 		}
 
 		/// <summary>
@@ -251,7 +251,7 @@ namespace AIO.Services.Data
 			return new ProductFormModel()
 			{
 				Title = product.Title,
-				Description= product.Description,
+				Description = product.Description,
 				ImageUrl = product.ImageUrl,
 				Price = product.Price,
 				CategoryId = product.CategoryId,
@@ -291,7 +291,7 @@ namespace AIO.Services.Data
 			product.Description = formModel.Description;
 			product.ImageUrl = formModel.ImageUrl;
 			product.CategoryId = formModel.CategoryId;
-			product.Price = formModel.Price;	
+			product.Price = formModel.Price;
 			product.LocationAreaId = formModel.LocationAreaId;
 
 			await dbContext.SaveChangesAsync();
@@ -335,6 +335,11 @@ namespace AIO.Services.Data
 			await dbContext.SaveChangesAsync();
 		}
 
+		/// <summary>
+		/// Service method for reactivating product by product id. 
+		/// </summary>
+		/// <param name="productId"></param>
+		/// <returns></returns>
 		public async Task ReactivateProductByIdAsync(string productId)
 		{
 			Product productToReactivate = await dbContext
@@ -348,8 +353,9 @@ namespace AIO.Services.Data
 			await dbContext.SaveChangesAsync();
 		}
 
+		///	
 		/// <summary>
-		/// Service method for getting seller full name by product id.
+		/// Service method for getting seller full name by product id of the seller.
 		/// </summary>
 		/// <param name="productId"></param>
 		/// <returns></returns>
@@ -371,10 +377,10 @@ namespace AIO.Services.Data
 		/// <returns></returns>
 		public async Task CheckProductIfItIsExpiredAsync()
 		{
-				await dbContext
-				.Products
-				.Where(p => p.IsActive && p.ExpirationDate < DateTime.UtcNow)
-				.ForEachAsync(p => p.IsActive = false);
+			await dbContext
+			.Products
+			.Where(p => p.IsActive && p.ExpirationDate < DateTime.UtcNow)
+			.ForEachAsync(p => p.IsActive = false);
 
 			await dbContext.SaveChangesAsync();
 		}
