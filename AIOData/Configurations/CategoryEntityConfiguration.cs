@@ -4,42 +4,54 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AIO.Data.Configurations
 {
-    public class CategoryEntityConfiguration : IEntityTypeConfiguration<Category>
-    {
-        public void Configure(EntityTypeBuilder<Category> builder)
-        {
-            builder
-                .HasData(GenerateCategories());
-        }
+	/// <summary>
+	/// Configuration for the category entity.
+	/// </summary>
+	public class CategoryEntityConfiguration : IEntityTypeConfiguration<Category>
+	{
 
-        private Category[] GenerateCategories()
-        {
-            ICollection<Category> categories = new HashSet<Category>();
+		/// <summary>
+		/// Configures the category entity.
+		/// </summary>
+		/// <param name="builder"></param>
+		public void Configure(EntityTypeBuilder<Category> builder)
+		{
+			builder
+				.HasData(GenerateCategories());
+		}
 
-            Category category;
+		/// <summary>
+		/// Method for generating categories.
+		/// </summary>
+		/// <returns></returns>
+		private Category[] GenerateCategories()
+		{
+			ICollection<Category> categories = new HashSet<Category>();
 
-            category = new Category
-            {
-                Id = 1,
-                Name = "Vehicle",
-            };
-            categories.Add(category);
+			Category category;
 
-            category = new Category
-            {
-                Id = 2,
-                Name = "Bicycle",
-            };
-            categories.Add(category);
+			category = new Category
+			{
+				Id = 1,
+				Name = "Vehicle",
+			};
+			categories.Add(category);
 
-            category = new Category
-            {
-                Id = 3,
-                Name = "Real Estate",
-            };
-            categories.Add(category);
+			category = new Category
+			{
+				Id = 2,
+				Name = "Bicycle",
+			};
+			categories.Add(category);
 
-            return categories.ToArray();
-        }
-    }
+			category = new Category
+			{
+				Id = 3,
+				Name = "Real Estate",
+			};
+			categories.Add(category);
+
+			return categories.ToArray();
+		}
+	}
 }

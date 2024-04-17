@@ -25,7 +25,8 @@ namespace AIO.Data.Configurations
 		/// <returns></returns>
 		private LocationArea[] GenerateLocationAreas()
 		{
-			ICollection<LocationArea> locationAreas = new HashSet<LocationArea>();
+			ICollection<LocationArea> locationAreas = 
+				new HashSet<LocationArea>();
 
 			LocationArea locationArea;
 
