@@ -4,7 +4,9 @@ using AIO.Web.ViewModels.Seller;
 using Ganss.Xss;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static AIOCommon.ErrorMessageConstants.Seller;
 using static AIOCommon.NotificationMessagesConstants;
+using static AIOCommon.InformationalMessagesConstants.Seller;
 
 namespace AIO.Controllers
 {
@@ -32,7 +34,7 @@ namespace AIO.Controllers
 			bool isSellerExist = await this.sellerService.IsSellerExistByUserIdAsync(userId);
 			if (isSellerExist)
 			{
-				TempData[ErrorMessage] = "You are already a seller";
+				TempData[ErrorMessage] = AlreadyASellerErrorMessage;
 
 				return RedirectToAction("Index", "Home");
 			}
@@ -55,7 +57,7 @@ namespace AIO.Controllers
 			bool isSellerExist = await this.sellerService.IsSellerExistByUserIdAsync(userId);
 			if (isSellerExist)
 			{
-				TempData[ErrorMessage] = "You are already a seller!";
+				TempData[ErrorMessage] = AlreadyASellerErrorMessage;
 
 				return RedirectToAction("Index", "Home");
 			}
@@ -64,7 +66,7 @@ namespace AIO.Controllers
 
 			if (isPhoneNumberTaken)
 			{
-				ModelState.AddModelError(nameof(model.PhoneNumber), "Phone number is already taken");
+				ModelState.AddModelError(nameof(model.PhoneNumber), PhoneNumberTakenErrorMessage);
 			}
 
 			if (!ModelState.IsValid)
@@ -75,17 +77,17 @@ namespace AIO.Controllers
 			try
 			{
 				await sellerService.CreateAsync(userId, model);
+				TempData[SuccessMessage] = BecomingSellerSuccessMessage;
 
 			}
 			catch (Exception)
 			{
 
-				TempData[ErrorMessage] =
-					"Unexpexted error occured while registrating you a seller! Please try again later or contact administrator";
+				TempData[ErrorMessage] = UnexpectedErrorWhileRegistratingErrorMessage;
 				return RedirectToAction("Index", "Home");
 			}
 
-			return RedirectToAction("Index", "Home");
+			return RedirectToAction("All", "Product");
 		}
 	}
 }
