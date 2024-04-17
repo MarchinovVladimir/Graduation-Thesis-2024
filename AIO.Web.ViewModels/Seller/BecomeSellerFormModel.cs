@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using static AIOCommon.EntityValidationConstants.Seller;
+using static AIOCommon.ErrorMessageConstants.Seller;
 
 namespace AIO.Web.ViewModels.Seller
 {
@@ -13,8 +14,8 @@ namespace AIO.Web.ViewModels.Seller
 		/// </summary>
 		[Required]
 		[Phone]
-		[MaxLength(PhoneNumberMaxLength)]
-		[Display(Name = "Phone Number")]
+		[StringLength(PhoneNumberMaxLength, MinimumLength = PhoneNumberMinLength, ErrorMessage = PhoneNumberLengthErrorMessage)]
+		[Display(Name = "Phone number")]
 		public string PhoneNumber { get; set; } = null!;
 	}
 }
