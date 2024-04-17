@@ -28,7 +28,7 @@ namespace AIO.Services.Data.Interfaces
 		/// </summary>
 		/// <param name="queryModel"></param>
 		/// <returns></returns>
-		Task<AllProductsFilteredAndPagedServiceModel> GetAllProductsFilteredAndPagedAsync(AllProductsQueryModel queryModel);
+		Task<AllProductsFilteredAndPagedServiceModel> GetAllProductsFilteredAndPagedAsync(AllProductsQueryModel queryModel, bool isUserAuthenticated);
 
 		/// <summary>
 		/// Method from IProductService that returns all products by seller id.

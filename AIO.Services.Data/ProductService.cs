@@ -72,11 +72,23 @@ namespace AIO.Services.Data
 		/// </summary>
 		/// <param name="queryModel"></param>
 		/// <returns></returns>
-		public async Task<AllProductsFilteredAndPagedServiceModel> GetAllProductsFilteredAndPagedAsync(AllProductsQueryModel queryModel)
+		public async Task<AllProductsFilteredAndPagedServiceModel> GetAllProductsFilteredAndPagedAsync(AllProductsQueryModel queryModel, bool isUserAuthenticated)
 		{
-			IQueryable<Product> productsQuery = this.dbContext
+			IQueryable<Product> productsQuery;
+
+			if (!isUserAuthenticated)
+			{
+				productsQuery = this.dbContext
+				.Products
+				.Where(p => p.IsActive)
+				.AsQueryable();
+			}
+			else
+			{
+				productsQuery = this.dbContext
 				.Products
 				.AsQueryable();
+			}
 
 			if (!string.IsNullOrWhiteSpace(queryModel.Category))
 			{

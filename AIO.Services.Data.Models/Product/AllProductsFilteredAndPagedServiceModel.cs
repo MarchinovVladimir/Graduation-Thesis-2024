@@ -15,7 +15,7 @@ namespace AIO.Services.Data.Models.Product
 		/// <summary>
 		/// Products property of the AllProductsFilteredAndPagedServiceModel.
 		/// </summary>
-		public IEnumerable<ProductAllViewModel> Products { get; set; } = 
+		public IEnumerable<ProductAllViewModel> Products { get; set; } =
 			new HashSet<ProductAllViewModel>();
 	}
 }
