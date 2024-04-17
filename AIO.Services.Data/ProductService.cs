@@ -15,10 +15,13 @@ namespace AIO.Services.Data
 	public class ProductService : IProductService
 	{
 		private readonly AIODbContext dbContext;
+		private readonly ISellerService sellerService;
 
-		public ProductService(AIODbContext dbContext)
+
+		public ProductService(AIODbContext dbContext,ISellerService sellerService)
 		{
 			this.dbContext = dbContext;
+			this.sellerService = sellerService;
 		}
 
 		/// <summary>
@@ -72,7 +75,7 @@ namespace AIO.Services.Data
 		/// </summary>
 		/// <param name="queryModel"></param>
 		/// <returns></returns>
-		public async Task<AllProductsFilteredAndPagedServiceModel> GetAllProductsFilteredAndPagedAsync(AllProductsQueryModel queryModel, bool isUserAuthenticated)
+		public async Task<AllProductsFilteredAndPagedServiceModel> GetAllProductsFilteredAndPagedAsync(AllProductsQueryModel queryModel, bool isUserAuthenticated, string userId, bool isUserAdmin)
 		{
 			IQueryable<Product> productsQuery;
 
@@ -85,9 +88,21 @@ namespace AIO.Services.Data
 			}
 			else
 			{
-				productsQuery = this.dbContext
-				.Products
-				.AsQueryable();
+				if (!isUserAdmin)
+				{
+					string sellerId = await this.sellerService.GetSellerIdByUserIdAsync(userId);
+					productsQuery = this.dbContext
+					.Products
+					.Where(p => (p.IsActive == false && p.SellerId.ToString() == sellerId)
+					|| p.IsActive)
+					.AsQueryable();
+				}
+				else
+				{
+					productsQuery = this.dbContext
+					.Products
+					.AsQueryable();
+				}
 			}
 
 			if (!string.IsNullOrWhiteSpace(queryModel.Category))

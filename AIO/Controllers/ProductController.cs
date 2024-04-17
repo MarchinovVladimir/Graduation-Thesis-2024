@@ -50,9 +50,11 @@ namespace AIO.Controllers
 			await productService.CheckProductIfItIsExpiredAsync();
 
 			bool isUserAuthenticated = this.User.Identity.IsAuthenticated;	
-			
+			string userId = this.User.GetId();
+			bool isUserAdmin = this.User.IsAdmin();
+
 			AllProductsFilteredAndPagedServiceModel serviceModel =
-				await productService.GetAllProductsFilteredAndPagedAsync(queryModel, isUserAuthenticated);
+				await productService.GetAllProductsFilteredAndPagedAsync(queryModel, isUserAuthenticated, userId, isUserAdmin);
 
 			queryModel.Products = serviceModel.Products;
 			queryModel.TotalProducts = serviceModel.TotalProductsCount;
