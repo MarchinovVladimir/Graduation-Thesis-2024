@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace AIO.Web.ViewModels.LocationArea
+﻿namespace AIO.Web.ViewModels.LocationArea
 {
 	/// <summary>
 	/// Location area view model.
