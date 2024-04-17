@@ -1,6 +1,3 @@
-Sure, here's a simple README template for your AIO (All-In-One) app:
-
----
 
 # AIO (All-In-One) App
 
@@ -18,36 +15,14 @@ The AIO (All-In-One) app is a comprehensive application that combines various fe
 - **Categories and Locations**: Enables browsing and filtering products by category and location.
 - **Responsive Design**: Ensures the app is usable on different devices and screen sizes.
 
-## Installation
-1. Clone the repository to your local machine.
-    ```
-    git clone https://github.com/yourusername/aio-app.git
-    ```
-2. Install dependencies.
-    ```
-    cd aio-app
-    npm install
-    ```
-3. Configure the application settings as needed.
-4. Run the application.
-    ```
-    npm start
-    ```
-
 ## Usage
 1. Navigate to the home page to start browsing products.
 2. Use the search bar and filters to find specific products.
 3. Log in to access personalized features or manage products.
 4. Explore different sections of the app based on your needs.
 
-## Contributing
-Contributions are welcome! Please follow the guidelines in [CONTRIBUTING.md](CONTRIBUTING.md) to contribute to this project.
-
 ## License
-This project is licensed under the [MIT License](LICENSE).
+This project is not licensed.
 
----
-
-Feel free to customize this template according to your specific app's features, installation steps, and guidelines.
   
  
