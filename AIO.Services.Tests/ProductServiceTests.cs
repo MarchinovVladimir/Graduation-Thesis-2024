@@ -27,7 +27,8 @@ namespace AIO.Services.Tests
 			dbContext.Database.EnsureCreated();
 			SeedDatabase(dbContext);
 
-			productService = new ProductService(dbContext);
+			ISellerService sellerService = new SellerService(dbContext);
+			productService = new ProductService(dbContext, sellerService);
 		}
 
 		[Test]
@@ -213,7 +214,8 @@ namespace AIO.Services.Tests
 			dbContext.Database.EnsureCreated();
 			SeedDatabase(dbContext);
 
-			productService = new ProductService(dbContext);
+			ISellerService sellerService = new SellerService(dbContext);
+			productService = new ProductService(dbContext, sellerService);
 		}
 
 		[Test]
